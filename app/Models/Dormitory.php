@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Dormitory extends Model
 {
@@ -25,9 +24,7 @@ class Dormitory extends Model
     
 
     public function delete(){
-        // dd($this->bed());
         $this->beds()->delete();
-        // DB::table('sbrecords')->where('bid', $this->id)->delete();
         return parent::delete();
     }
 }
