@@ -22,6 +22,14 @@
             <th>操作</th>
         </tr>
         @foreach($lates as $late)
+            @if ($late->sbrecord->bed == null)
+                {{ $late->sbrecord->bed = null}}
+                {{ $late->id = null}}
+                {{ $late->start = null}}
+                {{ $late->end = null}}
+                {{ $late->reason = null}}
+                {{ $late->company = null}}
+            @else
             <tr>
                 <td>{{ $late->id }}</td>
                 <td>{{ $late->sbrecord->bed->bedcode }}</td>
@@ -41,6 +49,7 @@
                     </form>
                 </td>
             </tr>
+            @endif
         @endforeach
     </table>
 @endsection
