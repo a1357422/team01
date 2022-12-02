@@ -42,6 +42,18 @@ class BedsController extends Controller
         $bed = Bed::findOrFail($id);
         $dormitory = Dormitory::orderBy('dormitories.id', 'asc')->pluck('dormitories.name', 'dormitories.id');
         $selectDid = $bed->did;
-        return view('beds.edit', ['bed'=>$bed, 'dormitories'=>$dormitory, 'selectDid'=>$selectDid]);
+        return view('beds.edit', ['bed'=>$bed, 'dormitory'=>$dormitory, 'selectDid'=>$selectDid]);
+    }
+    public function update($id){
+        $input = Request::all();
+        $bed = Bed::findOrFail($id);
+
+        $bed->bedcode = $input['bedcode'];
+        $bed->did = $input['did'];
+        $bed->floor = $input['floor'];
+        $bed->roomtype = $input['roomtype'];
+
+        $bed->save();
+        return redirect('beds');
     }
 }

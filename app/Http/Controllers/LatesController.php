@@ -39,6 +39,30 @@ class LatesController extends Controller
         return redirect("lates");
     }
     public function edit($id){
-        return view('lates.edit');
+        $late = Late::findOrFail($id);
+        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $selectSbid = $late->sbid;
+        return view('lates.edit',['late'=>$late,'sbrecord'=>$sbrecord,'selectSbid'=>$selectSbid]);
+    }
+    public function update($id){
+        $input = Request::all();
+        $late = Late::findOrFail($id);
+
+        $late->sbid = $input['sbid'];
+        $late->start = $input['start'];
+        $late->end = $input['end'];
+        $late->reason = $input['reason'];
+        $late->company = $input['company'];
+        $late->contact = $input['contact'];
+        $late->address = $input['address'];
+        $late->back_time = $input['back_time'];
+        $late->filename_path = $input['filename_path'];
+        $late->floorhead_check = $input['floorhead_check'];
+        $late->chief_check = $input['chief_check'];
+        $late->housemaster_check = $input['housemaster_check'];
+        $late->admin_check = $input['admin_check'];
+
+        $late->save();
+        return redirect('lates');
     }
 }

@@ -14,4 +14,5 @@
         國籍：{{$student->nationality}}<br/>
         關係人：{{$student->guardian}}<br/>
         稱謂：{{$student->salutation}}<br/>
+        備註：{{$student->remark}}<br/>
 @endsection

@@ -33,6 +33,18 @@ class DormitoriesController extends Controller
         return redirect("dormitories");
     }
     public function edit($id){
-        return view('dormitories.edit');
+        $dormitory = Dormitory::findOrFail($id);
+        return view('dormitories.edit',['dormitory'=>$dormitory]);
+    }
+    public function update($id){
+        $input = Request::all();
+        $dormitory = Dormitory::findOrFail($id);
+
+        $dormitory->name = $input['name'];
+        $dormitory->housemaster = $input['housemaster'];
+        $dormitory->contact = $input['contact'];
+
+        $dormitory->save();
+        return redirect('dormitories');
     }
 }

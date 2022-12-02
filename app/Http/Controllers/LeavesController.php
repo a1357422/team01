@@ -42,6 +42,23 @@ class LeavesController extends Controller
         return redirect("leaves");
     }
     public function edit($id){
-        return view('leaves.edit');
+        $leave = Leave::findOrFail($id);
+        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $selectSbid = $leave->sbid;
+        return view('leaves.edit',['leave'=>$leave,'sbrecord'=>$sbrecord,'selectSbid'=>$selectSbid]);
+    }
+    public function update($id){
+        $input = Request::all();
+        $leave = Leave::findOrFail($id);
+
+        $leave->sbid = $input['sbid'];
+        $leave->start = $input['start'];
+        $leave->end = $input['end'];
+        $leave->reason = $input['reason'];
+        $leave->floorhead_check = $input['floorhead_check'];
+        $leave->housemaster_check = $input['housemaster_check'];
+
+        $leave->save();
+        return redirect('leaves');
     }
 }

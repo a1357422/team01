@@ -38,6 +38,24 @@ class StudentsController extends Controller
         return redirect("students");
     }
     public function edit($id){
-        return view('students.edit');
+        $student = Student::findOrFail($id);
+        return view('students.edit',['student'=>$student]);
+    }
+    public function update($id){
+        $input = Request::all();
+        $student = Student::findOrFail($id);
+
+        $student->number = $input['number'];
+        $student->class = $input['class'];
+        $student->name = $input['name'];
+        $student->address = $input['address'];
+        $student->phone = $input['phone'];
+        $student->nationality = $input['nationality'];
+        $student->guardian = $input['guardian'];
+        $student->salutation = $input['salutation'];
+        $student->remark = $input['remark'];
+
+        $student->save();
+        return redirect('students');
     }
 }

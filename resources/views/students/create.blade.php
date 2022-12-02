@@ -39,6 +39,10 @@
         {!! Form::text('salutation',null)!!}
     </div>
     <div>
+        {!! Form::label('remark','備註：')!!}
+        {!! Form::text('remark',null)!!}
+    </div>
+    <div>
         {!! Form::submit("新增學生資料")!!}
     </div>
     {!! Form::close()!!}

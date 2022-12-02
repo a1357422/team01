@@ -35,6 +35,22 @@ class RollcallsController extends Controller
         return redirect("rollcalls");
     }
     public function edit($id){
-        return view('rollcalls.edit');
+        $rollcall = Rollcall::findOrFail($id);
+        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $selectSbid = $rollcall->sbid;
+        return view('rollcalls.edit',['rollcall'=>$rollcall,'sbrecord'=>$sbrecord,'selectSbid'=>$selectSbid]);
+    }
+    public function update($id){
+        $input = Request::all();
+        $rollcall = Late::findOrFail($id);
+
+        $rollcall->date = $input['date'];
+        $rollcall->sbid = $input['sbid'];
+        $rollcall->presence = $input['presence'];
+        $rollcall->leave = $input['leave'];
+        $rollcall->late = $input['late'];
+
+        $rollcall->save();
+        return redirect('rollcalls');
     }
 }

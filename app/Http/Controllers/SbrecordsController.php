@@ -43,6 +43,25 @@ class SbrecordsController extends Controller
         return redirect("sbrecords");
     }
     public function edit($id){
-        return view('sbrecords.edit');
+        $sbrecord = Sbrecord::findOrFail($id);
+        $student = Student::orderBy('students.id', 'asc')->pluck('students.name', 'students.id');
+        $bed = Bed::orderBy('beds.id', 'asc')->pluck('beds.bedcode', 'beds.id');
+        $selectName = $sbrecord->sid;
+        $selectBedcode = $sbrecord->bid;
+        return view('sbrecords.edit',['sbrecord'=>$sbrecord,"student"=>$student,"bed"=>$bed,'selectName'=>$selectName,'selectBedcode'=>$selectBedcode]);
+    }
+    public function update($id){
+        $input = Request::all();
+        $sbrecord = Sbrecord::findOrFail($id);
+
+        $sbrecord->school_year = $input['school_year'];
+        $sbrecord->semester = $input['semester'];
+        $sbrecord->sid = $input['sid'];
+        $sbrecord->bid = $input['bid'];
+        $sbrecord->floor_head = $input['floor_head'];
+        $sbrecord->responsible_floor = $input['responsible_floor'];
+
+        $sbrecord->save();
+        return redirect('sbrecords');
     }
 }

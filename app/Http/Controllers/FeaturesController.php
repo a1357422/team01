@@ -38,6 +38,21 @@ class FeaturesController extends Controller
     }
 
     public function edit($id){
-        return view('features.edit');
+        $feature = Feature::findOrFail($id);
+        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $selectSbid = $feature->sbid;
+        return view('features.edit',['feature'=>$feature,'sbrecord'=>$sbrecord,'selectSbid'=>$selectSbid]);
+    }
+
+    public function update($id){
+        $input = Request::all();
+        $feature = Feature::findOrFail($id);
+
+        $feature->sbid = $input['date'];
+        $feature->path = $input['sbid'];
+        $feature->feature = $input['presence'];
+
+        $feature->save();
+        return redirect('features');
     }
 }
