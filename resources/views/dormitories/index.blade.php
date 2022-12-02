@@ -16,6 +16,7 @@
             <th>聯絡資料</th>
             <th>操作</th>
             <th>操作</th>
+            <th>操作</th>
         </tr>
         @foreach($dormitories as $dormitory)
             <tr>
@@ -24,6 +25,7 @@
                 <td>{{ $dormitory->housemaster }}</td>
                 <td>{{ $dormitory->contact }}</td>
                 <td><font color=blue><a href="{{ route('dormitories.show',['id'=>$dormitory->id]) }}">詳細資料</a></font></td>
+                <td><font color=blue><a href="{{ route('dormitories.edit',['id'=>$dormitory->id]) }}">修改資料</a></font></td>
                 <!-- <td><font color=red><a href="{{ route('dormitories.destroy',['id'=>$dormitory->id]) }}">刪除資料</a></font></td> -->
                 <td>
                     <form action="{{ url('/dormitories/delete', ['id' => $dormitory->id]) }}" method="post">

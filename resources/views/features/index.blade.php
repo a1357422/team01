@@ -15,6 +15,7 @@
             <th>照片路徑</th>
             <th>操作</th>
             <th>操作</th>
+            <th>操作</th>
         </tr>
         @foreach($features as $feature)
             <tr>
@@ -22,6 +23,7 @@
                 <td align="center" valign="center">{{ $feature->sbrecord->student->name }}</td>
                 <td align="center" valign="center">{{ $feature->path . '.jpg'}}</td>
                 <td align="center" valign="center"><font color= blue><a href="{{ route('features.show',['id'=>$feature->id]) }}">詳細資料</a></font></td>
+                <td><font color=blue><a href="{{ route('features.edit',['id'=>$feature->id]) }}">修改資料</a></font></td>
                 <!-- <td><font color= red><a href="{{ route('features.destroy',['id'=>$feature->id]) }}">刪除資料</a></font></td> -->
                 <td>
                     <form action="{{ url('/features/delete', ['id' => $feature->id]) }}" method="post">

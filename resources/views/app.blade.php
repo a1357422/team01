@@ -139,7 +139,7 @@
             </div>
         </div>
     </div>
-        <h6>@include('footer')</h6>
+        <h5>@include('footer')</h5>
     </div>
 </div>
 </body>

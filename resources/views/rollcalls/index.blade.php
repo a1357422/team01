@@ -18,6 +18,7 @@
             <th>晚歸</th>
             <th>操作</th>
             <th>操作</th>
+            <th>操作</th>
         </tr>
         @foreach($rollcalls as $rollcall)
             @if ($rollcall->sbrecord->bed == null)
@@ -48,6 +49,7 @@
                     <td align="center" valign="center"><font color=red>{{ $rollcall->late = "X" }} </font></td>
                     @endif
                     <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
+                    <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id]) }}">修改資料</a></font></td>
                     <!-- <td><font color=red><a href="{{ route('rollcalls.destroy',[ 'id'=>$rollcall->id ]) }}">刪除資料</a></font></td> -->
                     <td>
                         <form action="{{ url('/rollcalls/delete', ['id' => $rollcall->id]) }}" method="post">

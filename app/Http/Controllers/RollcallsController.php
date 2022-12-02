@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Rollcall;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Sbrecord;
 
 class RollcallsController extends Controller
 {
@@ -25,16 +26,15 @@ class RollcallsController extends Controller
         return redirect("rollcalls");
     }
     public function create(){
-        $sbrecords = DB::table('sbrecords')
-            ->select('sbrecords.id', 'sbrecords.sid','sbrecords.bid')
-            ->orderBy('sbrecords.id', 'asc')
-            ->get();
-    
-        $data = [];
-        foreach ($sbrecords as $sbrecord)
-        {
-            $data[$sbrecord->id] = $sbrecord->id;
-        }
-        return view("rollcalls.create",['sbrecords'=>$data]);
+        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        return view("rollcalls.create",['sbrecords'=>$sbrecord]);
+    }
+    public function store(){
+        $input = Request::all();
+        Rollcall::create($input);
+        return redirect("rollcalls");
+    }
+    public function edit($id){
+        return view('rollcalls.edit');
     }
 }

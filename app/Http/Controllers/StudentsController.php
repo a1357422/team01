@@ -37,4 +37,7 @@ class StudentsController extends Controller
         Student::create($input);
         return redirect("students");
     }
+    public function edit($id){
+        return view('students.edit');
+    }
 }

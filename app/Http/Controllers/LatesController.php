@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Late;
+use App\Models\Sbrecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,16 +30,15 @@ class LatesController extends Controller
         return redirect('lates');
     }
     public function create(){
-        $sbrecords = DB::table('sbrecords')
-            ->select('sbrecords.id')
-            ->orderBy('sbrecords.id', 'asc')
-            ->get();
-    
-        $data = [];
-        foreach ($sbrecords as $sbrecord)
-        {
-            $data[$sbrecord->id] = $sbrecord->id;
-        }
-        return view("lates.create",['sbrecords'=>$data]);
+        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        return view("lates.create",['sbrecords'=>$sbrecord]);
+    }
+    public function store(){
+        $input = Request::all();
+        Late::create($input);
+        return redirect("lates");
+    }
+    public function edit($id){
+        return view('lates.edit');
     }
 }

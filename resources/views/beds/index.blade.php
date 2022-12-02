@@ -17,6 +17,7 @@
             <th>住房類型</th>
             <th>操作</th>
             <th>操作</th>
+            <th>操作</th>
         </tr>
         @foreach($beds as $bed)
             <tr>
@@ -26,6 +27,7 @@
                 <td>{{ $bed->floor }}</td>
                 <td>{{ $bed->roomtype }}</td>
                 <td><font color=blue><a href="{{ route('beds.show',['id'=>$bed->id]) }}">詳細資料</a></font></td>
+                <td><font color=blue><a href="{{ route('beds.edit',['id'=>$bed->id]) }}">修改資料</a></font></td>
                 <!-- <td><font color=red><a href="{{ route('beds.destroy',['id'=>$bed->id]) }}">刪除資料</a></font></td> -->
                 <td>
                     <form action="{{ url('/beds/delete', ['id' => $bed->id]) }}" method="post">

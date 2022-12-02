@@ -18,6 +18,7 @@
             <th>操作</th>
             <th>操作</th>
             <th>操作</th>
+            <th>操作</th>
         </tr>
         @foreach($leaves as $leave)
             @if ($leave->sbrecord->bed == null)
@@ -35,6 +36,7 @@
                     <td>{{ $leave->reason }}</td>
                     <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
                     <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核情形</a></font></td>
+                    <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改資料</a></font></td>
                     <!-- <td><font color=red><a href="{{ route('leaves.destroy',['id' => $leave->id]) }}">刪除資料</a></font></td> -->
                     <td>
                         <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">

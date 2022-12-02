@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use Request;
 use App\Models\Sbrecord;
 use Illuminate\Support\Facades\DB;
+use App\Models\Student;
+use App\Models\Bed;
 
 class SbrecordsController extends Controller
 {
@@ -30,31 +32,17 @@ class SbrecordsController extends Controller
         return redirect("sbrecords");
     }
     public function create(){
-        $students = DB::table('students')
-            ->select('students.id', 'students.name')
-            ->orderBy('students.id', 'asc')
-            ->get();
-        $beds = DB::table('beds')
-            ->select('beds.id', 'beds.bedcode')
-            ->orderBy('beds.id', 'asc')
-            ->get();
-    
-        $data = [];
-        $data1 = [];
-        foreach ($students as $student)
-        {
-            $data[$student->id] = $student->name;
-        }
-        foreach ($beds as $bed)
-        {
-            $data1[$bed->id] = $bed->bedcode;
-        }
-        return view("sbrecords.create",["students"=>$data,"beds"=>$data1]);
+        $student = Student::orderBy('students.id', 'asc')->pluck('students.name', 'students.id');
+        $bed = Bed::orderBy('beds.id', 'asc')->pluck('beds.bedcode', 'beds.id');
+        return view("sbrecords.create",["students"=>$student,"beds"=>$bed]);
     }
     
     public function store(){
         $input = Request::all();
         Sbrecord::create($input);
         return redirect("sbrecords");
+    }
+    public function edit($id){
+        return view('sbrecords.edit');
     }
 }

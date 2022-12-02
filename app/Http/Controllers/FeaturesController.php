@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
 use App\Models\Feature;
+use App\Models\Sbrecord;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,22 +27,17 @@ class FeaturesController extends Controller
     }
     
     public function create(){
-        $sbrecords = DB::table('sbrecords')
-            ->select('sbrecords.id')
-            ->orderBy('sbrecords.id', 'asc')
-            ->get();
-    
-        $data = [];
-        foreach ($sbrecords as $sbrecord)
-        {
-            $data[$sbrecord->id] = $sbrecord->id;
-        }
-        return view("features.create",['sbrecords'=>$data]);
+        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        return view("features.create",['sbrecords'=>$sbrecord]);
     }
 
     public function store(){
         $input = Request::all();
         Feature::create($input);
         return redirect("features");
+    }
+
+    public function edit($id){
+        return view('features.edit');
     }
 }

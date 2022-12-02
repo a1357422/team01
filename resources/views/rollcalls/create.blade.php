@@ -7,23 +7,23 @@
 @section('dormitorysystem_contents')
     {!! Form::open(['url'=>'rollcalls/store'])!!}
     <div>
-        {!! Form::label('date','點名日期')!!}
+        {!! Form::label('date','點名日期：')!!}
         {!! Form::date('date',null)!!}
     </div>
     <div>
-        {!! Form::label('sbid','學生床位')!!}
+        {!! Form::label('sbid','學生床位：')!!}
         {!! Form::select('sbid',$sbrecords)!!}
     </div>
     <div>
-        {!! Form::label('presence','在場與否')!!}
+        {!! Form::label('presence','在場與否：')!!}
         {!! Form::checkbox('presence',null)!!}
     </div>
     <div>
-        {!! Form::label('leave','外宿')!!}
+        {!! Form::label('leave','外宿：')!!}
         {!! Form::checkbox('leave',null)!!}
     </div>    
     <div>
-        {!! Form::label('late','晚歸')!!}
+        {!! Form::label('late','晚歸：')!!}
         {!! Form::checkbox('late',null)!!}
     </div>    
     <div>

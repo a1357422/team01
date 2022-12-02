@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Leave;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Sbrecord;
 
 class LeavesController extends Controller
 {
@@ -32,16 +33,15 @@ class LeavesController extends Controller
         return redirect('leaves');
     }
     public function create(){
-        $sbrecords = DB::table('sbrecords')
-            ->select('sbrecords.id')
-            ->orderBy('sbrecords.id', 'asc')
-            ->get();
-    
-        $data = [];
-        foreach ($sbrecords as $sbrecord)
-        {
-            $data[$sbrecord->id] = $sbrecord->id;
-        }
-        return view("leaves.create",["sbrecords"=>$data]);
+        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        return view("leaves.create",["sbrecords"=>$sbrecord]);
+    }
+    public function store(){
+        $input = Request::all();
+        Leave::create($input);
+        return redirect("leaves");
+    }
+    public function edit($id){
+        return view('leaves.edit');
     }
 }

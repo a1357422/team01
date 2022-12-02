@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
 use App\Models\Bed;
+use App\Models\Dormitory;
 use Illuminate\Support\Facades\DB;
 use Request;
 
@@ -27,22 +28,20 @@ class BedsController extends Controller
     }
     
     public function create(){
-        $dorimtories = DB::table('dormitories')
-            ->select('dormitories.id', 'dormitories.name')
-            ->orderBy('dormitories.id', 'asc')
-            ->get();
-
-        $data = [];
-        foreach ($dorimtories as $dorimtory)
-        {
-            $data[$dorimtory->id] = $dorimtory->name;
-        }
-        return view('beds.create', ['dormitories' =>$data]);
+        $dormitory = Dormitory::orderBy('dormitories.id', 'asc')->pluck('dormitories.name', 'dormitories.id');
+        return view('beds.create', ['dormitories' => $dormitory]);
     }
 
     public function store(){
         $input = Request::all();
         Bed::create($input);
         return redirect("beds");
+    }
+
+    public function edit($id){
+        $bed = Bed::findOrFail($id);
+        $dormitory = Dormitory::orderBy('dormitories.id', 'asc')->pluck('dormitories.name', 'dormitories.id');
+        $selectDid = $bed->did;
+        return view('beds.edit', ['bed'=>$bed, 'dormitories'=>$dormitory, 'selectDid'=>$selectDid]);
     }
 }

@@ -19,6 +19,7 @@
             <th>負責的樓層</th>
             <th>操作</th>
             <th>操作</th>
+            <th>操作</th>
         </tr>
         @foreach($sbrecords as $sbrecord)
             @if ($sbrecord->bed == null)
@@ -43,6 +44,7 @@
                     @endif
                     <td align="center" valign="center">{{ $sbrecord->responsible_floor }}</td>
                     <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->id]) }}">詳細資料</a></font></td>
+                    <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
                     <!-- <td><font color=red><a href="{{ route('sbrecords.destroy',['id'=>$sbrecord->id]) }}">刪除資料</a></font></td> -->
                     <td>
                         <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">

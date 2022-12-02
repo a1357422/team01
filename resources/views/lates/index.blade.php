@@ -40,6 +40,7 @@
                 <td align="center" valign="center">{{ $late->back_time }}</td>
                 <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
                 <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核情形</a></font></td>
+                <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改資料</a></font></td>
                 <!-- <td><font color=red><a href="{{ route('lates.destroy',['id'=>$late->id]) }}">刪除資料</a></font></td> -->
                 <td>
                     <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">

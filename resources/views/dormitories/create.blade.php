@@ -7,15 +7,15 @@
 @section('dormitorysystem_contents')
     {!! Form::open(['url'=>'dormitories/store'])!!}
     <div>
-        {!! Form::label('name','宿舍名稱')!!}
+        {!! Form::label('name','宿舍名稱：')!!}
         {!! Form::text('name',null)!!}
     </div>
     <div>
-        {!! Form::label('housemaster','舍監')!!}
+        {!! Form::label('housemaster','舍監：')!!}
         {!! Form::text('housemaster',null)!!}
     </div>
     <div>
-        {!! Form::label('contact','聯絡資料')!!}
+        {!! Form::label('contact','聯絡資料：')!!}
         {!! Form::text('contact',null)!!}
     </div>
     <div>

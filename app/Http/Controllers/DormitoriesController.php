@@ -32,4 +32,7 @@ class DormitoriesController extends Controller
         Dormitory::create($input);
         return redirect("dormitories");
     }
+    public function edit($id){
+        return view('dormitories.edit');
+    }
 }

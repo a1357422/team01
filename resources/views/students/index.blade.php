@@ -17,6 +17,7 @@
             <th>備註</th>
             <th>操作</th>
             <th>操作</th>
+            <th>操作</th>
         </tr>
         @foreach($students as $student)
             <tr>
@@ -26,6 +27,7 @@
                 <td align="center" valign="center">{{ $student->name }}</td>
                 <td align="center" valign="center">{{ $student->remark }}</td>
                 <td align="center" valign="center"><font color= blue><a href="{{ route('students.show',['id'=>$student->id]) }}">詳細資料</a></font></td>
+                <td><font color=blue><a href="{{ route('students.edit',['id'=>$student->id]) }}">修改資料</a></font></td>
                 <!-- <td><font color= red><a href="{{ route('students.destroy',['id'=>$student->id]) }}">刪除資料</a></font></td> -->
                 <td>
                     <form action="{{ url('/students/delete', ['id' => $student->id]) }}" method="post">
