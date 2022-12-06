@@ -8,7 +8,7 @@
     {!! Form::open(['url'=>'$leaves/update/'.$leave->id,'method'=>'PATCH'])!!}
     <div>
         {!! Form::label('sbid','學生床位：')!!}
-        {!! Form::select('sbid',$sbrecord,$selectSbid)!!}
+        {!! Form::select('sbid',$sbrecords,$selectSbid)!!}
     </div>
     <div>
         {!! Form::label('start','外宿日起：')!!}

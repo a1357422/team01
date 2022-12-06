@@ -41,7 +41,7 @@
     <div>
         {!! Form::label('filename_path','佐證圖檔路徑：')!!}
         {!! Form::file('filename_path')!!}
-    </div>    
+    </div>
     <div>
         {!! Form::submit("新增晚歸資料")!!}
     </div>

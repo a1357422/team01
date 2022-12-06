@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Leave;
-use Illuminate\Http\Request;
+use Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sbrecord;
 
@@ -33,8 +33,8 @@ class LeavesController extends Controller
         return redirect('leaves');
     }
     public function create(){
-        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
-        return view("leaves.create",["sbrecords"=>$sbrecord]);
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
+        return view("leaves.create",["sbrecords"=>$sbrecords]);
     }
     public function store(){
         $input = Request::all();
@@ -43,9 +43,9 @@ class LeavesController extends Controller
     }
     public function edit($id){
         $leave = Leave::findOrFail($id);
-        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
         $selectSbid = $leave->sbid;
-        return view('leaves.edit',['leave'=>$leave,'sbrecord'=>$sbrecord,'selectSbid'=>$selectSbid]);
+        return view('leaves.edit',['leave'=>$leave,'sbrecords'=>$sbrecords,'selectSbid'=>$selectSbid]);
     }
     public function update($id){
         $input = Request::all();

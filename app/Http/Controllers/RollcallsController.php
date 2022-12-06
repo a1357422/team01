@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rollcall;
-use Illuminate\Http\Request;
+use Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sbrecord;
 
@@ -26,8 +26,8 @@ class RollcallsController extends Controller
         return redirect("rollcalls");
     }
     public function create(){
-        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
-        return view("rollcalls.create",['sbrecords'=>$sbrecord]);
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
+        return view("rollcalls.create",['sbrecords'=>$sbrecords]);
     }
     public function store(){
         $input = Request::all();
@@ -36,13 +36,16 @@ class RollcallsController extends Controller
     }
     public function edit($id){
         $rollcall = Rollcall::findOrFail($id);
-        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
         $selectSbid = $rollcall->sbid;
-        return view('rollcalls.edit',['rollcall'=>$rollcall,'sbrecord'=>$sbrecord,'selectSbid'=>$selectSbid]);
+        $selectPresence = $rollcall->presence;
+        $selectLeave = $rollcall->leave;
+        $selectLate = $rollcall->late;
+        return view('rollcalls.edit',['rollcall'=>$rollcall,'sbrecords'=>$sbrecords,'selectSbid'=>$selectSbid,'selectPresence'=>$selectPresence,'selectLeave'=>$selectLeave,'selectLate'=>$selectLate]);
     }
     public function update($id){
         $input = Request::all();
-        $rollcall = Late::findOrFail($id);
+        $rollcall = Rollcall::findOrFail($id);
 
         $rollcall->date = $input['date'];
         $rollcall->sbid = $input['sbid'];

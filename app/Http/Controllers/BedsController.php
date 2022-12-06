@@ -28,8 +28,8 @@ class BedsController extends Controller
     }
     
     public function create(){
-        $dormitory = Dormitory::orderBy('dormitories.id', 'asc')->pluck('dormitories.name', 'dormitories.id');
-        return view('beds.create', ['dormitories' => $dormitory]);
+        $dormitories = Dormitory::orderBy('dormitories.id', 'asc')->pluck('dormitories.name', 'dormitories.id');
+        return view('beds.create', ['dormitories' => $dormitories]);
     }
 
     public function store(){
@@ -40,9 +40,11 @@ class BedsController extends Controller
 
     public function edit($id){
         $bed = Bed::findOrFail($id);
-        $dormitory = Dormitory::orderBy('dormitories.id', 'asc')->pluck('dormitories.name', 'dormitories.id');
+        $dormitories = Dormitory::orderBy('dormitories.id', 'asc')->pluck('dormitories.name', 'dormitories.id');
         $selectDid = $bed->did;
-        return view('beds.edit', ['bed'=>$bed, 'dormitory'=>$dormitory, 'selectDid'=>$selectDid]);
+        $selectFloor = $bed->floor;
+        $selectRoomType = $bed->roomtype;
+        return view('beds.edit', ['bed'=>$bed, 'dormitories'=>$dormitories, 'selectDid'=>$selectDid, 'selectFloor'=>$selectFloor, 'selectRoomType'=>$selectRoomType]);
     }
     public function update($id){
         $input = Request::all();

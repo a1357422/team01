@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 // use Illuminate\Http\Request;
 use App\Models\Feature;
 use App\Models\Sbrecord;
-use Illuminate\Http\Request;
+use Request;
 use Illuminate\Support\Facades\DB;
 
 class FeaturesController extends Controller
@@ -27,8 +27,8 @@ class FeaturesController extends Controller
     }
     
     public function create(){
-        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
-        return view("features.create",['sbrecords'=>$sbrecord]);
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        return view("features.create",['sbrecords'=>$sbrecords]);
     }
 
     public function store(){
@@ -39,9 +39,9 @@ class FeaturesController extends Controller
 
     public function edit($id){
         $feature = Feature::findOrFail($id);
-        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
         $selectSbid = $feature->sbid;
-        return view('features.edit',['feature'=>$feature,'sbrecord'=>$sbrecord,'selectSbid'=>$selectSbid]);
+        return view('features.edit',['feature'=>$feature,'sbrecords'=>$sbrecords,'selectSbid'=>$selectSbid]);
     }
 
     public function update($id){

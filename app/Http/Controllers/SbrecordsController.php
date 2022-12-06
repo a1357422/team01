@@ -32,9 +32,9 @@ class SbrecordsController extends Controller
         return redirect("sbrecords");
     }
     public function create(){
-        $student = Student::orderBy('students.id', 'asc')->pluck('students.name', 'students.id');
-        $bed = Bed::orderBy('beds.id', 'asc')->pluck('beds.bedcode', 'beds.id');
-        return view("sbrecords.create",["students"=>$student,"beds"=>$bed]);
+        $students = Student::orderBy('students.id', 'asc')->pluck('students.name', 'students.id');
+        $beds = Bed::orderBy('beds.id', 'asc')->pluck('beds.bedcode', 'beds.id');
+        return view("sbrecords.create",["students"=>$students,"beds"=>$beds]);
     }
     
     public function store(){
@@ -44,11 +44,15 @@ class SbrecordsController extends Controller
     }
     public function edit($id){
         $sbrecord = Sbrecord::findOrFail($id);
-        $student = Student::orderBy('students.id', 'asc')->pluck('students.name', 'students.id');
-        $bed = Bed::orderBy('beds.id', 'asc')->pluck('beds.bedcode', 'beds.id');
+        $students = Student::orderBy('students.id', 'asc')->pluck('students.name', 'students.id');
+        $beds = Bed::orderBy('beds.id', 'asc')->pluck('beds.bedcode', 'beds.id');
+        $selectSemester = $sbrecord->semester;
         $selectName = $sbrecord->sid;
         $selectBedcode = $sbrecord->bid;
-        return view('sbrecords.edit',['sbrecord'=>$sbrecord,"student"=>$student,"bed"=>$bed,'selectName'=>$selectName,'selectBedcode'=>$selectBedcode]);
+        $selectFloor_head = $sbrecord->floor_head;
+        $selectResponsible_floor = $sbrecord->responsible_floor;
+
+        return view('sbrecords.edit',['sbrecord'=>$sbrecord,"students"=>$students,"beds"=>$beds, "selectsemester"=>$selectSemester, 'selectName'=>$selectName,'selectBedcode'=>$selectBedcode, "selectFloor_head"=>$selectFloor_head, "selectResponsible_floor"=>$selectResponsible_floor]);
     }
     public function update($id){
         $input = Request::all();

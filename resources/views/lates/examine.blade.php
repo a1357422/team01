@@ -1,8 +1,8 @@
 @extends('app')
 
-@section('title',$late->sbid. '的審核情況')
+@section('title',$late->sbrecord->student->name. '的審核情況')
 
-@section('dormitorysystem_theme',$late->sbid.'的詳細審核情況')
+@section('dormitorysystem_theme',$late->sbrecord->student->name.'的詳細審核情況')
 
 @section('dormitorysystem_contents')
         樓長審核：{{ $late->floorhead_check }}</br>

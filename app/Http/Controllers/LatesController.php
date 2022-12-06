@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Late;
 use App\Models\Sbrecord;
-use Illuminate\Http\Request;
+use Request;
 use Illuminate\Support\Facades\DB;
+
+use function PHPSTORM_META\type;
 
 class LatesController extends Controller
 {
@@ -30,8 +32,8 @@ class LatesController extends Controller
         return redirect('lates');
     }
     public function create(){
-        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
-        return view("lates.create",['sbrecords'=>$sbrecord]);
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
+        return view("lates.create",['sbrecords'=>$sbrecords]);
     }
     public function store(){
         $input = Request::all();
@@ -40,9 +42,13 @@ class LatesController extends Controller
     }
     public function edit($id){
         $late = Late::findOrFail($id);
-        $sbrecord = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
         $selectSbid = $late->sbid;
-        return view('lates.edit',['late'=>$late,'sbrecord'=>$sbrecord,'selectSbid'=>$selectSbid]);
+        $selectFloorhead_check = $late->floorhead_check;
+        $selectChief_check = $late->chief_check;
+        $selectHousemaster_check= $late->housemaster_check;
+        $selectAdmin_check = $late->admin_check;
+        return view('lates.edit',['late'=>$late,'sbrecords'=>$sbrecords,'selectSbid'=>$selectSbid,'selectFloorhead_check'=>$selectFloorhead_check,'selectChief_check'=>$selectChief_check,"selectHousemaster_check"=>$selectHousemaster_check,"selectAdmin_check"=>$selectAdmin_check]);
     }
     public function update($id){
         $input = Request::all();

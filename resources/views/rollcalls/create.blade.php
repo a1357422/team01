@@ -16,15 +16,15 @@
     </div>
     <div>
         {!! Form::label('presence','在場與否：')!!}
-        {!! Form::checkbox('presence',null)!!}
+        {!! Form::select('presence',array('1' => '是', '0' => '否'),'0')!!}
     </div>
     <div>
         {!! Form::label('leave','外宿：')!!}
-        {!! Form::checkbox('leave',null)!!}
+        {!! Form::select('leave',array('1' => '是', '0' => '否'),'0')!!}
     </div>    
     <div>
         {!! Form::label('late','晚歸：')!!}
-        {!! Form::checkbox('late',null)!!}
+        {!! Form::select('late',array('1' => '是', '0' => '否'),'0')!!}
     </div>    
     <div>
         {!! Form::submit("新增點名資料")!!}

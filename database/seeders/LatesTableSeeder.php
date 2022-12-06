@@ -48,7 +48,7 @@ class LatesTableSeeder extends Seeder
             $minute = strval(rand(30,59));
         }
         
-        $back_time = $hour . $minute;
+        $back_time = $hour . $minute . "00";
         return $back_time;
     }
         

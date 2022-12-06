@@ -8,7 +8,7 @@
     {!! Form::open(['url'=>'$features/update/'.$feature->id,'method'=>'PATCH'])!!}
     <div>
         {!! Form::label('sbid','學生編號：')!!}
-        {!! Form::select('sbid',$sbrecord,$selectSbid)!!}
+        {!! Form::select('sbid',$sbrecords,$selectSbid)!!}
     </div>
     <div>
         {!! Form::label('path','照片路徑：')!!}
