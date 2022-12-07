@@ -20,8 +20,8 @@ class CreateLeavesTable extends Migration
             $table->date("start")->nullable(false)->comment("外宿日起");
             $table->date("end")->nullable(false)->comment("外宿日訖");
             $table->string("reason",191)->nullable(false)->comment("外宿原因");
-            $table->boolean("floorhead_check")->nullable(false)->comment("樓長審核");
-            $table->boolean("housemaster_check")->nullable(false)->comment("宿舍輔導員審核");
+            $table->boolean("floorhead_check")->nullable(false)->comment("樓長審核")->default(true);
+            $table->boolean("housemaster_check")->nullable(false)->comment("宿舍輔導員審核")->default(false);
             $table->timestamps();
         });
     }
