@@ -57,5 +57,6 @@
             @endif
         @endforeach
     </table>
-    </table>
+    {{$sbrecords->links()}}
+
 @endsection

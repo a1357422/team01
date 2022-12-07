@@ -62,5 +62,7 @@
             @endif
         @endforeach
     </table>
+    {{$rollcalls->links()}}
+
 
 @endsection

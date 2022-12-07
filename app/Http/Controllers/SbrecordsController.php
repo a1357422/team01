@@ -13,7 +13,7 @@ class SbrecordsController extends Controller
 {
     //
     public function index(){
-        $sbrecords = Sbrecord::all();
+        $sbrecords = Sbrecord::paginate(10);
         return view("sbrecords.index",["sbrecords"=>$sbrecords]);
     }
 

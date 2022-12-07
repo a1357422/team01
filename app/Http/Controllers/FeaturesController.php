@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class FeaturesController extends Controller
 {
     public function index(){
-        $features = Feature::all();
+        $features = Feature::paginate(10);
         return view("features.index",["features"=>$features]);
     }
 

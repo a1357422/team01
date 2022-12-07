@@ -11,7 +11,7 @@ class LeavesController extends Controller
 {
     //
     public function index(){
-        $leaves = Leave::all();
+        $leaves = Leave::paginate(10);
         return view("leaves.index",["leaves"=>$leaves]);
     }
 

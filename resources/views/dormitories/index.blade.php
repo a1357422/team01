@@ -37,5 +37,6 @@
             </tr>
         @endforeach
     </table>
-    </body>
+    {{$dormitories->links()}}
+
 @endsection

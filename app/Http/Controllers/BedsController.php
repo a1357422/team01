@@ -12,7 +12,7 @@ class BedsController extends Controller
 {
     //
     public function index(){
-        $beds = Bed::all();
+        $beds = Bed::paginate(10);
         return view("beds.index",["beds"=>$beds]);
     }
 

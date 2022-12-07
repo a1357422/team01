@@ -49,5 +49,7 @@
             @endif
         @endforeach
     </table>
+    {{$leaves->links()}}
+
 
 @endsection

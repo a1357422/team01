@@ -13,7 +13,7 @@ class LatesController extends Controller
 {
     //
     public function index(){
-        $lates = Late::all();
+        $lates = Late::paginate(10);
         return view("lates.index",["lates"=>$lates]);
     }
     public function show($id){

@@ -53,4 +53,5 @@
             @endif
         @endforeach
     </table>
+    {{$lates->links()}}
 @endsection

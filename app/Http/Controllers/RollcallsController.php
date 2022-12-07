@@ -11,7 +11,7 @@ class RollcallsController extends Controller
 {
     //
     public function index(){
-        $rollcalls = Rollcall::all();
+        $rollcalls = Rollcall::paginate(10);
         return view("rollcalls.index",["rollcalls"=>$rollcalls]);
     }
 

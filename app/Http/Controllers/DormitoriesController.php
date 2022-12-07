@@ -9,7 +9,7 @@ class DormitoriesController extends Controller
 {
     //
     public function index(){
-        $dormitories = Dormitory::all();
+        $dormitories = Dormitory::paginate(10);
         return view("dormitories.index",["dormitories"=>$dormitories]);
     }
 
