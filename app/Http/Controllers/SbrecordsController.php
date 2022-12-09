@@ -50,12 +50,12 @@ class SbrecordsController extends Controller
         $responsible_floor = $request->input('responsible_floor');
 
         $sbrecord = Sbrecord::create([
-            'school_year' => $school_year('school_year'),
-            'semester' => $semester('semester'),
-            'sid' => $sid('sid'),
-            'bid' => $bid('bid'),
-            'floor_head' => $floor_head('floor_head'),
-            'responsible_floor' => $responsible_floor('responsible_floor'),
+            'school_year' => $school_year,
+            'semester' => $semester,
+            'sid' => $sid,
+            'bid' => $bid,
+            'floor_head' => $floor_head,
+            'responsible_floor' => $responsible_floor,
 
         ]);
         return redirect("sbrecords");

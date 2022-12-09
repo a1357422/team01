@@ -26,7 +26,7 @@ class RollcallsController extends Controller
         return redirect("rollcalls");
     }
     public function create(){
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         return view("rollcalls.create",['sbrecords'=>$sbrecords]);
     }
     public function store(){
@@ -36,7 +36,7 @@ class RollcallsController extends Controller
     }
     public function edit($id){
         $rollcall = Rollcall::findOrFail($id);
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         $selectSbid = $rollcall->sbid;
         $selectPresence = $rollcall->presence;
         $selectLeave = $rollcall->leave;

@@ -33,7 +33,7 @@ class LeavesController extends Controller
         return redirect('leaves');
     }
     public function create(){
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         return view("leaves.create",["sbrecords"=>$sbrecords]);
     }
     public function store(){
@@ -43,7 +43,7 @@ class LeavesController extends Controller
     }
     public function edit($id){
         $leave = Leave::findOrFail($id);
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         $selectSbid = $leave->sbid;
         return view('leaves.edit',['leave'=>$leave,'sbrecords'=>$sbrecords,'selectSbid'=>$selectSbid]);
     }

@@ -24,8 +24,7 @@ class CreateSbrecordRequest extends FormRequest
     public function rules()
     {
         return [
-            'school_year' => 'required|string|min:3|max:191',
-            //
+            'school_year' => 'required|numeric|min:3|max:191',
         ];
     }
 
@@ -33,6 +32,8 @@ class CreateSbrecordRequest extends FormRequest
     {
         return [
             "school_year.required" => "學年 為必填",
+            "school_year.numeric" => "學年 需為數字",
+            "school_year.min" => "學年 至少需3個字元",
         ];
     }
 }

@@ -1,5 +1,5 @@
 <div>
-    {!! Form::label('sbid','學生編號：')!!}
+    {!! Form::label('sbid','學生床位：')!!}
     {!! Form::select('sbid',$sbrecords)!!}
 </div>
 <div>

@@ -25,7 +25,6 @@ class CreateBedRequest extends FormRequest
     {
         return [
             'bedcode' => 'required|string|min:5|max:191',
-            //
         ];
     }
 

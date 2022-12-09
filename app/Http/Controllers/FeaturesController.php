@@ -27,7 +27,7 @@ class FeaturesController extends Controller
     }
     
     public function create(){
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         return view("features.create",['sbrecords'=>$sbrecords]);
     }
 
@@ -39,7 +39,7 @@ class FeaturesController extends Controller
 
     public function edit($id){
         $feature = Feature::findOrFail($id);
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         $selectSbid = $feature->sbid;
         return view('features.edit',['feature'=>$feature,'sbrecords'=>$sbrecords,'selectSbid'=>$selectSbid]);
     }

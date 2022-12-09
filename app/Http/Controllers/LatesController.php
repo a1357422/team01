@@ -32,7 +32,7 @@ class LatesController extends Controller
         return redirect('lates');
     }
     public function create(){
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         return view("lates.create",['sbrecords'=>$sbrecords]);
     }
     public function store(){
@@ -42,7 +42,7 @@ class LatesController extends Controller
     }
     public function edit($id){
         $late = Late::findOrFail($id);
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         $selectSbid = $late->sbid;
         $selectFloorhead_check = $late->floorhead_check;
         $selectChief_check = $late->chief_check;
