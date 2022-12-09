@@ -6,6 +6,7 @@
 
 @section('dormitorysystem_contents')
     {!! Form::model($leave, ['method'=>'PATCH', 'action'=>['\App\Http\Controllers\LeavesController@update', $leave->id]]) !!}
+    學生床位：{{ $leave->sbrecord->bed->bedcode }}</br>
     @include('leaves.form',['submitButtonText'=>"修改外宿資料"])
     {!! Form::close()!!}
 @endsection

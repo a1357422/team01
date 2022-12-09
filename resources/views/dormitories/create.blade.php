@@ -5,6 +5,7 @@
 @section('dormitorysystem_theme', '新增宿舍資料系統')
 
 @section('dormitorysystem_contents')
+    @include('message.list')
     {!! Form::open(['url'=>'dormitories/store'])!!}
     @include('dormitories.form',['submitButtonText'=>"新增宿舍資料"])
     {!! Form::close()!!}

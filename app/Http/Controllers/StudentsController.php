@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 // use Illuminate\Http\Request;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
-use Request;
+// use Request;
+use App\Http\Requests\CreateStudentRequest;
 
 class StudentsController extends Controller
 {
@@ -33,28 +34,46 @@ class StudentsController extends Controller
         return view("students.create");
     }
 
-    public function store(){
-        $input = Request::all();
-        Student::create($input);
+    public function store(CreateStudentRequest $request){
+        $number = $request->input('number');
+        $class = $request->input('class');
+        $name = $request->input('name');
+        $address = $request->input('address');
+        $phone = $request->input('phone');
+        $nationality = $request->input('nationality');
+        $guardian = $request->input('guardian');
+        $salutation = $request->input('salutation');
+        $remark = $request->input('remark');
+
+        $student = Student::create([
+            'number' => $number,
+            'class' => $class,
+            'name' => $name,
+            'address' => $address,
+            'phone' => $phone,
+            'nationality' => $nationality,
+            'guardian' => $guardian,
+            'salutation' => $salutation,
+            'remark' => $remark,
+        ]);
         return redirect("students");
     }
     public function edit($id){
         $student = Student::findOrFail($id);
         return view('students.edit',['student'=>$student]);
     }
-    public function update($id){
-        $input = Request::all();
+    public function update($id,CreateStudentRequest $request){
         $student = Student::findOrFail($id);
 
-        $student->number = $input['number'];
-        $student->class = $input['class'];
-        $student->name = $input['name'];
-        $student->address = $input['address'];
-        $student->phone = $input['phone'];
-        $student->nationality = $input['nationality'];
-        $student->guardian = $input['guardian'];
-        $student->salutation = $input['salutation'];
-        $student->remark = $input['remark'];
+        $student->number = $request->input('number');
+        $student->class = $request->input('class');
+        $student->name = $request->input('name');
+        $student->address = $request->input('address');
+        $student->phone = $request->input('phone');
+        $student->nationality = $request->input('nationality');
+        $student->guardian = $request->input('guardian');
+        $student->salutation = $request->input('salutation');
+        $student->remark = $request->input('remark');
 
         $student->save();
         return redirect('students');

@@ -6,6 +6,7 @@
 
 @section('dormitorysystem_contents')
     {!! Form::model($late, ['method'=>'PATCH', 'action'=>['\App\Http\Controllers\LatesController@update', $late->id]]) !!}
+    學生床位：{{ $late->sbrecord->bed->bedcode }}</br>
     @include('lates.form',['submitButtonText'=>"更新晚歸資料"])
     {!! Form::close()!!}
 @endsection

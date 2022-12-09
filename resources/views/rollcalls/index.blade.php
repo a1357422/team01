@@ -21,45 +21,36 @@
             <th>操作</th>
         </tr>
         @foreach($rollcalls as $rollcall)
-            @if ($rollcall->sbrecord->bed == null)
-                {{ $rollcall->sbrecord->bed = null}}
-                {{ $rollcall->id = null}}
-                {{ $rollcall->date = null}}
-                {{ $rollcall->presence = null}}
-                {{ $rollcall->leave = null}}
-                {{ $rollcall->late = null}}
-            @else
-                <tr>
-                    <td>{{ $rollcall->id }}</td>
-                    <td>{{ $rollcall->date }}</td>
-                    <td>{{ $rollcall->sbrecord->bed->bedcode }}</td>
-                    @if ($rollcall->presence === 1)
-                    <td align="center" valign="center"><font color=green>{{ $rollcall->presence = "V" }}</font></td>
-                    @else 
-                    <td align="center" valign="center"><font color=red>{{ $rollcall->presence = "X" }} </font></td>
-                    @endif
-                    @if ($rollcall->leave === 1)
-                    <td align="center" valign="center"><font color=green>{{ $rollcall->leave = "V" }}</font></td>
-                    @else 
-                    <td align="center" valign="center"><font color=red>{{ $rollcall->leave = "X" }} </font></td>
-                    @endif
-                    @if ($rollcall->late === 1)
-                    <td align="center" valign="center"><font color=green>{{ $rollcall->late = "V" }}</font></td>
-                    @else 
-                    <td align="center" valign="center"><font color=red>{{ $rollcall->late = "X" }} </font></td>
-                    @endif
-                    <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
-                    <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id]) }}">修改資料</a></font></td>
-                    <!-- <td><font color=red><a href="{{ route('rollcalls.destroy',[ 'id'=>$rollcall->id ]) }}">刪除資料</a></font></td> -->
-                    <td>
-                        <form action="{{ url('/rollcalls/delete', ['id' => $rollcall->id]) }}" method="post">
-                            <input class="btn btn-default" type="submit" value="刪除" />
-                            @method('delete')
-                            @csrf
-                        </form>
-                    </td>
-                </tr>
+        <tr>
+            <td>{{ $rollcall->id }}</td>
+            <td>{{ $rollcall->date }}</td>
+            <td>{{ $rollcall->sbrecord->bed->bedcode }}</td>
+            @if ($rollcall->presence === 1)
+            <td align="center" valign="center"><font color=green>{{ $rollcall->presence = "V" }}</font></td>
+            @else 
+            <td align="center" valign="center"><font color=red>{{ $rollcall->presence = "X" }} </font></td>
             @endif
+            @if ($rollcall->leave === 1)
+            <td align="center" valign="center"><font color=green>{{ $rollcall->leave = "V" }}</font></td>
+            @else 
+            <td align="center" valign="center"><font color=red>{{ $rollcall->leave = "X" }} </font></td>
+            @endif
+            @if ($rollcall->late === 1)
+            <td align="center" valign="center"><font color=green>{{ $rollcall->late = "V" }}</font></td>
+            @else 
+            <td align="center" valign="center"><font color=red>{{ $rollcall->late = "X" }} </font></td>
+            @endif
+            <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
+            <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id]) }}">修改資料</a></font></td>
+            <!-- <td><font color=red><a href="{{ route('rollcalls.destroy',[ 'id'=>$rollcall->id ]) }}">刪除資料</a></font></td> -->
+            <td>
+                <form action="{{ url('/rollcalls/delete', ['id' => $rollcall->id]) }}" method="post">
+                    <input class="btn btn-default" type="submit" value="刪除" />
+                    @method('delete')
+                    @csrf
+                </form>
+            </td>
+        </tr>
         @endforeach
     </table>
     {{$rollcalls->links()}}

@@ -6,6 +6,7 @@
 
 @section('dormitorysystem_contents')
     {!! Form::model($feature, ['method'=>'PATCH', 'action'=>['\App\Http\Controllers\FeaturesController@update', $feature->id]]) !!}
+    學生床位：{{ $feature->sbrecord->bed->bedcode }}</br>
     @include('features.form',['submitButtonText'=>"更新學生照片資料"])
     {!! Form::close()!!}
 @endsection
