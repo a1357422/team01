@@ -21,7 +21,11 @@
             <tr>
                 <td align="center" valign="center">{{ $feature->id }}</td>
                 <td align="center" valign="center">{{ $feature->sbrecord->bed->bedcode }}</td>
-                <td align="center" valign="center">{{ $feature->path . '.jpg'}}</td>
+                @if($feature->path != null)
+                    <td align="center" valign="center">{{ $feature->path . '.jpg'}}</td>
+                @else
+                    <td align="center" valign="center">{{ $feature->path }}</td>
+                @endif
                 <td align="center" valign="center"><font color= blue><a href="{{ route('features.show',['id'=>$feature->id]) }}">詳細資料</a></font></td>
                 <td><font color=blue><a href="{{ route('features.edit',['id'=>$feature->id]) }}">修改資料</a></font></td>
                 <!-- <td><font color= red><a href="{{ route('features.destroy',['id'=>$feature->id]) }}">刪除資料</a></font></td> -->

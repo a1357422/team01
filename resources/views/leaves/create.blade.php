@@ -5,6 +5,7 @@
 @section('dormitorysystem_theme', '新增外宿資料系統')
 
 @section('dormitorysystem_contents')
+    @include('message.list')
     {!! Form::open(['url'=>'leaves/store'])!!}
     @include('leaves.form',['submitButtonText'=>"新增外宿資料"])
     {!! Form::close()!!}

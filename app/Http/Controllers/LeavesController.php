@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Leave;
-use Request;
+// use Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sbrecord;
+use App\Http\Requests\CreateLeaveRequest;
 
 class LeavesController extends Controller
 {
@@ -36,9 +37,18 @@ class LeavesController extends Controller
         $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         return view("leaves.create",["sbrecords"=>$sbrecords]);
     }
-    public function store(){
-        $input = Request::all();
-        Leave::create($input);
+    public function store(CreateLeaveRequest $request){
+        $sbid = $request->input('sbid');
+        $start = $request->input('start');
+        $end = $request->input('end');
+        $reason = $request->input('reason');
+        
+        $leave = Leave::create([
+            'sbid' => $sbid,
+            'start' => $start,
+            'end' => $end,
+            'reason' => $reason,
+        ]);
         return redirect("leaves");
     }
     public function edit($id){
@@ -47,16 +57,13 @@ class LeavesController extends Controller
         $selectSbid = $leave->sbid;
         return view('leaves.edit',['leave'=>$leave,'sbrecords'=>$sbrecords,'selectSbid'=>$selectSbid]);
     }
-    public function update($id){
-        $input = Request::all();
+    public function update($id,CreateLeaveRequest $request){
         $leave = Leave::findOrFail($id);
 
-        $leave->sbid = $input['sbid'];
-        $leave->start = $input['start'];
-        $leave->end = $input['end'];
-        $leave->reason = $input['reason'];
-        $leave->floorhead_check = $input['floorhead_check'];
-        $leave->housemaster_check = $input['housemaster_check'];
+        $leave->sbid = $request->input('sbid');
+        $leave->start = $request->input('start');
+        $leave->end = $request->input('end');
+        $leave->reason = $request->input('reason');
 
         $leave->save();
         return redirect('leaves');
