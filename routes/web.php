@@ -61,6 +61,7 @@ Route::get('beds/{id}/edit',[BedsController::class,'edit'])->where("id","[0-9]+"
 Route::patch('beds/update/{id}',[BedsController::class,'update'])->where("id","[0-9]+")->name('beds.update');
 
 Route::get('sbrecords',[SbrecordsController::class,'index'])->name('sbrecords.index');
+Route::get('sbrecords/senior',[SbrecordsController::class,'senior'])->name('sbrecords.senior');
 Route::get('sbrecords/create',[SbrecordsController::class,'create'])->name('sbrecords.create');
 Route::get('sbrecords/{id}',[SbrecordsController::class,'show'])->where("id","[0-9]+")->name('sbrecords.show');
 Route::delete('sbrecords/delete/{id}',[SbrecordsController::class,'destroy'])->where("id","[0-9]+")->name('sbrecords.destroy');

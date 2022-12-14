@@ -20,6 +20,10 @@ class Sbrecord extends Model
         "updataed_at",
     ];
 
+    public function scopeSenior($query){
+        $query->where("floor_head","=",True);
+    }
+
     public function student(){
         return $this->belongsTo("App\Models\Student","sid","id");
     }
