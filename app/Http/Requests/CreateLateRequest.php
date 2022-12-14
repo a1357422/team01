@@ -24,7 +24,7 @@ class CreateLateRequest extends FormRequest
     public function rules()
     {
         return [
-            'start' => 'required',
+            'start' => 'required|late_dateearlier:end',
             'end' => 'required',
             'reason' => 'required|string|max:191',
             'company' => 'required|string|max:191',
@@ -39,6 +39,7 @@ class CreateLateRequest extends FormRequest
     {
         return [
             "start.required" => "長期晚歸日起 為必填",
+            "start.late_dateearlier"=>"長期晚歸日起 必須早於 長期晚歸日訖",
             "end.required" => "長期晚歸日訖 為必填",
             "reason.required" => "長期晚歸原因 為必填",
             "reason.max" => "長期晚歸原因 至多不超過191個字元",
