@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 // use Illuminate\Http\Request;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
-use Request;
+// use Request;
+use App\Http\Requests\CreateStudentRequest;
 
 class StudentsController extends Controller
 {
     //
     public function index(){
-        $students = Student::all();
+        $students = Student::paginate(25);
         return view("students.index",["students"=>$students]);
     }
     
@@ -32,9 +33,28 @@ class StudentsController extends Controller
         return view("students.create");
     }
 
-    public function store(){
-        $input = Request::all();
-        Student::create($input);
+    public function store(CreateStudentRequest $request){
+        $number = $request->input('number');
+        $class = $request->input('class');
+        $name = $request->input('name');
+        $address = $request->input('address');
+        $phone = $request->input('phone');
+        $nationality = $request->input('nationality');
+        $guardian = $request->input('guardian');
+        $salutation = $request->input('salutation');
+        $remark = $request->input('remark');
+
+        $student = Student::create([
+            'number'=>$number,
+            'class'=>$class,
+            'name'=>$name,
+            'address'=>$address,
+            'phone'=>$phone,
+            'nationality'=>$nationality,
+            'guardian'=>$guardian,
+            'salutation'=>$salutation,
+            'remark'=>$remark,
+        ]);
         return redirect("students");
     }
     public function edit($id){

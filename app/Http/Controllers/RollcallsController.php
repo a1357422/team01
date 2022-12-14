@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rollcall;
+use App\Models\Bed;
 use Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sbrecord;
@@ -26,8 +27,8 @@ class RollcallsController extends Controller
         return redirect("rollcalls");
     }
     public function create(){
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.bid', 'sbrecords.id');
-        return view("rollcalls.create",['sbrecords'=>$sbrecords]);
+        $beds = Bed::orderBy('beds.id', 'asc')->pluck('beds.bedcode', 'beds.id');
+        return view("rollcalls.create",['beds'=>$beds]);
     }
     public function store(){
         $input = Request::all();
