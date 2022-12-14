@@ -5,8 +5,8 @@
 @section('dormitorysystem_theme', '新增學生資料系統')
 
 @section('dormitorysystem_contents')
-    @include('messages.list')
+    @include('message.list')
     {!! Form::open(['url'=>'students/store'])!!}
-    @include('students.form', ['submitButtonText'=>'新增學生資料'])
+    @include('students.form',['submitButtonText'=>"新增學生資料"])
     {!! Form::close()!!}
 @endsection

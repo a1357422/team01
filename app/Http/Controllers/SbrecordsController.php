@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
-use Request;
+// use Request;
+
+use App\Http\Requests\CreateBedRequest;
+use App\Http\Requests\CreateSbrecordRequest;
 use App\Models\Sbrecord;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
@@ -13,7 +16,7 @@ class SbrecordsController extends Controller
 {
     //
     public function index(){
-        $sbrecords = Sbrecord::all();
+        $sbrecords = Sbrecord::paginate(10);
         return view("sbrecords.index",["sbrecords"=>$sbrecords]);
     }
 
@@ -37,9 +40,24 @@ class SbrecordsController extends Controller
         return view("sbrecords.create",["students"=>$students,"beds"=>$beds]);
     }
     
-    public function store(){
-        $input = Request::all();
-        Sbrecord::create($input);
+    public function store(CreateSbrecordRequest $request){
+
+        $school_year = $request->input('school_year');
+        $semester = $request->input('semester');
+        $sid = $request->input('sid');
+        $bid = $request->input('bid');
+        $floor_head = $request->input('floor_head');
+        $responsible_floor = $request->input('responsible_floor');
+
+        $sbrecord = Sbrecord::create([
+            'school_year' => $school_year,
+            'semester' => $semester,
+            'sid' => $sid,
+            'bid' => $bid,
+            'floor_head' => $floor_head,
+            'responsible_floor' => $responsible_floor,
+
+        ]);
         return redirect("sbrecords");
     }
     public function edit($id){
@@ -54,16 +72,15 @@ class SbrecordsController extends Controller
 
         return view('sbrecords.edit',['sbrecord'=>$sbrecord,"students"=>$students,"beds"=>$beds, "selectsemester"=>$selectSemester, 'selectName'=>$selectName,'selectBedcode'=>$selectBedcode, "selectFloor_head"=>$selectFloor_head, "selectResponsible_floor"=>$selectResponsible_floor]);
     }
-    public function update($id){
-        $input = Request::all();
+    public function update($id,CreateSbrecordRequest $request){
         $sbrecord = Sbrecord::findOrFail($id);
 
-        $sbrecord->school_year = $input['school_year'];
-        $sbrecord->semester = $input['semester'];
-        $sbrecord->sid = $input['sid'];
-        $sbrecord->bid = $input['bid'];
-        $sbrecord->floor_head = $input['floor_head'];
-        $sbrecord->responsible_floor = $input['responsible_floor'];
+        $sbrecord->school_year = $request->input('school_year');
+        $sbrecord->semester = $request->input('semester');
+        $sbrecord->sid = $request->input('sid');
+        $sbrecord->bid = $request->input('bid');
+        $sbrecord->floor_head = $request->input('floor_head');
+        $sbrecord->responsible_floor = $request->input('responsible_floor');
 
         $sbrecord->save();
         return redirect('sbrecords');

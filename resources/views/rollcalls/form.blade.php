@@ -4,7 +4,7 @@
 </div>
 <div>
     {!! Form::label('sbid','學生床位：')!!}
-    {!! Form::select('sbid',$beds)!!}
+    {!! Form::select('sbid',$sbrecords)!!}
 </div>
 <div>
     {!! Form::label('presence','在場與否：')!!}

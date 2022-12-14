@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 // use Illuminate\Http\Request;
 use App\Models\Feature;
 use App\Models\Sbrecord;
-use Request;
+// use Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\CreateFeatureRequest;
 
 class FeaturesController extends Controller
 {
     public function index(){
-        $features = Feature::all();
+        $features = Feature::paginate(10);
         return view("features.index",["features"=>$features]);
     }
 
@@ -27,30 +28,36 @@ class FeaturesController extends Controller
     }
     
     public function create(){
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         return view("features.create",['sbrecords'=>$sbrecords]);
     }
 
-    public function store(){
-        $input = Request::all();
-        Feature::create($input);
+    public function store(CreateFeatureRequest $request){
+        $sbid = $request->input('sbid');
+        $path = $request->input('path');
+        $feature = $request->input('feature');
+
+        $feature = Feature::create([
+            'sbid' => $sbid,
+            'path' => $path,
+            'feature' => $feature,
+        ]);
         return redirect("features");
     }
 
     public function edit($id){
         $feature = Feature::findOrFail($id);
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.sid', 'sbrecords.id');
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
         $selectSbid = $feature->sbid;
         return view('features.edit',['feature'=>$feature,'sbrecords'=>$sbrecords,'selectSbid'=>$selectSbid]);
     }
 
-    public function update($id){
-        $input = Request::all();
+    public function update($id,CreateFeatureRequest $request){
         $feature = Feature::findOrFail($id);
 
-        $feature->sbid = $input['date'];
-        $feature->path = $input['sbid'];
-        $feature->feature = $input['presence'];
+        $feature->sbid = $request->input('sbid');
+        $feature->path = $request->input('path');
+        $feature->feature = $request->input('feature');
 
         $feature->save();
         return redirect('features');

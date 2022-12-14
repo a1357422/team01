@@ -39,5 +39,5 @@
             </tr>
         @endforeach
     </table>
-    {!! $students->links() !!}
+    {{$students->links()}}
 @endsection

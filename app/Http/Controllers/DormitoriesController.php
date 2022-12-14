@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 // use Illuminate\Http\Request;
-use Request;
+// use Request;
+use App\Http\Requests\CreateDormitoryRequest;
 use App\Models\Dormitory;
 class DormitoriesController extends Controller
 {
     //
     public function index(){
-        $dormitories = Dormitory::all();
+        $dormitories = Dormitory::paginate(10);
         return view("dormitories.index",["dormitories"=>$dormitories]);
     }
 
@@ -27,22 +28,29 @@ class DormitoriesController extends Controller
     public function create(){
         return view("dormitories.create");
     }
-    public function store(){
-        $input = Request::all();
-        Dormitory::create($input);
+    public function store(CreateDormitoryRequest $request){
+        $name = $request->input('name');
+        $housemaster = $request->input('housemaster');
+        $contact = $request->input('contact');
+
+        $dormitory = Dormitory::create([
+            'name' => $name,
+            'housemaster' => $housemaster,
+            'contact' => $contact,
+        ]);
+
         return redirect("dormitories");
     }
     public function edit($id){
         $dormitory = Dormitory::findOrFail($id);
         return view('dormitories.edit',['dormitory'=>$dormitory]);
     }
-    public function update($id){
-        $input = Request::all();
+    public function update($id,CreateDormitoryRequest $request){
         $dormitory = Dormitory::findOrFail($id);
 
-        $dormitory->name = $input['name'];
-        $dormitory->housemaster = $input['housemaster'];
-        $dormitory->contact = $input['contact'];
+        $dormitory->name = $request->input('name');
+        $dormitory->housemaster = $request->input('housemaster');
+        $dormitory->contact = $request->input('contact');
 
         $dormitory->save();
         return redirect('dormitories');

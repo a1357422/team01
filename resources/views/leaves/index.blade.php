@@ -21,33 +21,27 @@
             <th>操作</th>
         </tr>
         @foreach($leaves as $leave)
-            @if ($leave->sbrecord->bed == null)
-                {{ $leave->sbrecord->bed = null}}
-                {{ $leave->id = null}}
-                {{ $leave->start = null}}
-                {{ $leave->end = null}}
-                {{ $leave->reason = null}}
-            @else
-                <tr>
-                    <td>{{ $leave->id }}</td>
-                    <td>{{ $leave->sbrecord->bed->bedcode }}</td>
-                    <td>{{ $leave->start }}</td>
-                    <td>{{ $leave->end }}</td>
-                    <td>{{ $leave->reason }}</td>
-                    <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                    <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核情形</a></font></td>
-                    <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改資料</a></font></td>
-                    <!-- <td><font color=red><a href="{{ route('leaves.destroy',['id' => $leave->id]) }}">刪除資料</a></font></td> -->
-                    <td>
-                        <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
-                            <input class="btn btn-default" type="submit" value="刪除" />
-                            @method('delete')
-                            @csrf
-                        </form>
-                    </td>
-                </tr>
-            @endif
+        <tr>
+            <td>{{ $leave->id }}</td>
+            <td>{{ $leave->sbrecord->bed->bedcode }}</td>
+            <td>{{ $leave->start }}</td>
+            <td>{{ $leave->end }}</td>
+            <td>{{ $leave->reason }}</td>
+            <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
+            <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核情形</a></font></td>
+            <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改資料</a></font></td>
+            <!-- <td><font color=red><a href="{{ route('leaves.destroy',['id' => $leave->id]) }}">刪除資料</a></font></td> -->
+            <td>
+                <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
+                    <input class="btn btn-default" type="submit" value="刪除" />
+                    @method('delete')
+                    @csrf
+                </form>
+            </td>
+        </tr>
         @endforeach
     </table>
+    {{$leaves->links()}}
+
 
 @endsection

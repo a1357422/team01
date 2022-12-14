@@ -11,7 +11,7 @@
         <table>
         <tr>
             <th>編號</th>
-            <th>學生編號</th>
+            <th>學生床位</th>
             <th>照片路徑</th>
             <th>操作</th>
             <th>操作</th>
@@ -20,8 +20,12 @@
         @foreach($features as $feature)
             <tr>
                 <td align="center" valign="center">{{ $feature->id }}</td>
-                <td align="center" valign="center">{{ $feature->sbrecord->student->name }}</td>
-                <td align="center" valign="center">{{ $feature->path . '.jpg'}}</td>
+                <td align="center" valign="center">{{ $feature->sbrecord->bed->bedcode }}</td>
+                @if($feature->path != null)
+                    <td align="center" valign="center">{{ $feature->path . '.jpg'}}</td>
+                @else
+                    <td align="center" valign="center">{{ $feature->path }}</td>
+                @endif
                 <td align="center" valign="center"><font color= blue><a href="{{ route('features.show',['id'=>$feature->id]) }}">詳細資料</a></font></td>
                 <td><font color=blue><a href="{{ route('features.edit',['id'=>$feature->id]) }}">修改資料</a></font></td>
                 <!-- <td><font color= red><a href="{{ route('features.destroy',['id'=>$feature->id]) }}">刪除資料</a></font></td> -->
@@ -35,4 +39,5 @@
             </tr>
         @endforeach
     </table>
+    {{$features->links()}}
 @endsection

@@ -6,13 +6,14 @@ namespace App\Http\Controllers;
 use App\Models\Bed;
 use App\Models\Dormitory;
 use Illuminate\Support\Facades\DB;
-use Request;
+// use Request;
+use App\Http\Requests\CreateBedRequest;
 
 class BedsController extends Controller
 {
     //
     public function index(){
-        $beds = Bed::all();
+        $beds = Bed::paginate(10);
         return view("beds.index",["beds"=>$beds]);
     }
 
@@ -32,9 +33,18 @@ class BedsController extends Controller
         return view('beds.create', ['dormitories' => $dormitories]);
     }
 
-    public function store(){
-        $input = Request::all();
-        Bed::create($input);
+    public function store(CreateBedRequest $request){
+        $bedcode = $request->input('bedcode');
+        $did = $request->input('did');
+        $floor = $request->input('floor');
+        $roomtype = $request->input('roomtype');
+
+        $bed = Bed::create([
+            'bedcode' => $bedcode,
+            'did' => $did,
+            'floor' => $floor,
+            'roomtype' => $roomtype
+        ]);
         return redirect("beds");
     }
 
@@ -46,14 +56,13 @@ class BedsController extends Controller
         $selectRoomType = $bed->roomtype;
         return view('beds.edit', ['bed'=>$bed, 'dormitories'=>$dormitories, 'selectDid'=>$selectDid, 'selectFloor'=>$selectFloor, 'selectRoomType'=>$selectRoomType]);
     }
-    public function update($id){
-        $input = Request::all();
+    public function update($id,CreateBedRequest $request){
         $bed = Bed::findOrFail($id);
 
-        $bed->bedcode = $input['bedcode'];
-        $bed->did = $input['did'];
-        $bed->floor = $input['floor'];
-        $bed->roomtype = $input['roomtype'];
+        $bed->bedcode = $request->input('bedcode');
+        $bed->did = $request->input('did');
+        $bed->floor = $request->input('floor');
+        $bed->roomtype = $request->input('roomtype');
 
         $bed->save();
         return redirect('beds');

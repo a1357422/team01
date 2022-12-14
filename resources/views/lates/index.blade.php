@@ -22,35 +22,27 @@
             <th>操作</th>
         </tr>
         @foreach($lates as $late)
-            @if ($late->sbrecord->bed == null)
-                {{ $late->sbrecord->bed = null}}
-                {{ $late->id = null}}
-                {{ $late->start = null}}
-                {{ $late->end = null}}
-                {{ $late->reason = null}}
-                {{ $late->company = null}}
-            @else
-            <tr>
-                <td>{{ $late->id }}</td>
-                <td>{{ $late->sbrecord->bed->bedcode }}</td>
-                <td>{{ $late->start }}</td>
-                <td>{{ $late->end }}</td>
-                <td>{{ $late->reason }}</td>
-                <td>{{ $late->company }}</td>
-                <td align="center" valign="center">{{ $late->back_time }}</td>
-                <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核情形</a></font></td>
-                <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改資料</a></font></td>
-                <!-- <td><font color=red><a href="{{ route('lates.destroy',['id'=>$late->id]) }}">刪除資料</a></font></td> -->
-                <td>
-                    <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">
-                        <input class="btn btn-default" type="submit" value="刪除" />
-                        @method('delete')
-                        @csrf
-                    </form>
-                </td>
-            </tr>
-            @endif
+        <tr>
+            <td>{{ $late->id }}</td>
+            <td>{{ $late->sbrecord->bed->bedcode }}</td>
+            <td>{{ $late->start }}</td>
+            <td>{{ $late->end }}</td>
+            <td>{{ $late->reason }}</td>
+            <td>{{ $late->company }}</td>
+            <td align="center" valign="center">{{ $late->back_time }}</td>
+            <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
+            <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核情形</a></font></td>
+            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改資料</a></font></td>
+            <!-- <td><font color=red><a href="{{ route('lates.destroy',['id'=>$late->id]) }}">刪除資料</a></font></td> -->
+            <td>
+                <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">
+                    <input class="btn btn-default" type="submit" value="刪除" />
+                    @method('delete')
+                    @csrf
+                </form>
+            </td>
+        </tr>
         @endforeach
     </table>
+    {{$lates->links()}}
 @endsection
