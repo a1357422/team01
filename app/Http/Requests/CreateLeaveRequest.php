@@ -24,7 +24,7 @@ class CreateLeaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'start' => 'required',
+            'start' => 'required|leave_dateearlier:end',
             'end' => 'required',
             'reason' => 'required|string|max:191',
         ];
@@ -34,6 +34,7 @@ class CreateLeaveRequest extends FormRequest
     {
         return [
             "start.required" => "外宿日起 為必填",
+            "start.leave_dateearlier"=>"外宿日起 必須早於 外宿日訖",
             "end.required" => "外宿日訖 為必填",
             "reason.required" => "外宿原因 為必填",
             "reason.max" => "外宿原因 至多不超過191個字元",

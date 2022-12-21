@@ -6,7 +6,8 @@
 
 @section('dormitorysystem_contents')
     <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-        <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a>
+        <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
+        <a href="{{ route('sbrecords.senior') }} ">樓長</a>
     </div>
         <table>
         <tr>
@@ -47,6 +48,8 @@
         </tr>
         @endforeach
     </table>
-    {{$sbrecords->links()}}
+    @if($showPagination)
+        {{$sbrecords->links()}}
+    @endif
 
 @endsection

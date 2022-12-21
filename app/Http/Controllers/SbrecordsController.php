@@ -17,7 +17,12 @@ class SbrecordsController extends Controller
     //
     public function index(){
         $sbrecords = Sbrecord::paginate(10);
-        return view("sbrecords.index",["sbrecords"=>$sbrecords]);
+        return view("sbrecords.index",["sbrecords"=>$sbrecords,"showPagination"=>True]);
+    }
+
+    public function senior(){
+        $sbrecords = Sbrecord::senior()->get();
+        return view("sbrecords.index",["sbrecords"=>$sbrecords,"showPagination"=>False]);
     }
 
     public function show($id){
@@ -28,6 +33,8 @@ class SbrecordsController extends Controller
 
         return view("sbrecords.show",["sbrecord"=>$sbrecord, "rollcalls"=>$rollcalls, "leaves"=>$leaves, "lates"=>$lates]);
     }
+
+
 
     public function destroy($id){
         $sbrecord = Sbrecord::findOrFail($id);
