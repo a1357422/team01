@@ -53,6 +53,7 @@ Route::get('dormitories/{id}/edit',[DormitoriesController::class,'edit'])->where
 Route::patch('dormitories/update/{id}',[DormitoriesController::class,'update'])->where("id","[0-9]+")->name('dormitories.update');
 
 Route::get('beds',[BedsController::class,'index'])->name('beds.index');
+Route::post('beds/dormitory', [BedsController::class, 'dormitory'])->name('beds.dormitory');
 Route::get('beds/create',[BedsController::class,'create'])->name('beds.create');
 Route::get('beds/{id}',[BedsController::class,'show'])->where("id","[0-9]+")->name('beds.show');
 Route::delete('beds/delete/{id}',[BedsController::class,'destroy'])->where("id","[0-9]+")->name('beds.destroy');

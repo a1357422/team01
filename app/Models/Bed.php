@@ -18,6 +18,16 @@ class Bed extends Model
         "created_at",
         "updataed_at",
     ];
+    
+    public function scopeAllDormitories($query)
+    {
+        $query->select('did')->groupBy('did');
+    }
+
+    public function scopeDormit($query, $did)
+    {
+        $query->where('did', '=', $did);
+    }
 
     public function dormitory(){
         return $this->belongsTo("App\Models\Dormitory","did","id");
