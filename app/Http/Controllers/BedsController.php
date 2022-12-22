@@ -70,6 +70,7 @@ class BedsController extends Controller
                 $data["$dormitory->did"] = "涵青館";
             }
         }
+
         return view('beds.index', ['beds' => $beds, 'dormitories'=>$data,"showPagination"=>False]);
     }
 

@@ -25,12 +25,14 @@ class Student extends Model
 
     public function scopeAllClasses($query)
     {
-        $query->select('class')->groupBy('class');
+        $query->select(\DB::raw('SUBSTR(class, 1, 2) as class'))->groupBy('class');
+        //select SUBSTR(class,1,2)from students
     }
 
     public function scopeClass($query, $class)
     {
-        $query->where('class', '=', $class);
+        // dd($class);
+        $query->where('class','=', $class);
     }
 
     public function sbrecords(){

@@ -17,50 +17,50 @@ class StudentsController extends Controller
         $data = [];
         foreach ($classes as $class)
         {
-            if(substr($class->class,1,2) == "電子"){
+            $data["$class->class"] = $class->class;
+            if($data["$class->class"] == "電子"){
                 $data["$class->class"] = "電子工程系";
             }
-            else if(substr($class->class,1,2) == "電機"){
+            else if($data["$class->class"] == "電機"){
                 $data["$class->class"] = "電機工程系";
             }
-            else if(substr($class->class,1,2) == "化材"){
+            else if($data["$class->class"] == "化材"){
                 $data["$class->class"] = "化工與材料工程系";
             }
-            else if(substr($class->class,1,2) == "機械"){
+            else if($data["$class->class"] == "機械"){
                 $data["$class->class"] = "機械工程系";
             }
-            else if(substr($class->class,1,2) == "企管"){
+            else if($data["$class->class"] == "企管"){
                 $data["$class->class"] = "企業管理系";
             }
-            else if(substr($class->class,1,2) == "資管"){
+            else if($data["$class->class"] == "資管"){
                 $data["$class->class"] = "資訊管理系";
             }
-            else if(substr($class->class,1,2) == "國企"){
+            else if($data["$class->class"] == "國企"){
                 $data["$class->class"] = "國際企業系";
             }
-            else if(substr($class->class,1,2) == "財金"){
+            else if($data["$class->class"] == "財金"){
                 $data["$class->class"] = "財務金融系";
             }
-            else if(substr($class->class,1,2) == "工管"){
+            else if($data["$class->class"] == "工管"){
                 $data["$class->class"] = "工業管理系";
             }
-            else if(substr($class->class,1,2) == "應外"){
+            else if($data["$class->class"] == "應外"){
                 $data["$class->class"] = "應用外語系";
             }
-            else if(substr($class->class,1,2) == "遊戲"){
+            else if($data["$class->class"] == "遊戲"){
                 $data["$class->class"] = "多媒體與遊戲發展科學系";
             }
-            else if(substr($class->class,1,2) == "觀光"){
+            else if($data["$class->class"] == "觀光"){
                 $data["$class->class"] = "觀光休閒系";
             }
-            else if(substr($class->class,1,2) == "文創"){
+            else if($data["$class->class"] == "文創"){
                 $data["$class->class"] = "文化創意與數位媒體設計系";
             }
             else{
                 $data["$class->class"] = "資訊網路工程系";
             }
         }
-
         return view("students.index",["students"=>$students,'classes'=>$data,"showPagination"=>True]);
     }
     
@@ -80,55 +80,54 @@ class StudentsController extends Controller
     public function class(Request $request)
     {
         $students = Student::class($request->input('class'))->get();
-
         $classes = Student::allClasses()->get();
         $data = [];
         foreach ($classes as $class)
         {
-            if(substr($class->class,1,2) == "電子"){
+            if($data["$class->class"] == "電子"){
                 $data["$class->class"] = "電子工程系";
             }
-            else if(substr($class->class,1,2) == "電機"){
+            else if($data["$class->class"] == "電機"){
                 $data["$class->class"] = "電機工程系";
             }
-            else if(substr($class->class,1,2) == "化材"){
+            else if($data["$class->class"] == "化材"){
                 $data["$class->class"] = "化工與材料工程系";
             }
-            else if(substr($class->class,1,2) == "機械"){
+            else if($data["$class->class"] == "機械"){
                 $data["$class->class"] = "機械工程系";
             }
-            else if(substr($class->class,1,2) == "企管"){
+            else if($data["$class->class"] == "企管"){
                 $data["$class->class"] = "企業管理系";
             }
-            else if(substr($class->class,1,2) == "資管"){
+            else if($data["$class->class"] == "資管"){
                 $data["$class->class"] = "資訊管理系";
             }
-            else if(substr($class->class,1,2) == "國企"){
+            else if($data["$class->class"] == "國企"){
                 $data["$class->class"] = "國際企業系";
             }
-            else if(substr($class->class,1,2) == "財金"){
+            else if($data["$class->class"] == "財金"){
                 $data["$class->class"] = "財務金融系";
             }
-            else if(substr($class->class,1,2) == "工管"){
+            else if($data["$class->class"] == "工管"){
                 $data["$class->class"] = "工業管理系";
             }
-            else if(substr($class->class,1,2) == "應外"){
+            else if($data["$class->class"] == "應外"){
                 $data["$class->class"] = "應用外語系";
             }
-            else if(substr($class->class,1,2) == "遊戲"){
+            else if($data["$class->class"] == "遊戲"){
                 $data["$class->class"] = "多媒體與遊戲發展科學系";
             }
-            else if(substr($class->class,1,2) == "觀光"){
+            else if($data["$class->class"] == "觀光"){
                 $data["$class->class"] = "觀光休閒系";
             }
-            else if(substr($data["$class->class"],1,2) == "文創"){
+            else if($data["$class->class"] == "文創"){
                 $data["$class->class"] = "文化創意與數位媒體設計系";
             }
             else{
                 $data["$class->class"] = "資訊網路工程系";
             }
         }
-        dd(substr($data["$class->class"],1,2));
+
         return view("students.index",["students"=>$students,'classes'=>$data,"showPagination"=>false]);
     }
 
