@@ -23,6 +23,16 @@ class Student extends Model
         "updataed_at",
     ];
 
+    public function scopeAllClasses($query)
+    {
+        $query->select('class')->groupBy('class');
+    }
+
+    public function scopeClass($query, $class)
+    {
+        $query->where('class', '=', $class);
+    }
+
     public function sbrecords(){
         return $this->hasMany("App\Models\Sbrecord","sid");
     }

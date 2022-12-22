@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Models\Bed;
 use App\Models\Dormitory;
 use Illuminate\Support\Facades\DB;
 // use Request;
 use App\Http\Requests\CreateBedRequest;
-use Illuminate\Http\Request;
 
 class BedsController extends Controller
 {
