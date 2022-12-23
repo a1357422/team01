@@ -31,4 +31,15 @@ class Student extends Model
         $this->sbrecords()->delete();
         return parent::delete();
     }
+
+    public function scopeAllNationalities($query)
+    {
+        $query->select('nationality')->groupBy('nationality');
+    }
+
+    public function scopeNationality($query, $choose)
+    {
+        $query->where('nationality', '=', $choose)
+            ->orderBy('nationality');
+    }
 }

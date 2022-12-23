@@ -43,6 +43,7 @@ Route::post('students/store',[StudentsController::class,'store'])->name('student
 Route::get('students/{id}/edit',[StudentsController::class,'edit'])->where("id","[0-9]+")->name('students.edit');
 //修改一筆學生資料
 Route::patch('students/update/{id}',[StudentsController::class,'update'])->where("id","[0-9]+")->name('students.update');
+Route::post('students/nationality',[StudentsController::class,'nationality'])->name('students.nationality');
 
 Route::get('dormitories',[DormitoriesController::class,'index'])->name('dormitories.index');
 Route::get('dormitories/create',[DormitoriesController::class,'create'])->name('dormitories.create');

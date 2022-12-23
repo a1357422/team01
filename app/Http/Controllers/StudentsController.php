@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Models\Student;
 use Illuminate\Support\Facades\DB;
-// use Request;
+//use Request;
 use App\Http\Requests\CreateStudentRequest;
 
 class StudentsController extends Controller
@@ -14,7 +14,14 @@ class StudentsController extends Controller
     public function index(){
         // $students = Student::all();
         $students = Student::paginate(10);
-        return view("students.index",["students"=>$students]);
+        $nationalities = Student::allNationalities()->get();
+        $data=[];
+        foreach ($nationalities as $nationality)
+        {
+            $data["$nationality->nationality"] = $nationality->nationality;
+        }
+
+        return view("students.index",["students"=>$students,'nationalities'=>$data, 'showPagination'=>true]);
     }
     
     public function show($id){
@@ -77,5 +84,17 @@ class StudentsController extends Controller
 
         $student->save();
         return redirect('students');
+    }
+
+    public function nationality(Request $request)
+    {
+        $students = Student::nationality($request->input('choose'))->get();
+        $nationalities = Student::allNationalities()->get();
+        $data = [];
+        foreach ($nationalities as $nationality)
+        {
+            $data["$nationality->nationality"] = $nationality->nationality;
+        }
+        return view('students.index', ['students' => $students, 'nationalities'=>$data, 'showPagination'=>False]);
     }
 }
