@@ -23,6 +23,20 @@ class Student extends Model
         "updataed_at",
     ];
 
+    public function scopeAllClasses($query)
+    {
+        // $query->select('class')->groupBy('class');
+        $query->select('class')->groupBy('class');
+        //select SUBSTR(class,1,2) from students
+    }
+
+    public function scopeClass($query, $class_prefix)
+    {
+        // dd($class);
+        // $query->where('class','=', $class);
+        $query->where('class', 'like', "$class_prefix%");
+    }
+
     public function sbrecords(){
         return $this->hasMany("App\Models\Sbrecord","sid");
     }
@@ -30,16 +44,5 @@ class Student extends Model
     public function delete(){
         $this->sbrecords()->delete();
         return parent::delete();
-    }
-
-    public function scopeAllNationalities($query)
-    {
-        $query->select('nationality')->groupBy('nationality');
-    }
-
-    public function scopeNationality($query, $choose)
-    {
-        $query->where('nationality', '=', $choose)
-            ->orderBy('nationality');
     }
 }

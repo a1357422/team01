@@ -6,13 +6,13 @@
 
 @section('dormitorysystem_contents')
     <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-        <a href="{{ route('students.create') }} ">新增學生資料</a><br>
-        <form action="{{ url('students/nationality') }}" method='POST'>
-            {!! Form::label('choose','選取國家：') !!}
-            {!! Form::select('choose',$nationalities) !!}
-            <input class="btn-default" type="submit" value="查詢" />
-            @csrf
-        </form>
+        <a href="{{ route('students.create') }} ">新增學生資料</a>
+        <form action="{{ url('students/class') }}" method='POST'>
+            {!! Form::label('class', '選取系別：') !!}
+            {!! Form::select('class', $classes) !!}
+        <input type="submit" value="查詢" />
+        @csrf
+    </form>
     </div>
         <table>
         <tr>

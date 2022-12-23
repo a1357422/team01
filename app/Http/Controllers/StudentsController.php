@@ -12,16 +12,57 @@ class StudentsController extends Controller
 {
     //
     public function index(){
-        // $students = Student::all();
         $students = Student::paginate(10);
-        $nationalities = Student::allNationalities()->get();
-        $data=[];
-        foreach ($nationalities as $nationality)
-        {
-            $data["$nationality->nationality"] = $nationality->nationality;
-        }
+        $classes = Student::allClasses()->get();
 
-        return view("students.index",["students"=>$students,'nationalities'=>$data, 'showPagination'=>true]);
+        $data = [];
+        foreach ($classes as $class)
+        {
+            $data["$class->class"] = $class->class;
+            if($data["$class->class"] == "電子"){
+                $data["$class->class"] = "電子工程系";
+            }
+            else if($data["$class->class"] == "電機"){
+                $data["$class->class"] = "電機工程系";
+            }
+            else if($data["$class->class"] == "化材"){
+                $data["$class->class"] = "化工與材料工程系";
+            }
+            else if($data["$class->class"] == "機械"){
+                $data["$class->class"] = "機械工程系";
+            }
+            else if($data["$class->class"] == "企管"){
+                $data["$class->class"] = "企業管理系";
+            }
+            else if($data["$class->class"] == "資管"){
+                $data["$class->class"] = "資訊管理系";
+            }
+            else if($data["$class->class"] == "國企"){
+                $data["$class->class"] = "國際企業系";
+            }
+            else if($data["$class->class"] == "財金"){
+                $data["$class->class"] = "財務金融系";
+            }
+            else if($data["$class->class"] == "工管"){
+                $data["$class->class"] = "工業管理系";
+            }
+            else if($data["$class->class"] == "應外"){
+                $data["$class->class"] = "應用外語系";
+            }
+            else if($data["$class->class"] == "遊戲"){
+                $data["$class->class"] = "多媒體與遊戲發展科學系";
+            }
+            else if($data["$class->class"] == "觀光"){
+                $data["$class->class"] = "觀光休閒系";
+            }
+            else if($data["$class->class"] == "文創"){
+                $data["$class->class"] = "文化創意與數位媒體設計系";
+            }
+            else{
+                $data["$class->class"] = "資訊網路工程系";
+            }
+        }
+        return view("students.index",["students"=>$students,'classes'=>$data,"showPagination"=>True]);
     }
     
     public function show($id){
@@ -35,6 +76,60 @@ class StudentsController extends Controller
         $student->delete();
 
         return redirect('students');
+    }
+
+    public function class(Request $request)
+    {
+        $students = Student::class($request->input('class'))->get();
+        $classes = Student::allClasses()->get();
+        $data = [];
+        foreach ($classes as $class)
+        {
+            if($data["$class->class"] == "電子"){
+                $data["$class->class"] = "電子工程系";
+            }
+            else if($data["$class->class"] == "電機"){
+                $data["$class->class"] = "電機工程系";
+            }
+            else if($data["$class->class"] == "化材"){
+                $data["$class->class"] = "化工與材料工程系";
+            }
+            else if($data["$class->class"] == "機械"){
+                $data["$class->class"] = "機械工程系";
+            }
+            else if($data["$class->class"] == "企管"){
+                $data["$class->class"] = "企業管理系";
+            }
+            else if($data["$class->class"] == "資管"){
+                $data["$class->class"] = "資訊管理系";
+            }
+            else if($data["$class->class"] == "國企"){
+                $data["$class->class"] = "國際企業系";
+            }
+            else if($data["$class->class"] == "財金"){
+                $data["$class->class"] = "財務金融系";
+            }
+            else if($data["$class->class"] == "工管"){
+                $data["$class->class"] = "工業管理系";
+            }
+            else if($data["$class->class"] == "應外"){
+                $data["$class->class"] = "應用外語系";
+            }
+            else if($data["$class->class"] == "遊戲"){
+                $data["$class->class"] = "多媒體與遊戲發展科學系";
+            }
+            else if($data["$class->class"] == "觀光"){
+                $data["$class->class"] = "觀光休閒系";
+            }
+            else if($data["$class->class"] == "文創"){
+                $data["$class->class"] = "文化創意與數位媒體設計系";
+            }
+            else{
+                $data["$class->class"] = "資訊網路工程系";
+            }
+        }
+
+        return view("students.index",["students"=>$students,'classes'=>$data,"showPagination"=>false]);
     }
 
     public function create(){
@@ -84,17 +179,5 @@ class StudentsController extends Controller
 
         $student->save();
         return redirect('students');
-    }
-
-    public function nationality(Request $request)
-    {
-        $students = Student::nationality($request->input('choose'))->get();
-        $nationalities = Student::allNationalities()->get();
-        $data = [];
-        foreach ($nationalities as $nationality)
-        {
-            $data["$nationality->nationality"] = $nationality->nationality;
-        }
-        return view('students.index', ['students' => $students, 'nationalities'=>$data, 'showPagination'=>False]);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Models\Bed;
 use App\Models\Dormitory;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,27 @@ class BedsController extends Controller
     //
     public function index(){
         $beds = Bed::paginate(10);
-        return view("beds.index",["beds"=>$beds]);
+        $dormitories = Bed::allDormitories()->get();
+        // $dormitories = Bed::allDormitories()->pluck('dormitory.did', 'dormitory.did');
+        // dd($dormitories);
+        $data = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $data["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $data["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $data["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $data["$dormitory->did"] = "涵青館";
+            }
+        }
+
+        return view("beds.index",["beds"=>$beds,'dormitories'=>$data,"showPagination"=>True]);
     }
 
     public function show($id){
@@ -28,6 +48,32 @@ class BedsController extends Controller
         return redirect("beds");
     }
     
+
+    public function dormitory(Request $request)
+    {
+        $beds = Bed::dormit($request->input('did'))->get();
+
+        $dormitories = Bed::allDormitories()->get();
+        $data = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $data["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $data["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $data["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $data["$dormitory->did"] = "涵青館";
+            }
+        }
+
+        return view('beds.index', ['beds' => $beds, 'dormitories'=>$data,"showPagination"=>False]);
+    }
+
     public function create(){
         $dormitories = Dormitory::orderBy('dormitories.id', 'asc')->pluck('dormitories.name', 'dormitories.id');
         return view('beds.create', ['dormitories' => $dormitories]);
