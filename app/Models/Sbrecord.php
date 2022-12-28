@@ -24,6 +24,28 @@ class Sbrecord extends Model
         $query->where("floor_head","=",True);
     }
 
+    public function scopeAllDormits($query)
+    {
+        $query->select('bid');
+        /*  
+            SELECT `sbrecords`.`school_year`,`sbrecords`.`semester`,`students`.name,`beds`.`bedcode`
+            FROM `sbrecords`
+            INNER JOIN `students` ON `sbrecords`.sid=`students`.id
+            INNER JOIN `beds` ON `sbrecords`.id = `beds`.id
+        */
+    }
+
+    public function scopeDormits($query, $did)
+    {
+        /*  
+            SELECT `sbrecords`.`school_year`,`sbrecords`.`semester`,`students`.name,`beds`.`bedcode`
+            FROM `sbrecords`
+            INNER JOIN `students` ON `sbrecords`.sid=`students`.id
+            INNER JOIN `beds` ON `sbrecords`.id = `beds`.id
+            WHERE `beds`.did = 4
+        */
+    }
+
     public function student(){
         return $this->belongsTo("App\Models\Student","sid","id");
     }

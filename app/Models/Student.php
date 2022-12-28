@@ -25,15 +25,11 @@ class Student extends Model
 
     public function scopeAllClasses($query)
     {
-        // $query->select('class')->groupBy('class');
         $query->select('class')->groupBy('class');
-        //select SUBSTR(class,1,2) from students
     }
 
     public function scopeClass($query, $class_prefix)
     {
-        // dd($class);
-        // $query->where('class','=', $class);
         $query->where('class', 'like', "$class_prefix%");
     }
 

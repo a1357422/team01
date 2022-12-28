@@ -11,13 +11,32 @@ use App\Models\Sbrecord;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
 use App\Models\Bed;
+use Illuminate\Http\Request;
 
 class SbrecordsController extends Controller
 {
     //
     public function index(){
         $sbrecords = Sbrecord::paginate(10);
-        return view("sbrecords.index",["sbrecords"=>$sbrecords,"showPagination"=>True]);
+        $dormitories = Bed::allDormitories()->get();
+        
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+        return view("sbrecords.index",["sbrecords"=>$sbrecords,'dormit'=>$tags,"showPagination"=>True]);
     }
 
     public function senior(){
@@ -34,13 +53,20 @@ class SbrecordsController extends Controller
         return view("sbrecords.show",["sbrecord"=>$sbrecord, "rollcalls"=>$rollcalls, "leaves"=>$leaves, "lates"=>$lates]);
     }
 
-
-
     public function destroy($id){
         $sbrecord = Sbrecord::findOrFail($id);
         $sbrecord->delete();
         return redirect("sbrecords");
     }
+
+    public function Dormit(Request $request)
+    {
+        $sbrecords = Student::Dormit($request->input('bid'))->get();
+        $dormitories = Student::allDormit()->get();
+        $tags = [];
+        return view("sbrecords.index",["sbrecords"=>$sbrecords,'dormit'=>$tags,"showPagination"=>false]);
+    }
+
     public function create(){
         $students = Student::orderBy('students.id', 'asc')->pluck('students.name', 'students.id');
         $beds = Bed::orderBy('beds.id', 'asc')->pluck('beds.bedcode', 'beds.id');

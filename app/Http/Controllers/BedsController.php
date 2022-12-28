@@ -15,8 +15,6 @@ class BedsController extends Controller
     public function index(){
         $beds = Bed::paginate(10);
         $dormitories = Bed::allDormitories()->get();
-        // $dormitories = Bed::allDormitories()->pluck('dormitory.did', 'dormitory.did');
-        // dd($dormitories);
         $data = [];
         foreach ($dormitories as $dormitory)
         {
