@@ -62,7 +62,7 @@ class StudentsController extends Controller
                 $tags[$kv] = "資訊網路工程系";
             }
         }
-        return view("students.index",["students"=>$students,'classes'=>$tags,"showPagination"=>True]);
+        return view("students.index",["students"=>$students,'classes'=>$tags,"showPagination"=>True,'select'=>1]);
     }
     
     public function show($id){
@@ -130,7 +130,7 @@ class StudentsController extends Controller
                 $tags[$kv] = "資訊網路工程系";
             }
         }
-        return view("students.index",["students"=>$students,'classes'=>$tags,"showPagination"=>false]);
+        return view("students.index",["students"=>$students,'classes'=>$tags,"showPagination"=>false,'select'=>$request->input('class')]);
     }
 
     public function create(){

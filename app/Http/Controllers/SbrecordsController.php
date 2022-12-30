@@ -36,12 +36,31 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("sbrecords.index",["sbrecords"=>$sbrecords,'dormit'=>$tags,"showPagination"=>True]);
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormit'=>$tags,"showPagination"=>True,'select' => 1]);
     }
 
     public function senior(){
         $sbrecords = Sbrecord::senior()->get();
-        return view("sbrecords.index",["sbrecords"=>$sbrecords,"showPagination"=>False]);
+        $dormitories = Bed::allDormitories()->get();
+        
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormit'=>$tags,"showPagination"=>False,'select' => 1]);
     }
 
     public function show($id){
@@ -61,10 +80,25 @@ class SbrecordsController extends Controller
 
     public function Dormit(Request $request)
     {
-        $sbrecords = Student::Dormit($request->input('bid'))->get();
-        $dormitories = Student::allDormit()->get();
+        $sbrecords = Sbrecord::Dormit($request->input('dormit'))->get();
+        $dormitories = Bed::allDormitories()->get();
         $tags = [];
-        return view("sbrecords.index",["sbrecords"=>$sbrecords,'dormit'=>$tags,"showPagination"=>false]);
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+        return view("sbrecords.index",['display'=>2,"sbrecords"=>$sbrecords,'dormit'=>$tags,"showPagination"=>false,'select' => $request->input('dormit')]);
     }
 
     public function create(){

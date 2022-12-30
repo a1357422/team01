@@ -7,13 +7,34 @@ use App\Models\Rollcall;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sbrecord;
 use App\Http\Requests\CreateRollcallRequest;
+use App\Models\Bed;
+use Illuminate\Http\Request;
 
 class RollcallsController extends Controller
 {
     //
     public function index(){
         $rollcalls = Rollcall::paginate(10);
-        return view("rollcalls.index",["rollcalls"=>$rollcalls]);
+        $dormitories = Bed::allDormitories()->get();
+        
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+
+        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormit'=>$tags,"showPagination"=>True,'select'=>1]);
     }
 
     public function show($id){
@@ -26,8 +47,32 @@ class RollcallsController extends Controller
         $rollcall->delete();
         return redirect("rollcalls");
     }
+
+    public function Dormit(Request $request)
+    {
+        $rollcalls = Rollcall::Dormit($request->input('dormit'))->get();
+        $dormitories = Bed::allDormitories()->get();
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+        return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormit'=>$tags,"showPagination"=>false,'select'=>$request->input('dormit')]);
+    }
+
     public function create(){
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');
         return view("rollcalls.create",['sbrecords'=>$sbrecords]);
     }
     public function store(CreateRollcallRequest $request){

@@ -8,9 +8,9 @@
     <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
         <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
         <a href="{{ route('sbrecords.senior') }} ">樓長</a>
-        <form action="{{ url('students/class') }}" method='POST'>
+        <form action="{{ url('sbrecords/dormitory') }}" method='POST'>
             {!! Form::label('dormit', '選取宿舍別：') !!}
-            {!! Form::select('dormit', $dormit) !!}
+            {!! Form::select('dormit', $dormit,$select) !!}
         <input type="submit" value="查詢" />
         @csrf
         </form>
@@ -28,6 +28,7 @@
             <th>操作</th>
             <th>操作</th>
         </tr>
+        @if($display == 1)
         @foreach($sbrecords as $sbrecord)
         <tr>
             <td align="center" valign="center">{{ $sbrecord->id }}</td>
@@ -43,7 +44,6 @@
             <td align="center" valign="center">{{ $sbrecord->responsible_floor }}</td>
             <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->id]) }}">詳細資料</a></font></td>
             <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
-            <!-- <td><font color=red><a href="{{ route('sbrecords.destroy',['id'=>$sbrecord->id]) }}">刪除資料</a></font></td> -->
             <td>
                 <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
                     <input class="btn btn-default" type="submit" value="刪除" />
@@ -53,6 +53,32 @@
             </td>
         </tr>
         @endforeach
+        @else
+        @foreach($sbrecords as $sbrecord)
+        <tr>
+            <td align="center" valign="center">{{ $sbrecord->id }}</td>
+            <td>{{ $sbrecord->school_year }}</td>
+            <td align="center" valign="center">{{ $sbrecord->semester }}</td>
+            <td>{{ $sbrecord->name }}</td>
+            <td>{{ $sbrecord->bedcode }}</td>
+            @if ($sbrecord->floor_head === 1)
+            <td align="center" valign="center"><font color=green>{{ $sbrecord->floor_head = "V" }}</font></div></td>
+            @else 
+            <td align="center" valign="center"><font color=red>{{ $sbrecord->floor_head = "X" }} </font></td>
+            @endif
+            <td align="center" valign="center">{{ $sbrecord->responsible_floor }}</td>
+            <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->id]) }}">詳細資料</a></font></td>
+            <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
+            <td>
+                <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
+                    <input class="btn btn-default" type="submit" value="刪除" />
+                    @method('delete')
+                    @csrf
+                </form>
+            </td>
+        </tr>
+        @endforeach
+        @endif
     </table>
     @if($showPagination)
         {{$sbrecords->links()}}

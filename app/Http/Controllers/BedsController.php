@@ -32,7 +32,7 @@ class BedsController extends Controller
             }
         }
 
-        return view("beds.index",["beds"=>$beds,'dormitories'=>$data,"showPagination"=>True]);
+        return view("beds.index",["beds"=>$beds,'dormitories'=>$data,"showPagination"=>True,'select'=>1]);
     }
 
     public function show($id){
@@ -69,7 +69,7 @@ class BedsController extends Controller
             }
         }
 
-        return view('beds.index', ['beds' => $beds, 'dormitories'=>$data,"showPagination"=>False]);
+        return view('beds.index', ['beds' => $beds, 'dormitories'=>$data,"showPagination"=>False,'select'=>$request->input('did')]);
     }
 
     public function create(){

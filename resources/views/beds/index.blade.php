@@ -9,7 +9,7 @@
         <a href="{{ route('beds.create') }} ">新增床位資料</a>
         <form action="{{ url('beds/dormitory') }}" method='POST'>
             {!! Form::label('did', '選取宿舍：') !!}
-            {!! Form::select('did', $dormitories) !!}
+            {!! Form::select('did', $dormitories,$select) !!}
             <input type="submit" value="查詢" />
             @csrf
         </form>

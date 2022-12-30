@@ -70,6 +70,7 @@ Route::delete('sbrecords/delete/{id}',[SbrecordsController::class,'destroy'])->w
 Route::post('sbrecords/store',[SbrecordsController::class,'store'])->name('sbrecords.store');
 Route::get('sbrecords/{id}/edit',[SbrecordsController::class,'edit'])->where("id","[0-9]+")->name('sbrecords.edit');
 Route::patch('sbrecords/update/{id}',[SbrecordsController::class,'update'])->where("id","[0-9]+")->name('sbrecords.update');
+Route::post('sbrecords/dormitory', [SbrecordsController::class,'dormit'])->name('sbrecords.dormitory');
 
 Route::get('rollcalls',[RollcallsController::class,'index'])->name('rollcalls.index');
 Route::get('rollcalls/create',[RollcallsController::class,'create'])->name('rollcalls.create');
@@ -78,6 +79,8 @@ Route::delete('rollcalls/delete/{id}',[RollcallsController::class,'destroy'])->w
 Route::post('rollcalls/store',[RollcallsController::class,'store'])->name('rollcalls.store');
 Route::get('rollcalls/{id}/edit',[RollcallsController::class,'edit'])->where("id","[0-9]+")->name('rollcalls.edit');
 Route::patch('rollcalls/update/{id}',[RollcallsController::class,'update'])->where("id","[0-9]+")->name('rollcalls.update');
+Route::post('rollcalls/dormitory', [RollcallsController::class,'dormit'])->name('rollcalls.dormitory');
+
 
 Route::get('lates',[LatesController::class,'index'])->name('lates.index');
 Route::get('lates/create',[LatesController::class,'create'])->name('lates.create');
