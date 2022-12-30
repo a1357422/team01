@@ -24,7 +24,7 @@ class Sbrecord extends Model
         $query->where("floor_head","=",True);
     }
 
-    public function scopeDormit($query, $did)
+    public function scopeDormitory($query, $did)
     {
         $query->join('students','sbrecords.sid','=','students.id')
         ->join('beds','sbrecords.bid','=','beds.id')

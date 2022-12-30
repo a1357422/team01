@@ -8,8 +8,8 @@
     <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
         <a href="{{ route('rollcalls.create') }} ">新增點名資料</a>
         <form action="{{ url('rollcalls/dormitory') }}" method='POST'>
-            {!! Form::label('dormit', '選取宿舍別：') !!}
-            {!! Form::select('dormit', $dormit,$select) !!}
+            {!! Form::label('dormitory', '選取宿舍別：') !!}
+            {!! Form::select('dormitory', $dormitories,$select) !!}
         <input type="submit" value="查詢" />
         @csrf
         </form>

@@ -9,20 +9,7 @@ use App\Http\Controllers\SbrecordsController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\FeaturesController;
 
-use App\Models\Sbrecord;
-use App\Models\Student;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 //Homepage
 Route::get('/', function () {
@@ -43,6 +30,7 @@ Route::post('students/store',[StudentsController::class,'store'])->name('student
 Route::get('students/{id}/edit',[StudentsController::class,'edit'])->where("id","[0-9]+")->name('students.edit');
 //修改一筆學生資料
 Route::patch('students/update/{id}',[StudentsController::class,'update'])->where("id","[0-9]+")->name('students.update');
+//顯示下拉式選單所選系別的學生資料
 Route::post('students/class', [StudentsController::class,'class'])->name('students.class');
 
 Route::get('dormitories',[DormitoriesController::class,'index'])->name('dormitories.index');
@@ -70,7 +58,7 @@ Route::delete('sbrecords/delete/{id}',[SbrecordsController::class,'destroy'])->w
 Route::post('sbrecords/store',[SbrecordsController::class,'store'])->name('sbrecords.store');
 Route::get('sbrecords/{id}/edit',[SbrecordsController::class,'edit'])->where("id","[0-9]+")->name('sbrecords.edit');
 Route::patch('sbrecords/update/{id}',[SbrecordsController::class,'update'])->where("id","[0-9]+")->name('sbrecords.update');
-Route::post('sbrecords/dormitory', [SbrecordsController::class,'dormit'])->name('sbrecords.dormitory');
+Route::post('sbrecords/dormitory', [SbrecordsController::class,'dormitory'])->name('sbrecords.dormitory');
 
 Route::get('rollcalls',[RollcallsController::class,'index'])->name('rollcalls.index');
 Route::get('rollcalls/create',[RollcallsController::class,'create'])->name('rollcalls.create');
@@ -79,7 +67,7 @@ Route::delete('rollcalls/delete/{id}',[RollcallsController::class,'destroy'])->w
 Route::post('rollcalls/store',[RollcallsController::class,'store'])->name('rollcalls.store');
 Route::get('rollcalls/{id}/edit',[RollcallsController::class,'edit'])->where("id","[0-9]+")->name('rollcalls.edit');
 Route::patch('rollcalls/update/{id}',[RollcallsController::class,'update'])->where("id","[0-9]+")->name('rollcalls.update');
-Route::post('rollcalls/dormitory', [RollcallsController::class,'dormit'])->name('rollcalls.dormitory');
+Route::post('rollcalls/dormitory', [RollcallsController::class,'dormitory'])->name('rollcalls.dormitory');
 
 
 Route::get('lates',[LatesController::class,'index'])->name('lates.index');
@@ -90,6 +78,7 @@ Route::delete('lates/delete/{id}',[LatesController::class,'destroy'])->where("id
 Route::post('lates/store',[LatesController::class,'store'])->name('lates.store');
 Route::get('lates/{id}/edit',[LatesController::class,'edit'])->where("id","[0-9]+")->name('lates.edit');
 Route::patch('lates/update/{id}',[LatesController::class,'update'])->where("id","[0-9]+")->name('lates.update');
+Route::post('lates/dormitory', [LatesController::class,'dormitory'])->name('lates.dormitory');
 
 Route::get('leaves',[LeavesController::class,'index'])->name('leaves.index');
 Route::get('leaves/create',[LeavesController::class,'create'])->name('leaves.create');
@@ -99,6 +88,7 @@ Route::delete('leaves/delete/{id}',[LeavesController::class,'destroy'])->where("
 Route::post('leaves/store',[LeavesController::class,'store'])->name('leaves.store');
 Route::get('leaves/{id}/edit',[LeavesController::class,'edit'])->where("id","[0-9]+")->name('leaves.edit');
 Route::patch('leaves/update/{id}',[LeavesController::class,'update'])->where("id","[0-9]+")->name('leaves.update');
+Route::post('leaves/dormitory', [LeavesController::class,'dormitory'])->name('leaves.dormitory');
 
 Route::get('features',[FeaturesController::class,'index'])->name('features.index');
 Route::get('features/create',[FeaturesController::class,'create'])->name('features.create');
@@ -107,3 +97,4 @@ Route::delete('features/delete/{id}',[FeaturesController::class,'destroy'])->whe
 Route::post('features/store',[FeaturesController::class,'store'])->name('features.store');
 Route::get('features/{id}/edit',[FeaturesController::class,'edit'])->where("id","[0-9]+")->name('features.edit');
 Route::patch('features/update/{id}',[FeaturesController::class,'update'])->where("id","[0-9]+")->name('features.update');
+Route::post('features/dormitory', [FeaturesController::class,'dormitory'])->name('features.dormitory');

@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
 // use Request;
-
-use App\Http\Requests\CreateBedRequest;
 use App\Http\Requests\CreateSbrecordRequest;
 use App\Models\Sbrecord;
 use Illuminate\Support\Facades\DB;
@@ -36,7 +33,7 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormit'=>$tags,"showPagination"=>True,'select' => 1]);
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,'select' => 1]);
     }
 
     public function senior(){
@@ -60,7 +57,7 @@ class SbrecordsController extends Controller
             }
         }
 
-        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormit'=>$tags,"showPagination"=>False,'select' => 1]);
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>False,'select' => 1]);
     }
 
     public function show($id){
@@ -78,9 +75,9 @@ class SbrecordsController extends Controller
         return redirect("sbrecords");
     }
 
-    public function Dormit(Request $request)
+    public function dormitory(Request $request)
     {
-        $sbrecords = Sbrecord::Dormit($request->input('dormit'))->get();
+        $sbrecords = Sbrecord::Dormitory($request->input('dormitory'))->get();
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
         foreach ($dormitories as $dormitory)
@@ -98,7 +95,7 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("sbrecords.index",['display'=>2,"sbrecords"=>$sbrecords,'dormit'=>$tags,"showPagination"=>false,'select' => $request->input('dormit')]);
+        return view("sbrecords.index",['display'=>2,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>false,'select' => $request->input('dormitory')]);
     }
 
     public function create(){

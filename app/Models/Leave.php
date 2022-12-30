@@ -20,6 +20,14 @@ class Leave extends Model
         "updataed_at",
     ];
 
+    public function scopeDormitory($query, $did)
+    {
+        $query->join('sbrecords','leaves.sbid','=','sbrecords.id')
+        ->join('students','sbrecords.sid','=','students.id')
+        ->join('beds','sbrecords.bid','=','beds.id')
+        ->select('leaves.id','beds.bedcode','leaves.start','leaves.end','leaves.reason','leaves.floorhead_check','leaves.housemaster_check')
+        ->where('beds.did','=',"$did");
+    }
 
     public function sbrecord(){
         return $this->belongsTo("App\Models\Sbrecord","sbid","id");

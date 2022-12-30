@@ -34,7 +34,7 @@ class RollcallsController extends Controller
             }
         }
 
-        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormit'=>$tags,"showPagination"=>True,'select'=>1]);
+        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
     }
 
     public function show($id){
@@ -48,9 +48,9 @@ class RollcallsController extends Controller
         return redirect("rollcalls");
     }
 
-    public function Dormit(Request $request)
+    public function dormitory(Request $request)
     {
-        $rollcalls = Rollcall::Dormit($request->input('dormit'))->get();
+        $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->get();
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
         foreach ($dormitories as $dormitory)
@@ -68,7 +68,7 @@ class RollcallsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormit'=>$tags,"showPagination"=>false,'select'=>$request->input('dormit')]);
+        return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory')]);
     }
 
     public function create(){

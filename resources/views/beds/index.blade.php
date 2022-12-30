@@ -8,7 +8,7 @@
     <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
         <a href="{{ route('beds.create') }} ">新增床位資料</a>
         <form action="{{ url('beds/dormitory') }}" method='POST'>
-            {!! Form::label('did', '選取宿舍：') !!}
+            {!! Form::label('did', '選取宿舍別：') !!}
             {!! Form::select('did', $dormitories,$select) !!}
             <input type="submit" value="查詢" />
             @csrf

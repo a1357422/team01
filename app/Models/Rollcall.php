@@ -19,7 +19,7 @@ class Rollcall extends Model
         "updataed_at",
     ];
 
-    public function scopeDormit($query, $did)
+    public function scopeDormitory($query, $did)
     {
         $query->join('sbrecords','rollcalls.sbid','=','sbrecords.id')
         ->join('students','sbrecords.sid','=','students.id')

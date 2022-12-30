@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-// use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use App\Models\Feature;
 use App\Models\Sbrecord;
+use App\Models\Bed;
 // use Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CreateFeatureRequest;
@@ -13,12 +14,54 @@ class FeaturesController extends Controller
 {
     public function index(){
         $features = Feature::paginate(10);
-        return view("features.index",["features"=>$features]);
+        $dormitories = Bed::allDormitories()->get();
+        
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+
+        return view("features.index",['display'=>1,"features"=>$features,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
     }
 
     public function show($id){
         $feature = Feature::findOrFail($id);
         return view("features.show",["feature"=>$feature]);
+    }
+
+    public function dormitory(Request $request)
+    {
+        $features = Feature::Dormitory($request->input('dormitory'))->get();
+        $dormitories = Bed::allDormitories()->get();
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+        return view("features.index",['display'=>2,"features"=>$features,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory')]);
     }
 
     public function destroy($id){

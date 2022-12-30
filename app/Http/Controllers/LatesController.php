@@ -7,19 +7,61 @@ use App\Models\Sbrecord;
 // use Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CreateLateRequest;
-use function PHPSTORM_META\type;
+use App\Models\Bed;
+use Illuminate\Http\Request;
 
 class LatesController extends Controller
 {
     //
     public function index(){
         $lates = Late::paginate(10);
-        return view("lates.index",["lates"=>$lates]);
+        $dormitories = Bed::allDormitories()->get();
+        
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+
+        return view("lates.index",['display'=>1,"lates"=>$lates,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
     }
     public function show($id){
         $late = Late::findOrFail($id);
 
         return view('lates.show', ['late' => $late]);
+    }
+    public function dormitory(Request $request)
+    {
+        $lates = Late::Dormitory($request->input('dormitory'))->get();
+        $dormitories = Bed::allDormitories()->get();
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+        return view("lates.index",['display'=>2,"lates"=>$lates,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory')]);
     }
     public function examine($id){
         $late = Late::findOrFail($id);

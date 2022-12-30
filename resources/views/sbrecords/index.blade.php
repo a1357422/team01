@@ -9,8 +9,8 @@
         <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
         <a href="{{ route('sbrecords.senior') }} ">樓長</a>
         <form action="{{ url('sbrecords/dormitory') }}" method='POST'>
-            {!! Form::label('dormit', '選取宿舍別：') !!}
-            {!! Form::select('dormit', $dormit,$select) !!}
+            {!! Form::label('dormitory', '選取宿舍別：') !!}
+            {!! Form::select('dormitory', $dormitories,$select) !!}
         <input type="submit" value="查詢" />
         @csrf
         </form>
