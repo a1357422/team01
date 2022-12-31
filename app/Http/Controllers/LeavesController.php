@@ -15,6 +15,7 @@ class LeavesController extends Controller
     //
     public function index(){
         $leaves = Leave::paginate(10);
+        $all_leaves = Leave::get();
         $dormitories = Bed::allDormitories()->get();
         
         $tags = [];
@@ -34,7 +35,7 @@ class LeavesController extends Controller
             }
         }
 
-        return view("leaves.index",['display'=>1,"leaves"=>$leaves,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
+        return view("leaves.index",['display'=>1,"leaves"=>$leaves,'all_leaves'=>$all_leaves,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
     }
 
     public function show($id){

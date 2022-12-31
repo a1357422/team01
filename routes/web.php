@@ -8,13 +8,23 @@ use App\Http\Controllers\RollcallsController;
 use App\Http\Controllers\SbrecordsController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\FeaturesController;
-
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 //Homepage
+// Route::get('/', function () {
+//     return redirect('students');
+// });
+
 Route::get('/', function () {
-    return redirect('students');
+    return view('welcome');
 });
+
+// Route::get('/', function () {
+//     return redirect('login');
+// });
 
 //顯示所有學生資料
 Route::get('students',[StudentsController::class,'index'])->name('students.index');
@@ -98,3 +108,9 @@ Route::post('features/store',[FeaturesController::class,'store'])->name('feature
 Route::get('features/{id}/edit',[FeaturesController::class,'edit'])->where("id","[0-9]+")->name('features.edit');
 Route::patch('features/update/{id}',[FeaturesController::class,'update'])->where("id","[0-9]+")->name('features.update');
 Route::post('features/dormitory', [FeaturesController::class,'dormitory'])->name('features.dormitory');
+
+Route::get('users',[UsersController::class,'index'])->name('users.index');
+
+
+Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

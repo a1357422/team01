@@ -15,6 +15,7 @@ class LatesController extends Controller
     //
     public function index(){
         $lates = Late::paginate(10);
+        $all_lates = Late::get();
         $dormitories = Bed::allDormitories()->get();
         
         $tags = [];
@@ -34,7 +35,7 @@ class LatesController extends Controller
             }
         }
 
-        return view("lates.index",['display'=>1,"lates"=>$lates,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
+        return view("lates.index",['display'=>1,"lates"=>$lates,"all_lates"=>$all_lates,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
     }
     public function show($id){
         $late = Late::findOrFail($id);

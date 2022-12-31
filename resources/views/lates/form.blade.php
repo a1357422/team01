@@ -1,8 +1,4 @@
 <div>
-    {!! Form::label('sbid','學生床位：')!!}
-    {!! Form::select('sbid',$sbrecords)!!}
-</div>
-<div>
     {!! Form::label('start','長期晚歸日起：')!!}
     {!! Form::date('start',null)!!}
 </div>
