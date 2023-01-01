@@ -15,13 +15,13 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('role')->default(User::ROLE_USER); // 加入角色欄位
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->id()->comment("編號");
+            $table->string('name')->comment("使用者姓名");
+            $table->string('role')->default(User::ROLE_USER)->comment("權限"); // 加入角色欄位
+            $table->string('email')->unique()->comment("電子信箱");
+            $table->timestamp('email_verified_at')->nullable()->comment("信箱驗證完成時間");
+            $table->string('password')->comment("密碼");
+            $table->rememberToken()->comment("令牌");
             $table->timestamps();
         });
     }

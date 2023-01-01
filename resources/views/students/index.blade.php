@@ -5,19 +5,18 @@
 @section('dormitorysystem_theme', '學生總資料管理')
 
 @section('dormitorysystem_contents')
-    @if (Route::has('login'))
-        @auth
-            <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-                <h3><a href = "/">回主頁</a></h3>
-                <a href="{{ route('students.create') }} ">新增學生資料</a>
-                <form action="{{ url('students/class') }}" method='POST'>
-                    {!! Form::label('class', '選取系別：') !!}
-                    {!! Form::select('class', $classes,$select) !!}
-                    <input type="submit" value="查詢" />
-                    @csrf
-                </form>
-            </div>
-            <table>
+    @canany(['superadmin','admin'])
+        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
+            <h3><a href = "/">回主頁</a></h3>
+            <a href="{{ route('students.create') }} ">新增學生資料</a>
+            <form action="{{ url('students/class') }}" method='POST'>
+                {!! Form::label('class', '選取系別：') !!}
+                {!! Form::select('class', $classes,$select) !!}
+                <input type="submit" value="查詢" />
+                @csrf
+            </form>
+        </div>
+        <table>
             <tr>
                 <th>編號</th>
                 <th>學號</th>
@@ -46,13 +45,14 @@
                     </td>
                 </tr>
             @endforeach
-            </table>
-            @if($showPagination)
-                {{$students->links()}}
-            @endif
-    @else
-        <h1><font color=red>請登入系統</font></h1>
-        @endauth
-        
-    @endif
+        </table>
+        @if($showPagination)
+            {{$students->links()}}
+        @endif
+    @else <!--若沒登入或是非系統後台管理者將導回主頁-->
+        @php
+            header("Location: " . URL::to('/'), true, 302);
+            exit();
+        @endphp
+    @endcanany
 @endsection

@@ -26,17 +26,32 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // 系統管理者 Gate 規則
+        // 系統後台管理 Gate 規則
+        Gate::define('superadmin', function ($user) {
+            return $user->role === User::ROLE_SUPERADMIN;
+        });
+
+        // 行政 Gate 規則
         Gate::define('admin', function ($user) {
             return $user->role === User::ROLE_ADMIN;
         });
 
-        // 一般管理者 Gate 規則
-        Gate::define('manager', function ($user) {
-            return $user->role === User::ROLE_MANAGER;
+        // 行政 Gate 規則
+        Gate::define('housemaster', function ($user) {
+            return $user->role === User::ROLE_HOUSEMASTER;
         });
 
-        // 一般使用者 Gate 規則
+        // 總樓長 Gate 規則
+        Gate::define('chief', function ($user) {
+            return $user->role === User::ROLE_CHIEF;
+        });
+
+        // 樓長 Gate 規則
+        Gate::define('floorhead', function ($user) {
+            return $user->role === User::ROLE_FLOORHEAD;
+        });
+
+        // 住宿生 Gate 規則
         Gate::define('user', function ($user) {
             return $user->role === User::ROLE_USER;
         });

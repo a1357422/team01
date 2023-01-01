@@ -24,6 +24,14 @@ class Sbrecord extends Model
         $query->where("floor_head","=",True);
     }
 
+    public function scopeUser($query, $user)
+    {
+        $query->join('students','sbrecords.sid','=','students.id')
+        ->join('users','students.name','=','users.name')
+        ->select('sbrecords.id')
+        ->where('students.name','=',"$user");
+    }
+
     public function scopeDormitory($query, $did)
     {
         $query->join('students','sbrecords.sid','=','students.id')

@@ -74,7 +74,7 @@ class BedsController extends Controller
 
     public function create(){
         $dormitories = Dormitory::orderBy('dormitories.id', 'asc')->pluck('dormitories.name', 'dormitories.id');
-        return view('beds.create', ['dormitories' => $dormitories]);
+        return view('beds.create', ['dormitories' => $dormitories,'selectFloor'=>"1F", 'selectRoomType'=>"三人房"]);
     }
 
     public function store(CreateBedRequest $request){

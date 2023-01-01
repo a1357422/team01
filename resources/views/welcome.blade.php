@@ -3,28 +3,73 @@
 @section('title', '宿舍管理系統')
 
 @section('dormitorysystem_contents')
-    @if (Route::has('login'))
+    @if (Route::has('login')) <!--登入-->
         @auth
-        <h3><u>{{Auth::user()->name}}</u> 您好</h3>
-        @can('admin')
-        <ui>
-            <li><a href = "/students">學生系統</a></li>
-            <li><a href = "/beds">床位系統</a></li>
-            <li><a href = "/dormitories">宿舍系統</a></li>
-            <li><a href = "/sbrecords">學生床位系統</a></li>
-            <li><a href = "/rollcalls">點名系統</a></li>
-            <li><a href = "/lates">晚歸系統</a></li>
-            <li><a href = "/leaves">外宿系統</a></li>
-            <li><a href = "/features">照片系統</a></li>
-        </ui>
-        
-        @else
-        <ui>
-        <li><a href = "/lates">晚歸系統</a></li>
-        <li><a href = "/leaves">外宿系統</a></li>
-        </ui>
+            @if(auth()->user()->role == "superadmin")
+            <h3>系統後台管理員 <u>{{Auth::user()->name}}</u> 您好 </h3>
+            @elseif(auth()->user()->role == "housemaster")
+            <h3>宿舍輔導員 <u>{{Auth::user()->name}}</u> 您好 </h3>
+            @elseif(auth()->user()->role == "admin")
+            <h3>宿舍行政 <u>{{Auth::user()->name}}</u> 您好 </h3>
+            @elseif(auth()->user()->role == "chief")
+            <h3>總樓長 <u>{{Auth::user()->name}}</u> 您好 </h3>
+            @elseif(auth()->user()->role == "floorhead")
+            <h3>樓長 <u>{{Auth::user()->name}}</u> 您好 </h3>
+            @else
+            <h3><u>{{Auth::user()->name}}</u> 您好 </h3>
+            @endif
+
+        @canany(['chief','floorhead']) <!--總樓長、樓長-->
+            <ui>
+                <li><a href = "/sbrecords">學生床位系統</a></li>
+                <li><a href = "/rollcalls">點名系統</a></li>
+                <li><a href = "/lates">晚歸系統</a></li>
+                <li><a href = "/leaves">外宿系統</a></li>
+            </ui>
+        @endcanany
+        @can('superadmin') <!--系統後台管理員-->
+            <ui>
+                <li><a href = "/users">後臺管理系統</a></li>
+                <li><a href = "/students">學生系統</a></li>
+                <li><a href = "/beds">床位系統</a></li>
+                <li><a href = "/dormitories">宿舍系統</a></li>
+                <li><a href = "/sbrecords">學生床位系統</a></li>
+                <li><a href = "/rollcalls">點名系統</a></li>
+                <li><a href = "/lates">晚歸系統</a></li>
+                <li><a href = "/leaves">外宿系統</a></li>
+                <li><a href = "/features">照片系統</a></li>
+            </ui>
+        @elsecan('admin') <!--宿舍行政-->
+            <ui>
+                <li><a href = "/students">學生系統</a></li>
+                <li><a href = "/beds">床位系統</a></li>
+                <li><a href = "/dormitories">宿舍系統</a></li>
+                <li><a href = "/sbrecords">學生床位系統</a></li>
+                <li><a href = "/rollcalls">點名系統</a></li>
+                <li><a href = "/lates">晚歸系統</a></li>
+                <li><a href = "/leaves">外宿系統</a></li>
+                <li><a href = "/features">照片系統</a></li>
+            </ui>
+        @elsecan('housemaster') <!--宿舍輔導員-->
+            <ui>
+                <li><a href = "/sbrecords">學生床位系統</a></li>
+                <li><a href = "/lates">晚歸系統</a></li>
+                <li><a href = "/leaves">外宿系統</a></li>
+            </ui>
+        @elsecan('user') <!--住宿生-->
+            <ui>
+                <li><a href = "/lates">晚歸系統</a></li>
+                <li><a href = "/leaves">外宿系統</a></li>
+            </ui>
         @endcan
-        @else
+        <!--登出按鈕-->
+        <li><a href="{{ route('logout') }}" 
+                            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">登出</li></a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+    @else <!--登入介面-->
         <div class="container">
             <div class="row justify-content-center">
                 <div>

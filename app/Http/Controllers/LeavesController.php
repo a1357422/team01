@@ -9,6 +9,7 @@ use App\Models\Sbrecord;
 use App\Models\Bed;
 use App\Http\Requests\CreateLeaveRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LeavesController extends Controller
 {
@@ -83,7 +84,10 @@ class LeavesController extends Controller
         return view("leaves.create",["sbrecords"=>$sbrecords]);
     }
     public function store(CreateLeaveRequest $request){
-        $sbid = $request->input('sbid');
+        $user_sbids = Sbrecord::User(Auth::user()->name)->get();
+        foreach($user_sbids as $user_sbid){
+            $sbid = $user_sbid->id;
+        }
         $start = $request->input('start');
         $end = $request->input('end');
         $reason = $request->input('reason');
@@ -99,13 +103,11 @@ class LeavesController extends Controller
     public function edit($id){
         $leave = Leave::findOrFail($id);
         $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
-        $selectSbid = $leave->sbid;
-        return view('leaves.edit',['leave'=>$leave,'sbrecords'=>$sbrecords,'selectSbid'=>$selectSbid]);
+        return view('leaves.edit',['leave'=>$leave,'sbrecords'=>$sbrecords]);
     }
     public function update($id,CreateLeaveRequest $request){
         $leave = Leave::findOrFail($id);
 
-        $leave->sbid = $request->input('sbid');
         $leave->start = $request->input('start');
         $leave->end = $request->input('end');
         $leave->reason = $request->input('reason');

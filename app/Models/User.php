@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var array<int, string>
      */
 
-    const ROLE_ADMIN = 'admin';
-    const ROLE_MANAGER = 'manager';
-    const ROLE_USER = 'user';
+    const ROLE_SUPERADMIN = 'superadmin'; //系統後台管理員
+    const ROLE_ADMIN = 'admin'; //宿舍行政
+    const ROLE_HOUSEMASTER = 'housemaster'; //宿舍輔導員
+    const ROLE_CHIEF = 'chief'; //總樓長
+    const ROLE_FLOORHEAD = 'floorhead'; //樓長
+    const ROLE_USER = 'user'; //住宿生
 
     protected $fillable = [
         'name',
@@ -47,4 +50,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeAllRoles($query)
+    {
+        $query->select('role')->groupBy('role');
+    }
 }

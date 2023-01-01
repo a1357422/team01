@@ -8,7 +8,6 @@ use App\Http\Controllers\RollcallsController;
 use App\Http\Controllers\SbrecordsController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\FeaturesController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -110,6 +109,9 @@ Route::patch('features/update/{id}',[FeaturesController::class,'update'])->where
 Route::post('features/dormitory', [FeaturesController::class,'dormitory'])->name('features.dormitory');
 
 Route::get('users',[UsersController::class,'index'])->name('users.index');
+Route::get('users/{id}/edit',[UsersController::class,'edit'])->where("id","[0-9]+")->name('users.edit');
+Route::patch('users/update/{id}',[UsersController::class,'update'])->where("id","[0-9]+")->name('users.update');
+
 
 
 Auth::routes();

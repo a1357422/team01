@@ -7,6 +7,8 @@ use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 //use Request;
 use App\Http\Requests\CreateStudentRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class StudentsController extends Controller
 {
@@ -158,6 +160,13 @@ class StudentsController extends Controller
             'guardian' => $guardian,
             'salutation' => $salutation,
             'remark' => $remark,
+        ]);
+        // 新增學生資料時順便建立帳號
+        $password = Hash::make($number);
+        $user = User::create([
+            'name' => $name,
+            'email' => "$number@gm.lhu.edu.tw",
+            'password' => $password
         ]);
         return redirect("students");
     }

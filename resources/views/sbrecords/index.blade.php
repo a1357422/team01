@@ -5,33 +5,32 @@
 @section('dormitorysystem_theme','學生床位總資料管理')
 
 @section('dormitorysystem_contents')
-    @if (Route::has('login'))
-        @auth
-            <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-                <h3><a href = "/">回主頁</a></h3>
-                <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
-                <a href="{{ route('sbrecords.senior') }} ">樓長</a>
-                <form action="{{ url('sbrecords/dormitory') }}" method='POST'>
-                    {!! Form::label('dormitory', '選取宿舍別：') !!}
-                    {!! Form::select('dormitory', $dormitories,$select) !!}
-                <input type="submit" value="查詢" />
-                @csrf
-                </form>
-            </div>
-                <table>
-                <tr>
-                    <th>編號</th>
-                    <th>學年</th>
-                    <th>學期</th>
-                    <th>學生姓名</th>
-                    <th>床位</th>
-                    <th>樓長</th>
-                    <th>負責的樓層</th>
-                    <th>操作</th>
-                    <th>操作</th>
-                    <th>操作</th>
-                </tr>
-                @if($display == 1)
+    @cannot('user')
+        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
+            <h3><a href = "/">回主頁</a></h3>
+            <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
+            <a href="{{ route('sbrecords.senior') }} ">樓長</a>
+            <form action="{{ url('sbrecords/dormitory') }}" method='POST'>
+                {!! Form::label('dormitory', '選取宿舍別：') !!}
+                {!! Form::select('dormitory', $dormitories,$select) !!}
+            <input type="submit" value="查詢" />
+            @csrf
+            </form>
+        </div>
+        <table>
+            <tr>
+                <th>編號</th>
+                <th>學年</th>
+                <th>學期</th>
+                <th>學生姓名</th>
+                <th>床位</th>
+                <th>樓長</th>
+                <th>負責的樓層</th>
+                <th>操作</th>
+                <th>操作</th>
+                <th>操作</th>
+            </tr>
+            @if($display == 1)
                 @foreach($sbrecords as $sbrecord)
                 <tr>
                     <td align="center" valign="center">{{ $sbrecord->id }}</td>
@@ -56,7 +55,7 @@
                     </td>
                 </tr>
                 @endforeach
-                @else
+            @else
                 @foreach($sbrecords as $sbrecord)
                 <tr>
                     <td align="center" valign="center">{{ $sbrecord->id }}</td>
@@ -81,14 +80,16 @@
                     </td>
                 </tr>
                 @endforeach
-                @endif
-            </table>
-            @if($showPagination)
-                {{$sbrecords->links()}}
             @endif
-    @else
-        <h1><font color=red>請登入系統</font></h1>
-        @endauth
-    @endif
+        </table>
+        @if($showPagination)
+            {{$sbrecords->links()}}
+        @endif
+    @else <!--若沒登入或是非系統後台管理者將導回主頁-->
+        @php
+            header("Location: " . URL::to('/'), true, 302);
+            exit();
+        @endphp
+    @endcannot
 
 @endsection
