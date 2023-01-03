@@ -42,7 +42,7 @@
                             <td align="center" valign="center">{{ $late->back_time }}</td>
                             <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
                             <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核</a></font></td>
-                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改資料</a></font></td>
+                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
                             <td>
                                 <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">
                                     <input class="btn btn-default" type="submit" value="刪除" />
@@ -64,7 +64,7 @@
                             <td align="center" valign="center">{{ $late->back_time }}</td>
                             <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
                             <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核</a></font></td>
-                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改資料</a></font></td>
+                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
                             <td>
                                 <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">
                                     <input class="btn btn-default" type="submit" value="刪除" />

@@ -37,7 +37,7 @@
                         <td>{{ $leave->reason }}</td>
                         <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
                         <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核</a></font></td>
-                        <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改資料</a></font></td>
+                        <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
                         <td>
                             <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
                                 <input class="btn btn-default" type="submit" value="刪除" />
@@ -57,7 +57,7 @@
                         <td>{{ $leave->reason }}</td>
                         <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
                         <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核</a></font></td>
-                        <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改資料</a></font></td>
+                        <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
                         <td>
                             <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
                                 <input class="btn btn-default" type="submit" value="刪除" />
