@@ -37,6 +37,58 @@ class RollcallsController extends Controller
         return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
     }
 
+    public function api_rollcalls()
+    {
+        return Rollcall::all();
+    }
+
+    public function api_update(Request $request)
+    {
+        $rollcall = Rollcall::find($request->input('id'));
+        if ($rollcall == null)
+        {
+            return response()->json([
+                'status' => 0,
+            ]);
+        }
+        
+        $rollcall->date = $request->input('date');
+        $rollcall->sbid = $request->input('sbid');
+        $rollcall->presence = $request->input('presence');
+        $rollcall->leave = $request->input('leave');
+        $rollcall->late = $request->input('late');
+
+        if ($rollcall->save())
+        {
+            return response()->json([
+                'status' => 1,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 0,
+            ]);
+        }
+    }
+
+    public function api_delete(Request $request)
+    {
+        $rollcall = Rollcall::find($request->input('id'));
+
+        if ($rollcall == null)
+        {
+            return response()->json([
+                'status' => 0,
+            ]);
+        }
+
+        if ($rollcall->delete())
+        {
+            return response()->json([
+                'status' => 1,
+            ]);
+        }
+    }
+
     public function show($id){
         $rollcall = Rollcall::findOrFail($id);
         return view("rollcalls.show",["rollcall"=>$rollcall]);

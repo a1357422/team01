@@ -15,6 +15,73 @@ class UsersController extends Controller
         return view("users.index",['users'=>$users]);
     }
 
+    public function api_users()
+    {
+        return User::all();
+    }
+
+    public function api_update(Request $request)
+    {
+        $user = User::find($request->input('id'));
+        if ($user == null)
+        {
+            return response()->json([
+                'status' => 0,
+            ]);
+        }
+        
+        if($request->input('role') == "系統後台管理員"){
+            $user->role = "superadmin";
+        }
+        else if($request->input('role') == "宿舍輔導員"){
+            $user->role = "housemaster";
+        }
+        else if($request->input('role') == "宿舍行政"){
+            $user->role = "admin";
+        }
+        else if($request->input('role') == "總樓長"){
+            $user->role = "chief";
+        }
+        else if($request->input('role') == "樓長"){
+            $user->role = "floorhead";
+        }
+        else{
+            $user->role = "user";
+        }
+
+        
+
+        if ($user->save())
+        {
+            return response()->json([
+                'status' => 1,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 0,
+            ]);
+        }
+    }
+
+    public function api_delete(Request $request)
+    {
+        $user = User::find($request->input('id'));
+
+        if ($user == null)
+        {
+            return response()->json([
+                'status' => 0,
+            ]);
+        }
+
+        if ($user->delete())
+        {
+            return response()->json([
+                'status' => 1,
+            ]);
+        }
+    }
+
     public function edit($id){
         $user = User::findOrFail($id);
         $roles = User::allRoles()->get();

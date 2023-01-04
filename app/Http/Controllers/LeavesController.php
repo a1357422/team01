@@ -39,6 +39,56 @@ class LeavesController extends Controller
         return view("leaves.index",['display'=>1,"leaves"=>$leaves,'all_leaves'=>$all_leaves,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
     }
 
+    public function api_leaves()
+    {
+        return Leave::all();
+    }
+
+    public function api_update(Request $request)
+    {
+        $leave = Leave::find($request->input('id'));
+        if ($leave == null)
+        {
+            return response()->json([
+                'status' => 0,
+            ]);
+        }
+        
+        $leave->start = $request->input('start');
+        $leave->end = $request->input('end');
+        $leave->reason = $request->input('reason');
+
+        if ($leave->save())
+        {
+            return response()->json([
+                'status' => 1,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 0,
+            ]);
+        }
+    }
+
+    public function api_delete(Request $request)
+    {
+        $leave = Leave::find($request->input('id'));
+
+        if ($leave == null)
+        {
+            return response()->json([
+                'status' => 0,
+            ]);
+        }
+
+        if ($leave->delete())
+        {
+            return response()->json([
+                'status' => 1,
+            ]);
+        }
+    }
+
     public function show($id){
         $leave = Leave::findOrFail($id);
 
