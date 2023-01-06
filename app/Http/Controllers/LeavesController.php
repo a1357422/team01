@@ -22,7 +22,7 @@ class LeavesController extends Controller
         foreach ($dormitories as $dormitory)
         {
             if($dormitory->did == "1"){
-                $tags["$dormitory->did"] = "女一宿";//1
+                $tags["$dormitory->did"] = "女一宿";
             }
             else if($dormitory->did == "2"){
                 $tags["$dormitory->did"] = "女二宿";
