@@ -24,6 +24,7 @@ class CreateLateRequest extends FormRequest
     public function rules()
     {
         return [
+            'sbid' => 'required',
             'start' => 'required|late_dateearlier:end',
             'end' => 'required',
             'reason' => 'required|string|max:191',
@@ -38,6 +39,7 @@ class CreateLateRequest extends FormRequest
     public function messages()
     {
         return [
+            "sbid.required" => "你沒有住宿資料,所以不能申請晚歸",
             "start.required" => "長期晚歸日起 為必填",
             "start.late_dateearlier"=>"長期晚歸日起 必須早於 長期晚歸日訖",
             "end.required" => "長期晚歸日訖 為必填",
