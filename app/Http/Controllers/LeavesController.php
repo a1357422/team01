@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Leave;
-// use Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Sbrecord;
 use App\Models\Bed;
@@ -152,15 +151,17 @@ class LeavesController extends Controller
     }
     public function edit($id){
         $leave = Leave::findOrFail($id);
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
-        return view('leaves.edit',['leave'=>$leave,'sbrecords'=>$sbrecords]);
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');
+        $selectFloorhead_check = $leave->floorhead_check;
+        $selectHousemaster_check = $leave->housemaster_check;
+
+        return view('leaves.edit',['leave'=>$leave,'sbrecords'=>$sbrecords,'selectFloorhead_Check'=>$selectFloorhead_check,'selectHousemaster_Check'=>$selectHousemaster_check]);
     }
-    public function update($id,CreateLeaveRequest $request){
+    public function update($id,Request $request){
         $leave = Leave::findOrFail($id);
 
-        $leave->start = $request->input('start');
-        $leave->end = $request->input('end');
-        $leave->reason = $request->input('reason');
+        $leave->floorhead_check = $request->input('floorhead_check');
+        $leave->housemaster_check = $request->input('housemaster_check');
 
         $leave->save();
         return redirect('leaves');
