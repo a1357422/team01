@@ -24,7 +24,7 @@ class CreateFeatureRequest extends FormRequest
     public function rules()
     {
         return [
-            'path' => 'nullable|string|max:191',#1
+            'path' => 'nullable|string|max:191',
             'feature' => 'nullable|string|max:191',
         ];
     }

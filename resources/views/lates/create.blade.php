@@ -10,6 +10,6 @@
         學生姓名：{{Auth::user()->name}}
     </div>
     {!! Form::open(['url'=>'lates/store'])!!}
-    @include('lates.form',['submitButtonText'=>"新增晚歸資料"])
+    @include('lates.form1',['submitButtonText'=>"新增晚歸資料"])
     {!! Form::close()!!}
 @endsection

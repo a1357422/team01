@@ -28,7 +28,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Paginator::useBootstrap();
         //
         Schema::defaultStringLength(191);
         Validator::extend('late_dateearlier', function($attribute, $value, $parameters, $validator) {
