@@ -5,7 +5,7 @@
 @section('dormitorysystem_theme','外宿總資料管理')
 
 @section('dormitorysystem_contents')
-    @canany(['superadmin','admin','chief','floorhead'])
+    @canany(['superadmin','admin','chief','floorhead','housemaster'])
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
             <h3><a href = "/">回主頁</a></h3>
             <form action="{{ url('leaves/dormitory') }}" method='POST'>

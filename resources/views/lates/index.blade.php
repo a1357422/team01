@@ -5,10 +5,9 @@
 @section('dormitorysystem_theme','晚歸總資料管理')
 
 @section('dormitorysystem_contents')
-    @canany(['superadmin','admin','chief','floorhead'])
+    @canany(['superadmin','admin','chief','floorhead','housemaster'])
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
             <h3><a href = "/">回主頁</a></h3>
-            <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
             <form action="{{ url('lates/dormitory') }}" method='POST'>
                 {!! Form::label('dormitory', '選取宿舍別：') !!}
                 {!! Form::select('dormitory', $dormitories,$select) !!}

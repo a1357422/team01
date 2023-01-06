@@ -12,7 +12,7 @@
         </div>
         {!! Form::open(['url'=>'leaves/store'])!!}
         @include('leaves.form',['submitButtonText'=>"新增外宿資料"])
-        {!! Form::close()!!}'
+        {!! Form::close()!!}
     @else <!--若沒登入或是非系統後台管理者將導回主頁-->
         @php
             header("Location: " . URL::to('/'), true, 302);
