@@ -155,7 +155,7 @@ class LeavesController extends Controller
         $selectFloorhead_check = $leave->floorhead_check;
         $selectHousemaster_check = $leave->housemaster_check;
 
-        return view('leaves.edit',['leave'=>$leave,'sbrecords'=>$sbrecords,'selectFloorhead_Check'=>$selectFloorhead_check,'selectHousemaster_Check'=>$selectHousemaster_check]);
+        return view('leaves.edit',['leave'=>$leave,'sbrecords'=>$sbrecords,'selectFloorhead_check'=>$selectFloorhead_check,'selectHousemaster_check'=>$selectHousemaster_check]);
     }
     public function update($id,Request $request){
         $leave = Leave::findOrFail($id);

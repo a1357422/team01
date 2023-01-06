@@ -5,7 +5,7 @@
 @section('dormitorysystem_theme', '修改晚歸審核資料系統')
 
 @section('dormitorysystem_contents')
-    @canany(['superadmin','admin','chief','floorhead'])
+    @canany(['superadmin','admin','chief','floorhead','housemaster'])
         @include('message.list')
         {!! Form::model($late, ['method'=>'PATCH', 'action'=>['\App\Http\Controllers\LatesController@update', $late->id]]) !!}
         學生姓名：{{ $late->sbrecord->student->name }}</br>
