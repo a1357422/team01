@@ -67,62 +67,6 @@ class StudentsController extends Controller
         return view("students.index",["students"=>$students,'classes'=>$tags,"showPagination"=>True,'select'=>1]);
     }
     
-    public function api_students()
-    {
-        return Student::all();
-    }
-
-    public function api_update(Request $request)
-    {
-        $student = Student::find($request->input('id'));
-        if ($student == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-        
-        $student->number = $request->input('number');
-        $student->class = $request->input('class');
-        $student->name = $request->input('name');
-        $student->address = $request->input('address');
-        $student->phone = $request->input('phone');
-        $student->nationality = $request->input('nationality');
-        $student->guardian = $request->input('guardian');
-        $student->salutation = $request->input('salutation');
-        $student->remark = $request->input('remark');
-
-        if ($student->save())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function api_delete(Request $request)
-    {
-        $student = Student::find($request->input('id'));
-
-        if ($student == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-
-        if ($student->delete())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        }
-    }
-
     public function show($id){
         $student = Student::findOrFail($id);
 

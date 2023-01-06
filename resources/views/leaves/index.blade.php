@@ -2,20 +2,25 @@
 
 @section('title','外宿總資料管理')
 
-@section('dormitorysystem_theme','外宿總資料管理')
+@section('dormitorysystem_theme','')
 
 @section('dormitorysystem_contents')
-    @canany(['floorhead','housemaster'])
-        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-            <h3><a href = "/">回主頁</a></h3>
-            <form action="{{ url('leaves/dormitory') }}" method='POST'>
-                {!! Form::label('dormitory', '選取宿舍別：') !!}
-                {!! Form::select('dormitory', $dormitories,$select) !!}
-            <input type="submit" value="查詢" />
-            @csrf
-            </form>
+    @canany(['superadmin','admin','chief','floorhead'])
+        <div class="function">
+            <div class="maintitle_btn">
+                <h3><a href = "/">回主頁</a></h3>
+                <h3>外宿總資料管理</h3>
+            </div>
+            <div class="add_btn">
+                <form action="{{ url('leaves/dormitory') }}" method='POST'>
+                    {!! Form::label('dormitory', '選取宿舍別：') !!}
+                    {!! Form::select('dormitory', $dormitories,$select) !!}
+                <input type="submit" value="查詢" />
+                @csrf
+                </form>
+            </div>
         </div>
-        <table>
+        <table class="table">
             <tr>
                 <th>編號</th>
                 <th>學生床位</th>
@@ -23,7 +28,7 @@
                 <th>外宿日訖</th>
                 <th>外宿原因</th>
                 <th>操作</th>
-                <!-- <th>操作</th> -->
+                <th>操作</th>
                 <th>操作</th>
                 <th>操作</th>
             </tr>
@@ -36,8 +41,8 @@
                         <td>{{ $leave->end }}</td>
                         <td>{{ $leave->reason }}</td>
                         <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                        <!-- <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核</a></font></td> -->
-                        <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
+                        <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核</a></font></td>
+                        <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改資料</a></font></td>
                         <td>
                             <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
                                 <input class="btn btn-default" type="submit" value="刪除" />
@@ -56,8 +61,8 @@
                         <td>{{ $leave->end }}</td>
                         <td>{{ $leave->reason }}</td>
                         <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                        <!-- <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核</a></font></td> -->
-                        <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
+                        <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核</a></font></td>
+                        <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改資料</a></font></td>
                         <td>
                             <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
                                 <input class="btn btn-default" type="submit" value="刪除" />
@@ -72,54 +77,6 @@
             @if($showPagination)
                 {{$leaves->links()}}
             @endif
-
-    @elsecanany(['superadmin','admin','chief'])
-        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-            <h3><a href = "/">回主頁</a></h3>
-            <form action="{{ url('leaves/dormitory') }}" method='POST'>
-                {!! Form::label('dormitory', '選取宿舍別：') !!}
-                {!! Form::select('dormitory', $dormitories,$select) !!}
-            <input type="submit" value="查詢" />
-            @csrf
-            </form>
-        </div>
-            <table>
-                <tr>
-                    <th>編號</th>
-                    <th>學生床位</th>
-                    <th>外宿日起</th>
-                    <th>外宿日訖</th>
-                    <th>外宿原因</th>
-                    <th>操作</th>
-                    <th>操作</th>
-                </tr>
-                @if ($display == 1)
-                    @foreach($leaves as $leave)
-                        <tr>
-                            <td>{{ $leave->id }}</td>
-                            <td>{{ $leave->sbrecord->bed->bedcode }}</td>
-                            <td>{{ $leave->start }}</td>
-                            <td>{{ $leave->end }}</td>
-                            <td>{{ $leave->reason }}</td>
-                            <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                            <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核情形</a></font></td>
-                        </tr>
-                    @endforeach
-                @else
-                    @foreach($leaves as $leave)
-                        <tr>
-                            <td>{{ $leave->id }}</td>
-                            <td>{{ $leave->bedcode }}</td>
-                            <td>{{ $leave->start }}</td>
-                            <td>{{ $leave->end }}</td>
-                            <td>{{ $leave->reason }}</td>
-                            <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                            <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核情形</a></font></td>
-                        </tr>
-                    @endforeach
-                @endif
-            </table>
-
     @elsecanany('user')
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
             <h3><a href = "/">回主頁</a></h3>
