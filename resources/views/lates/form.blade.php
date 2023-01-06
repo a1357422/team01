@@ -1,137 +1,35 @@
-@if (auth()->user()->role == "floorhead")
-    <div>
-        {!! Form::label('floorhead_check','樓長審核：')!!}
-        {!! Form::select('floorhead_check',array(1 => '核准', 0 => '否決'), $selectFloorhead_check)!!}
-    </div>
-
-    <div>
-        @if ($selectChief_check === 1)
-        總樓長審核：是
-        @else
-        總樓長審核：否
-        @endif
-    </div>
-
-    <div>
-        @if ($selectHousemaster_check === 1)
-        宿舍輔導員審核：是
-        @else
-        宿舍輔導員審核：否
-        @endif
-    </div>
-
-    <div>
-        @if ($selectAdmin_check === 1)
-        行政審核：是
-        @else
-        行政審核：否
-        @endif
-    </div>
-
-    <div>
-        {!! Form::submit($submitButtonText)!!}
-    </div>
-
-@elseif (auth()->user()->role == "chief")
-    <div>
-        @if ($selectFloorhead_check === 1)
-        樓長審核：是
-        @else
-        樓長審核：否
-        @endif
-    </div>
-
-    <div>
-        {!! Form::label('chief_check','總樓長審核：')!!}
-        {!! Form::select('chief_check',array(1 => '核准', 0 => '否決'), $selectChief_check)!!}
-    </div>
-
-    <div>
-        @if ($selectHousemaster_check === 1)
-        宿舍輔導員審核：是
-        @else
-        宿舍輔導員審核：否
-        @endif
-    </div>
-
-    <div>
-        @if ($selectAdmin_check === 1)
-        行政審核：是
-        @else
-        行政審核：否
-        @endif
-    </div>
-
-    <div>
-        {!! Form::submit($submitButtonText)!!}
-    </div>
-
-
-@elseif (auth()->user()->role == "housemaster")
-    <div>
-        @if ($selectFloorhead_check === 1)
-        樓長審核：是
-        @else
-        樓長審核：否
-        @endif
-    </div>
-
-    <div>
-        @if ($selectChief_check === 1)
-        總樓長審核：是
-        @else
-        總樓長審核：否
-        @endif
-    </div>
-
-    <div>
-        {!! Form::label('housemaster_check','宿舍輔導員審核：')!!}
-        {!! Form::select('housemaster_check',array(1 => '核准', 0 => '否決'), $selectHousemaster_check)!!}
-    </div>
-
-    <div>
-        @if ($selectAdmin_check === 1)
-        行政審核：是
-        @else
-        行政審核：否
-        @endif
-    </div>
-
-    <div>
-        {!! Form::submit($submitButtonText)!!}
-    </div>
-
-@else
 <div>
-        @if ($selectFloorhead_check === 1)
-        樓長審核：是
-        @else
-        樓長審核：否
-        @endif
-    </div>
-
-    <div>
-        @if ($selectChief_check === 1)
-        總樓長審核：是
-        @else
-        總樓長審核：否
-        @endif
-    </div>
-
-    <div>
-        @if ($selectHousemaster_check === 1)
-        宿舍輔導員審核：是
-        @else
-        宿舍輔導員審核：否
-        @endif
-    </div>
-
-    <div>
-        {!! Form::label('admin_check','行政審核：')!!}
-        {!! Form::select('admin_check',array(1 => '核准', 0 => '否決'), $selectAdmin_check)!!}
-    </div>
-
-    <div>
-        {!! Form::submit($submitButtonText)!!}
-    </div>
-@endif
+    {!! Form::label('start','長期晚歸日起：')!!}
+    {!! Form::date('start',null)!!}
+</div>
+<div>
+    {!! Form::label('end','長期晚歸日訖：')!!}
+    {!! Form::date('end',null)!!}
+</div>
+<div>
+    {!! Form::label('reason','長期晚歸原因：')!!}
+    {!! Form::text('reason',null)!!}
+</div>    
+<div>
+    {!! Form::label('company','單位名稱：')!!}
+    {!! Form::text('company',null)!!}
+</div>
+<div>
+    {!! Form::label('contact','單位連絡電話：')!!}
+    {!! Form::text('contact',null)!!}
+</div>    
+<div>
+    {!! Form::label('address','單位聯絡地址：')!!}
+    {!! Form::text('address',null)!!}
+</div>
+<div>
+    {!! Form::label('back_time','預計每日返回宿舍時間：')!!}
+    {!! Form::time('back_time',null)!!}
+</div>    
+<div>
+    {!! Form::label('filename_path','佐證圖檔路徑：')!!}
+    {!! Form::file('filename_path')!!}
+</div>
+<div>
+    {!! Form::submit($submitButtonText)!!}
+</div>

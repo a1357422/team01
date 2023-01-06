@@ -2,22 +2,27 @@
 
 @section('title','學生床位總資料管理')
 
-@section('dormitorysystem_theme','學生床位總資料管理')
+@section('dormitorysystem_theme','')
 
 @section('dormitorysystem_contents')
     @cannot('user')
-        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-            <h3><a href = "/">回主頁</a></h3>
-            <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
+        <div class="function">
+            <div class="maintitle_btn">
+                <h3><a href = "/">回主頁</a></h3>
+                <h3>學生床位總資料管理</h3>   
+            </div>
+            <div class="add_btn">
+                <form action="{{ url('sbrecords/dormitory') }}" method='POST'>
+                    {!! Form::label('dormitory', '選取宿舍別：') !!}
+                    {!! Form::select('dormitory', $dormitories,$select) !!}
+                <input type="submit" value="查詢" />
+                @csrf
+                </form>
+                <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
+            </div>
             <a href="{{ route('sbrecords.senior') }} ">樓長</a>
-            <form action="{{ url('sbrecords/dormitory') }}" method='POST'>
-                {!! Form::label('dormitory', '選取宿舍別：') !!}
-                {!! Form::select('dormitory', $dormitories,$select) !!}
-            <input type="submit" value="查詢" />
-            @csrf
-            </form>
         </div>
-        <table>
+        <table  class="table">
             <tr>
                 <th>編號</th>
                 <th>學年</th>

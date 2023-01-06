@@ -24,7 +24,6 @@ class CreateLeaveRequest extends FormRequest
     public function rules()
     {
         return [
-            'sbid' => 'required',
             'start' => 'required|leave_dateearlier:end',
             'end' => 'required',
             'reason' => 'required|string|max:191',
@@ -34,7 +33,6 @@ class CreateLeaveRequest extends FormRequest
     public function messages()
     {
         return [
-            "sbid.required" => "你沒有住宿資料,所以不能申請外宿",
             "start.required" => "外宿日起 為必填",
             "start.leave_dateearlier"=>"外宿日起 必須早於 外宿日訖",
             "end.required" => "外宿日訖 為必填",

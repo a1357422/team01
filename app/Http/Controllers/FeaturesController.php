@@ -36,57 +36,6 @@ class FeaturesController extends Controller
         return view("features.index",['display'=>1,"features"=>$features,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
     }
 
-
-    public function api_features()
-    {
-        return Feature::all();
-    }
-
-    public function api_update(Request $request)
-    {
-        $feature = Feature::find($request->input('id'));
-        if ($feature == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-
-        $feature->sbid = $request->input('sbid');
-        $feature->path = $request->input('path');
-        $feature->feature = $request->input('feature');
-
-        if ($feature->save())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function api_delete(Request $request)
-    {
-        $feature = Feature::find($request->input('id'));
-
-        if ($feature == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-
-        if ($feature->delete())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        }
-    }
-
     public function show($id){
         $feature = Feature::findOrFail($id);
         return view("features.show",["feature"=>$feature]);
