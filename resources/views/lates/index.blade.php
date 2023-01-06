@@ -2,20 +2,26 @@
 
 @section('title','晚歸總資料管理')
 
-@section('dormitorysystem_theme','晚歸總資料管理')
+@section('dormitorysystem_theme','')
 
 @section('dormitorysystem_contents')
-    @canany(['superadmin','admin','chief','floorhead','housemaster'])
-        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-            <h3><a href = "/">回主頁</a></h3>
-            <form action="{{ url('lates/dormitory') }}" method='POST'>
-                {!! Form::label('dormitory', '選取宿舍別：') !!}
-                {!! Form::select('dormitory', $dormitories,$select) !!}
-                <input type="submit" value="查詢" />
-                @csrf
-            </form>
+    @canany(['superadmin','admin','chief','floorhead'])
+        <div class="function">
+            <div class="maintitle_btn">
+                <h3><a href = "/">回主頁</a></h3>
+                <h3>晚歸總資料管理</h3>
+            </div>
+            <div>
+                <form action="{{ url('lates/dormitory') }}" method='POST'>
+                    {!! Form::label('dormitory', '選取宿舍別：') !!}
+                    {!! Form::select('dormitory', $dormitories,$select) !!}
+                    <input type="submit" value="查詢" />
+                    @csrf
+                </form>
+                <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
+            </div>
         </div>
-            <table>
+            <table class="table">
                 <tr>
                     <th>編號</th>
                     <th>學生床位</th>
