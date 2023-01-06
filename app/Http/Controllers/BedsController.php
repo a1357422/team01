@@ -35,63 +35,6 @@ class BedsController extends Controller
         return view("beds.index",["beds"=>$beds,'dormitories'=>$data,"showPagination"=>True,'select'=>1]);
     }
 
-    public function api_beds()
-    {
-        return Bed::all();
-    }
-
-    public function api_update(Request $request)
-    {
-        $bed = Bed::find($request->input('id'));
-        if ($bed == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-        if ($request->input('did') == "涵青館")
-            $bed->did = 4;
-        else if ($request->input('did') == "男一")
-            $bed->did = 3;
-        else if ($request->input('did') == "女二")
-            $bed->did = 2;
-        else
-            $bed->did = 1;
-        $bed->bedcode = $request->input('bedcode');
-        $bed->floor = $request->input('floor');
-        $bed->roomtype = $request->input('roomtype');
-
-        if ($bed->save())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function api_delete(Request $request)
-    {
-        $bed = Bed::find($request->input('id'));
-
-        if ($bed == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-
-        if ($bed->delete())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        }
-    }
-
     public function show($id){
         $bed = Bed::findOrFail($id);
         return view("beds.show",["bed"=>$bed]);

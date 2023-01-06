@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateFeatureRequest extends FormRequest
+class CreateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,14 @@ class CreateFeatureRequest extends FormRequest
     public function rules()
     {
         return [
-            'path' => 'nullable|string|max:191',#1
-            'feature' => 'nullable|string|max:191',
+            'role' => 'required|string|min:4|max:191',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "role.required" => "權限 為必填",
         ];
     }
 }
