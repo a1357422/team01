@@ -23,7 +23,7 @@
             </div>
         </div>
             <table class="table">
-                <tr>
+                <tr class='column_center'>
                     <th>編號</th>
                     <th>學生床位</th>
                     <th>照片路徑</th>
@@ -33,7 +33,7 @@
                 </tr>
                 @if ($display == 1)
                     @foreach($features as $feature)
-                        <tr>
+                        <tr class='column_center'>
                             <td align="center" valign="center">{{ $feature->id }}</td>
                             <td align="center" valign="center">{{ $feature->sbrecord->bed->bedcode }}</td>
                             @if($feature->path != null)
@@ -55,7 +55,7 @@
                     @endforeach
                 @else
                     @foreach($features as $feature)
-                        <tr>
+                        <tr class='column_center'>
                             <td align="center" valign="center">{{ $feature->id }}</td>
                             <td align="center" valign="center">{{ $feature->bedcode }}</td>
                             @if($feature->path != null)

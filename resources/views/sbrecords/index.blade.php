@@ -22,7 +22,7 @@
             <a href="{{ route('sbrecords.senior') }} ">樓長</a>
         </div>
         <table  class="table">
-            <tr>
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>學年</th>
                 <th>學期</th>
@@ -36,7 +36,7 @@
             </tr>
             @if($display == 1)
                 @foreach($sbrecords as $sbrecord)
-                <tr>
+                <tr class='column_center'>
                     <td align="center" valign="center">{{ $sbrecord->id }}</td>
                     <td>{{ $sbrecord->school_year }}</td>
                     <td align="center" valign="center">{{ $sbrecord->semester }}</td>
@@ -61,7 +61,7 @@
                 @endforeach
             @else
                 @foreach($sbrecords as $sbrecord)
-                <tr>
+                <tr class='column_center'>
                     <td align="center" valign="center">{{ $sbrecord->id }}</td>
                     <td>{{ $sbrecord->school_year }}</td>
                     <td align="center" valign="center">{{ $sbrecord->semester }}</td>
@@ -95,5 +95,4 @@
             exit();
         @endphp
     @endcannot
-
 @endsection

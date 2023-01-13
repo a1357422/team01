@@ -22,7 +22,7 @@
         </div>
     </div>
         <table class="table">
-                <tr>
+                <tr class='column_center'>
                     <th>編號</th>
                     <th>點名日期</th>
                     <th>學生床位</th>
@@ -35,7 +35,7 @@
                 </tr>
                 @if ($display == 1)
                     @foreach($rollcalls as $rollcall)
-                    <tr>
+                    <tr class='column_center'>
                         <td>{{ $rollcall->id }}</td>
                         <td>{{ $rollcall->date }}</td>
                         <td>{{ $rollcall->sbrecord->bed->bedcode }}</td>
@@ -67,7 +67,7 @@
                     @endforeach
                 @else
                     @foreach($rollcalls as $rollcall)
-                        <tr>
+                        <tr class='column_center'>
                             <td>{{ $rollcall->id }}</td>
                             <td>{{ $rollcall->date }}</td>
                             <td>{{ $rollcall->bedcode }}</td>
@@ -108,5 +108,4 @@
             exit();
         @endphp
     @endcanany
-
 @endsection

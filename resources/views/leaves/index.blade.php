@@ -21,7 +21,7 @@
             </div>
         </div>
         <table class="table">
-            <tr>
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>學生床位</th>
                 <th>外宿日起</th>
@@ -34,7 +34,7 @@
             </tr>
             @if ($display == 1)
                 @foreach($leaves as $leave)
-                    <tr>
+                    <tr class='column_center'>
                         <td>{{ $leave->id }}</td>
                         <td>{{ $leave->sbrecord->bed->bedcode }}</td>
                         <td>{{ $leave->start }}</td>
@@ -54,7 +54,7 @@
                 @endforeach
             @else
                 @foreach($leaves as $leave)
-                    <tr>
+                    <tr class='column_center'>
                         <td>{{ $leave->id }}</td>
                         <td>{{ $leave->bedcode }}</td>
                         <td>{{ $leave->start }}</td>
@@ -89,7 +89,7 @@
             </form>
         </div>
             <table>
-                <tr>
+                <tr class='column_center'>
                     <th>編號</th>
                     <th>學生床位</th>
                     <th>外宿日起</th>
@@ -112,7 +112,7 @@
                     @endforeach
                 @else
                     @foreach($leaves as $leave)
-                        <tr>
+                        <tr class='column_center'>
                             <td>{{ $leave->id }}</td>
                             <td>{{ $leave->bedcode }}</td>
                             <td>{{ $leave->start }}</td>
@@ -131,7 +131,7 @@
             <a href="{{ route('leaves.create') }} ">新增外宿資料</a>
         </div>
             <table>
-                <tr>
+                <tr class='column_center'>
                     <th>編號</th>
                     <th>學生床位</th>
                     <th>外宿日起</th>
@@ -143,7 +143,7 @@
                 @if ($display == 1)
                     @foreach($all_leaves as $leave)
                         @if(auth()->user()->name == $leave->sbrecord->student->name)
-                            <tr>
+                            <tr class='column_center'>
                                 <td>{{ $leave->id }}</td>
                                 <td>{{ $leave->sbrecord->bed->bedcode }}</td>
                                 <td>{{ $leave->start }}</td>
@@ -157,7 +157,7 @@
                 @else
                     @foreach($all_leaves as $leave)
                         @if(auth()->user()->name == $leave->sbrecord->student->name)
-                            <tr>
+                            <tr class='column_center'>
                                 <td>{{ $leave->id }}</td>
                                 <td>{{ $leave->bedcode }}</td>
                                 <td>{{ $leave->start }}</td>
@@ -176,5 +176,4 @@
             exit();
         @endphp
     @endcanany
-    
 @endsection

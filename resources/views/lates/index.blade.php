@@ -22,7 +22,7 @@
             </div>
         </div>
             <table class="table">
-                <tr>
+                <tr class='column_center'>
                     <th>編號</th>
                     <th>學生床位</th>
                     <th>長期晚歸日起</th>
@@ -37,7 +37,7 @@
                 </tr>
                 @if ($display == 1)
                     @foreach($lates as $late)
-                        <tr>
+                        <tr class='column_center'>
                             <td>{{ $late->id }}</td>
                             <td>{{ $late->sbrecord->bed->bedcode }}</td>
                             <td>{{ $late->start }}</td>
@@ -59,7 +59,7 @@
                     @endforeach
                 @else
                     @foreach($lates as $late)
-                        <tr>
+                        <tr class='column_center'>
                             <td>{{ $late->id }}</td>
                             <td>{{ $late->bedcode }}</td>
                             <td>{{ $late->start }}</td>
@@ -90,7 +90,7 @@
                 <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
             </div>
                 <table>
-                    <tr>
+                    <tr class='column_center'>
                         <th>編號</th>
                         <th>學生床位</th>
                         <th>長期晚歸日起</th>
@@ -104,7 +104,7 @@
                     @if ($display == 1)
                         @foreach($all_lates as $late)
                             @if(auth()->user()->name == $late->sbrecord->student->name)
-                                <tr>
+                                <tr class='column_center'>
                                     <td>{{ $late->id }}</td>
                                     <td>{{ $late->sbrecord->bed->bedcode }}</td>
                                     <td>{{ $late->start }}</td>
@@ -120,7 +120,7 @@
                     @else
                         @foreach($all_lates as $late)
                             @if(auth()->user()->name == $late->sbrecord->student->name)
-                                <tr>
+                                <tr class='column_center'>
                                     <td>{{ $late->id }}</td>
                                     <td>{{ $late->bedcode }}</td>
                                     <td>{{ $late->start }}</td>

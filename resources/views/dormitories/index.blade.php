@@ -16,7 +16,7 @@
         </div>
     </div>
         <table class="table">
-            <tr>
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>宿舍名稱</th>
                 <th>舍監</th>
@@ -26,7 +26,7 @@
                 <th>操作</th>
             </tr>
             @foreach($dormitories as $dormitory)
-                <tr>
+                <tr class='column_center'>
                     <td>{{ $dormitory->id }}</td>
                     <td>{{ $dormitory->name }}</td>
                     <td>{{ $dormitory->housemaster }}</td>

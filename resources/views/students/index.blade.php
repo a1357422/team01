@@ -22,7 +22,7 @@
         </div>
     </div>
         <table class="table">
-            <tr>
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>學號</th>
                 <th>班級</th>
@@ -33,7 +33,7 @@
                 <th>操作</th>
             </tr>
             @foreach($students as $student)
-                <tr>
+                <tr class='column_center'>
                     <td align="center" valign="center">{{ $student->id }}</td>
                     <td align="center" valign="center">{{ $student->number }}</td>
                     <td align="center" valign="center">{{ $student->class }}</td>

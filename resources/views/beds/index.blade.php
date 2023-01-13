@@ -22,7 +22,7 @@
         </div>
     </div>
         <table class="table">
-            <tr>
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>床位代碼</th>
                 <th>宿別</th>
@@ -33,7 +33,7 @@
                 <th>操作</th>
             </tr>
             @foreach($beds as $bed)
-                <tr>
+                <tr class='column_center'>
                     <td>{{ $bed->id }}</td>
                     <td>{{ $bed->bedcode }}</td>
                     <td>{{ $bed->dormitory->name }}</td>

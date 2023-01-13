@@ -111,6 +111,7 @@ Route::post('features/dormitory', [FeaturesController::class,'dormitory'])->name
 Route::get('users',[UsersController::class,'index'])->name('users.index');
 Route::get('users/{id}/edit',[UsersController::class,'edit'])->where("id","[0-9]+")->name('users.edit');
 Route::patch('users/update/{id}',[UsersController::class,'update'])->where("id","[0-9]+")->name('users.update');
+Route::post('users/role', [UsersController::class, 'role'])->name('users.role');
 
 
 

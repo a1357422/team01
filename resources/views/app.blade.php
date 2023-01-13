@@ -77,9 +77,8 @@
             justify-content: space-between;
             width: 55%;
         }
-        .add_btn{
-            display: flex;
-            justify-content: space-between;
+        .column_center{
+            text-align: center;
         }
     </style>
 </head>
