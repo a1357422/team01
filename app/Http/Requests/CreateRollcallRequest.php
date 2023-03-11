@@ -24,14 +24,12 @@ class CreateRollcallRequest extends FormRequest
     public function rules()
     {
         return [
-            'date' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            "date.required" => "點名日期 為必填",
         ];
     }
 }

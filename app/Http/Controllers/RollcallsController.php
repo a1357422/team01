@@ -105,6 +105,7 @@ class RollcallsController extends Controller
         $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->get();
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
+        $date = date("m/d");
         foreach ($dormitories as $dormitory)
         {
             if($dormitory->did == "1"){
@@ -123,23 +124,64 @@ class RollcallsController extends Controller
         return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory')]);
     }
 
+    // public function floor(Request $request)
+    // {
+    //     $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->get();
+    //     $dormitories = Bed::allDormitories()->get();
+    //     $tags = [];
+    //     $date = date("m/d");
+    //     foreach ($dormitories as $dormitory)
+    //     {
+    //         if($dormitory->did == "1"){
+    //             $tags["$dormitory->did"] = "女一宿";
+    //         }
+    //         else if($dormitory->did == "2"){
+    //             $tags["$dormitory->did"] = "女二宿";
+    //         }
+    //         else if($dormitory->did == "3"){
+    //             $tags["$dormitory->did"] = "男一宿";
+    //         }
+    //         else{
+    //             $tags["$dormitory->did"] = "涵青館";
+    //         }
+    //     }
+    //     return view('rollcalls.create', ['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory'),"date"=>$date]);
+    // }
+
     public function create(){
+        $rollcalls = Rollcall::paginate(10);
+        $dormitories = Bed::allDormitories()->get();
+        $date = date("m/d");
+        
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
         $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');
-        return view("rollcalls.create",['sbrecords'=>$sbrecords]);
+        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>1]);
     }
     public function store(CreateRollcallRequest $request){
-        $date = $request->input('date');
-        $sbid = $request->input('sbid');
-        $presence = $request->input('presence');
-        $leave = $request->input('leave');
-        $late = $request->input('late');
-
+        dd($request->input("presence"));
+        $date = date("Y-d-m");
+        // $sbid = $request->input("sbid");
         $rollcall = Rollcall::create([
             'date' => $date,
-            'sbid' => $sbid,
-            'presence' => $presence,
-            'leave' => $leave,
-            'late' => $late,
+            // 'sbid' => $sbid,
+            // 'presence' => $presence,
+            // 'leave' => $leave,
+            // 'late' => $late,
         ]);
 
         return redirect("rollcalls");
