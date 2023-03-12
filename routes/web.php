@@ -77,7 +77,6 @@ Route::post('rollcalls/store',[RollcallsController::class,'store'])->name('rollc
 Route::get('rollcalls/{id}/edit',[RollcallsController::class,'edit'])->where("id","[0-9]+")->name('rollcalls.edit');
 Route::patch('rollcalls/update/{id}',[RollcallsController::class,'update'])->where("id","[0-9]+")->name('rollcalls.update');
 Route::post('rollcalls/dormitory', [RollcallsController::class,'dormitory'])->name('rollcalls.dormitory');
-// Route::post('rollcalls/floor', [RollcallsController::class,'floor'])->name('rollcalls.floor');
 
 
 Route::get('lates',[LatesController::class,'index'])->name('lates.index');

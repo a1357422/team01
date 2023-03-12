@@ -12,6 +12,7 @@
             <form action="{{ url('rollcalls/dormitory') }}" method='POST'>
                 {!! Form::label('dormitory', '選取宿舍別：') !!}
                 {!! Form::select('dormitory', $dormitories,$select) !!}
+                <input type="hidden" name="表單查詢" value="表單查詢">
             <input type="submit" value="查詢" />
             @csrf
             </form>

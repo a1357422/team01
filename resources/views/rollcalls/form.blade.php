@@ -6,21 +6,28 @@
         <th>{!! Form::label('presence','在場與否')!!}</th>
     </tr>
     @if($display == 1)
-        @foreach($rollcalls as $rollcall)
+        @foreach($sbrecords as $sbrecord)
             <tr>
-                <td>{{ $rollcall->id }}</td>
+                <td>{{ $sbrecord->id }}</td>
                 <td>{{ $date }}</td>
-                <td>{{ $rollcall->sbrecord->bed->bedcode }}</td>
-                <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence',null)!!}</font></td>
+                <td>{{ $sbrecord->bed->bedcode }}</td>
+                <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
             </tr>
         @endforeach
+    @elseif($display == 3)
+        <tr>
+            <td>{{ $rollcall->id }}</td>
+            <td>{{ $selectDate }}</td>
+            <td>{{ $rollcall->sbrecord->bed->bedcode }}</td>
+            <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
+        </tr>
     @else
-        @foreach($rollcalls as $rollcall)
+        @foreach($sbrecords as $sbrecord)
             <tr>
-                <td>{{ $rollcall->id }}</td>
+                <td>{{ $sbrecord->id }}</td>
                 <td>{{ $date }}</td>
-                <td>{{ $rollcall->bedcode }}</td>
-                <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence',null)!!}</font></td>
+                <td>{{ $sbrecord->bedcode }}</td>
+                <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
             </tr>
         @endforeach
     @endif

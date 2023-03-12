@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,16 @@ class Leave extends Model
         ->join('beds','sbrecords.bid','=','beds.id')
         ->select('leaves.id','beds.bedcode','leaves.start','leaves.end','leaves.reason','leaves.floorhead_check','leaves.housemaster_check')
         ->where('beds.did','=',"$did");
+    }
+
+    public function scopeLeave($query)
+    {
+        $date = Carbon::now()->toDateString();
+        $query->join('sbrecords','leaves.sbid','=','sbrecords.id')
+        ->select('sbrecords.id','leaves.sbid','leaves.start','leaves.end')
+        ->where("leaves.start","<=","$date")
+        ->where("leaves.end",">=","$date")
+        ->orderBy('leaves.sbid','asc');
     }
 
     public function sbrecord(){

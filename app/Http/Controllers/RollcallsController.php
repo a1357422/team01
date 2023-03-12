@@ -8,15 +8,16 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Sbrecord;
 use App\Http\Requests\CreateRollcallRequest;
 use App\Models\Bed;
+use App\Models\Leave;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class RollcallsController extends Controller
 {
     //
     public function index(){
-        $rollcalls = Rollcall::paginate(10);
+        $rollcalls = Rollcall::orderBy('id','ASC')->paginate(10);
         $dormitories = Bed::allDormitories()->get();
-        
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
@@ -102,6 +103,7 @@ class RollcallsController extends Controller
 
     public function dormitory(Request $request)
     {
+        $sbrecords = Sbrecord::Dormitory($request->input('dormitory'),$request->input('floor'))->get();
         $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->get();
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
@@ -121,38 +123,17 @@ class RollcallsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory')]);
+        if(@$_POST[ '新增表單查詢' ] == '新增表單查詢')
+            return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor')]);
+        else
+            return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory')]);
+            
     }
 
-    // public function floor(Request $request)
-    // {
-    //     $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->get();
-    //     $dormitories = Bed::allDormitories()->get();
-    //     $tags = [];
-    //     $date = date("m/d");
-    //     foreach ($dormitories as $dormitory)
-    //     {
-    //         if($dormitory->did == "1"){
-    //             $tags["$dormitory->did"] = "女一宿";
-    //         }
-    //         else if($dormitory->did == "2"){
-    //             $tags["$dormitory->did"] = "女二宿";
-    //         }
-    //         else if($dormitory->did == "3"){
-    //             $tags["$dormitory->did"] = "男一宿";
-    //         }
-    //         else{
-    //             $tags["$dormitory->did"] = "涵青館";
-    //         }
-    //     }
-    //     return view('rollcalls.create', ['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory'),"date"=>$date]);
-    // }
-
     public function create(){
-        $rollcalls = Rollcall::paginate(10);
+        $sbrecords = Sbrecord::get();
         $dormitories = Bed::allDormitories()->get();
         $date = date("m/d");
-        
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
@@ -169,40 +150,82 @@ class RollcallsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');
-        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>1]);
+        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1]);
     }
-    public function store(CreateRollcallRequest $request){
-        dd($request->input("presence"));
-        $date = date("Y-d-m");
-        // $sbid = $request->input("sbid");
-        $rollcall = Rollcall::create([
-            'date' => $date,
-            // 'sbid' => $sbid,
-            // 'presence' => $presence,
-            // 'leave' => $leave,
-            // 'late' => $late,
-        ]);
 
+    public function store(CreateRollcallRequest $request){
+        $sbrecords = Sbrecord::get();
+        $date = date("Y-d-m");
+        $check = is_null($request->input("presence"));
+        $leaves = Leave::leave()->get();
+        if ($check==true){
+            for($i=1;$i<count($sbrecords)+1;$i++){
+                foreach($leaves as $leave){
+                    if($i == $leave->sbid){
+                        $sbrecord = Sbrecord::findOrFail($i);
+                        $rollcall = Rollcall::create([
+                            'sbid' => $sbrecord->id,
+                            'date' => $date,
+                            'presence' => 0,
+                            'leave' => 1,
+                            // 'late' => $late,
+                        ]); 
+                    }
+                    // else{
+                    //     $sbrecord = Sbrecord::findOrFail($i);
+                    //     $rollcall = Rollcall::create([
+                    //         'sbid' => $sbrecord->id,
+                    //         'date' => $date,
+                    //         'presence' => 0,
+                    //         'leave' => 0,
+                    //         // 'late' => $late,
+                    //     ]); 
+                    // }
+                }
+            }
+            
+        }
+        else{
+            foreach ($request->input("presence") as $presence){
+                for($i=1;$i<count($sbrecords)+1;$i++){
+                    foreach($leaves as $leave){
+                        if($i == $presence){
+                            if($i == $leave->sbid){
+                                $sbrecord = Sbrecord::findOrFail($presence);
+                                $rollcall = Rollcall::create([
+                                    'sbid' => $sbrecord->id,
+                                    'date' => $date,
+                                    'presence' => 1,
+                                    'leave' => 1,
+                                    // 'late' => $late,
+                                ]); 
+                                // break;
+                            }                    
+                        }
+                        
+                    }
+                    
+                }
+                
+            }
+            
+        }
         return redirect("rollcalls");
     }
     public function edit($id){
         $rollcall = Rollcall::findOrFail($id);
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
-        $selectSbid = $rollcall->sbid;
-        $selectPresence = $rollcall->presence;
-        $selectLeave = $rollcall->leave;
-        $selectLate = $rollcall->late;
-        return view('rollcalls.edit',['rollcall'=>$rollcall,'sbrecords'=>$sbrecords,'selectSbid'=>$selectSbid,'selectPresence'=>$selectPresence,'selectLeave'=>$selectLeave,'selectLate'=>$selectLate]);
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');  
+        $selectDate = $rollcall->date;
+        return view('rollcalls.edit',['display'=>3,'rollcall'=>$rollcall,'sbrecords'=>$sbrecords,'selectDate'=>$selectDate]);
     }
     public function update($id,CreateRollcallRequest $request){
         $rollcall = Rollcall::findOrFail($id);
-
-        $rollcall->date = $request->input('date');
-        $rollcall->sbid = $request->input('sbid');
-        $rollcall->presence = $request->input('presence');
-        $rollcall->leave = $request->input('leave');
-        $rollcall->late = $request->input('late');
+        if($request->input('presence') == "on")
+            $rollcall->presence = 1;
+        else
+            $rollcall->presence = 0;
+        // $rollcall->leave = $request->input('leave');
+        // $rollcall->late = $request->input('late');
 
         $rollcall->save();
         return redirect('rollcalls');

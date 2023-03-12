@@ -119,6 +119,9 @@
                     @endforeach
                 @endif
             </table>
+            @if($showPagination)
+                {{$leaves->links()}}
+            @endif
 
     @elsecanany('user')
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
@@ -165,6 +168,9 @@
                     @endforeach
                 @endif
             </table>
+            @if($showPagination)
+                {{$leaves->links()}}
+            @endif
     @else <!--若沒登入或是非系統後台管理者將導回主頁-->
         @php
             header("Location: " . URL::to('/'), true, 302);
