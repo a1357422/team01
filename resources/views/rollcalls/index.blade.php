@@ -2,13 +2,16 @@
 
 @section('title','點名總資料管理')
 
-@section('dormitorysystem_theme','點名總資料管理')
+@section('dormitorysystem_theme','')
 
 @section('dormitorysystem_contents')
     @canany(['superadmin','admin','chief','floorhead'])
-        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
+    <div class="function">
+        <div class="maintitle_btn">
             <h3><a href = "/">回主頁</a></h3>
-            <a href="{{ route('rollcalls.create') }} ">新增點名資料</a>
+            <h3>點名總資料管理</h3>
+        </div>
+        <div>
             <form action="{{ url('rollcalls/dormitory') }}" method='POST'>
                 {!! Form::label('dormitory', '選取宿舍別：') !!}
                 {!! Form::select('dormitory', $dormitories,$select) !!}
@@ -16,9 +19,11 @@
             <input type="submit" value="查詢" />
             @csrf
             </form>
+            <a href="{{ route('rollcalls.create') }} ">新增點名資料</a>
         </div>
-            <table>
-                <tr>
+    </div>
+        <table class="table">
+                <tr class='column_center'>
                     <th>編號</th>
                     <th>點名日期</th>
                     <th>學生床位</th>
@@ -31,7 +36,7 @@
                 </tr>
                 @if ($display == 1)
                     @foreach($rollcalls as $rollcall)
-                    <tr>
+                    <tr class='column_center'>
                         <td>{{ $rollcall->id }}</td>
                         <td>{{ $rollcall->date }}</td>
                         <td>{{ $rollcall->sbrecord->bed->bedcode }}</td>
@@ -63,7 +68,7 @@
                     @endforeach
                 @else
                     @foreach($rollcalls as $rollcall)
-                        <tr>
+                        <tr class='column_center'>
                             <td>{{ $rollcall->id }}</td>
                             <td>{{ $rollcall->date }}</td>
                             <td>{{ $rollcall->bedcode }}</td>
@@ -104,5 +109,4 @@
             exit();
         @endphp
     @endcanany
-
 @endsection

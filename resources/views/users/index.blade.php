@@ -2,12 +2,26 @@
 
 @section('title', '後台權限管理')
 
-@section('dormitorysystem_theme', '後台權限管理')
+@section('dormitorysystem_theme', '')
 
 @section('dormitorysystem_contents')
     @can('superadmin')
-        <table>
-            <tr>
+    <div class="function">
+        <div class="maintitle_btn">
+            <h3><a href = "/">回主頁</a></h3>
+            <h3>後台權限管理</h3>   
+        </div>
+        <div>
+            <form action="{{ url('users/role') }}" method='POST'>
+                {!! Form::label('role', '選取身份別：') !!}
+                {!! Form::select('role', $roles, $select) !!}
+                <input type="submit" value="查詢" />
+                @csrf
+            </form>
+        </div>
+    </div>
+        <table class="table">
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>使用者名稱</th>
                 <th>使用者身分</th>
@@ -15,7 +29,7 @@
                 <th>操作</th>
             </tr>
             @foreach($users as $user)
-                <tr>
+                <tr class='column_center'>
                     <td align="center" valign="center">{{ $user->id }}</td>
                     <td align="center" valign="center">{{ $user->name }}</td>
                     @if($user->role == "superadmin")
@@ -36,11 +50,13 @@
                 </tr>
             @endforeach
         </table>
+        @if($showPagination)
+            {{$users->links()}}
+        @endif
     @else <!--若沒登入或是非系統後台管理者將導回主頁-->
         @php
             header("Location: " . URL::to('/'), true, 302);
             exit();
         @endphp
     @endcan
-        
 @endsection

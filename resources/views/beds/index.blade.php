@@ -2,22 +2,27 @@
 
 @section('title', '床位總資料管理')
 
-@section('dormitorysystem_theme', '床位總資料管理')
+@section('dormitorysystem_theme', '')
 
 @section('dormitorysystem_contents')
     @canany(['superadmin','admin'])
-        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
+    <div class="function">
+        <div class="maintitle_btn">
             <h3><a href = "/">回主頁</a></h3>
-            <a href="{{ route('beds.create') }} ">新增床位資料</a>
+            <h3>床位總資料管理</h3>
+        </div>
+        <div>
             <form action="{{ url('beds/dormitory') }}" method='POST'>
                 {!! Form::label('did', '選取宿舍別：') !!}
                 {!! Form::select('did', $dormitories,$select) !!}
                 <input type="submit" value="查詢" />
                 @csrf
             </form>
+            <a href="{{ route('beds.create') }} ">新增床位資料</a>
         </div>
-            <table>
-            <tr>
+    </div>
+        <table class="table">
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>床位代碼</th>
                 <th>宿別</th>
@@ -28,7 +33,7 @@
                 <th>操作</th>
             </tr>
             @foreach($beds as $bed)
-                <tr>
+                <tr class='column_center'>
                     <td>{{ $bed->id }}</td>
                     <td>{{ $bed->bedcode }}</td>
                     <td>{{ $bed->dormitory->name }}</td>

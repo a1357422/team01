@@ -2,21 +2,26 @@
 
 @section('title','外宿總資料管理')
 
-@section('dormitorysystem_theme','外宿總資料管理')
+@section('dormitorysystem_theme','')
 
 @section('dormitorysystem_contents')
-    @canany(['floorhead','housemaster'])
-        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-            <h3><a href = "/">回主頁</a></h3>
-            <form action="{{ url('leaves/dormitory') }}" method='POST'>
-                {!! Form::label('dormitory', '選取宿舍別：') !!}
-                {!! Form::select('dormitory', $dormitories,$select) !!}
-            <input type="submit" value="查詢" />
-            @csrf
-            </form>
+    @canany(['superadmin','admin','chief','floorhead'])
+        <div class="function">
+            <div class="maintitle_btn">
+                <h3><a href = "/">回主頁</a></h3>
+                <h3>外宿總資料管理</h3>
+            </div>
+            <div>
+                <form action="{{ url('leaves/dormitory') }}" method='POST'>
+                    {!! Form::label('dormitory', '選取宿舍別：') !!}
+                    {!! Form::select('dormitory', $dormitories,$select) !!}
+                <input type="submit" value="查詢" />
+                @csrf
+                </form>
+            </div>
         </div>
-        <table>
-            <tr>
+        <table class="table">
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>學生床位</th>
                 <th>外宿日起</th>
@@ -29,7 +34,7 @@
             </tr>
             @if ($display == 1)
                 @foreach($leaves as $leave)
-                    <tr>
+                    <tr class='column_center'>
                         <td>{{ $leave->id }}</td>
                         <td>{{ $leave->sbrecord->bed->bedcode }}</td>
                         <td>{{ $leave->start }}</td>
@@ -49,7 +54,7 @@
                 @endforeach
             @else
                 @foreach($leaves as $leave)
-                    <tr>
+                    <tr class='column_center'>
                         <td>{{ $leave->id }}</td>
                         <td>{{ $leave->bedcode }}</td>
                         <td>{{ $leave->start }}</td>
@@ -84,7 +89,7 @@
             </form>
         </div>
             <table>
-                <tr>
+                <tr class='column_center'>
                     <th>編號</th>
                     <th>學生床位</th>
                     <th>外宿日起</th>
@@ -107,7 +112,7 @@
                     @endforeach
                 @else
                     @foreach($leaves as $leave)
-                        <tr>
+                        <tr class='column_center'>
                             <td>{{ $leave->id }}</td>
                             <td>{{ $leave->bedcode }}</td>
                             <td>{{ $leave->start }}</td>
@@ -129,7 +134,7 @@
             <a href="{{ route('leaves.create') }} ">新增外宿資料</a>
         </div>
             <table>
-                <tr>
+                <tr class='column_center'>
                     <th>編號</th>
                     <th>學生床位</th>
                     <th>外宿日起</th>
@@ -141,7 +146,7 @@
                 @if ($display == 1)
                     @foreach($all_leaves as $leave)
                         @if(auth()->user()->name == $leave->sbrecord->student->name)
-                            <tr>
+                            <tr class='column_center'>
                                 <td>{{ $leave->id }}</td>
                                 <td>{{ $leave->sbrecord->bed->bedcode }}</td>
                                 <td>{{ $leave->start }}</td>
@@ -155,7 +160,7 @@
                 @else
                     @foreach($all_leaves as $leave)
                         @if(auth()->user()->name == $leave->sbrecord->student->name)
-                            <tr>
+                            <tr class='column_center'>
                                 <td>{{ $leave->id }}</td>
                                 <td>{{ $leave->bedcode }}</td>
                                 <td>{{ $leave->start }}</td>
@@ -177,5 +182,4 @@
             exit();
         @endphp
     @endcanany
-    
 @endsection

@@ -2,16 +2,21 @@
 
 @section('title', '宿舍總資料管理')
 
-@section('dormitorysystem_theme', '宿舍總資料管理')
+@section('dormitorysystem_theme', '')
 
 @section('dormitorysystem_contents')
     @canany(['superadmin','admin'])
-        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
+    <div class="function">
+        <div class="maintitle_btn">
             <h3><a href = "/">回主頁</a></h3>
+            <h3>宿舍總資料管理</h3>
+        </div>
+        <div>
             <a href="{{ route('dormitories.create') }} ">新增宿舍資料</a>
         </div>
-            <table>
-            <tr>
+    </div>
+        <table class="table">
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>宿舍名稱</th>
                 <th>舍監</th>
@@ -21,7 +26,7 @@
                 <th>操作</th>
             </tr>
             @foreach($dormitories as $dormitory)
-                <tr>
+                <tr class='column_center'>
                     <td>{{ $dormitory->id }}</td>
                     <td>{{ $dormitory->name }}</td>
                     <td>{{ $dormitory->housemaster }}</td>

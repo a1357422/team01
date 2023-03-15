@@ -2,23 +2,28 @@
 
 @section('title', '學生照片總資料管理')
 
-@section('dormitorysystem_theme', '學生照片總資料管理')
+@section('dormitorysystem_theme', '')
 
 @section('dormitorysystem_contents')
     @if (Route::has('login'))
         @auth
-            <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
+        <div class="function">
+            <div class="maintitle_btn">
                 <h3><a href = "/">回主頁</a></h3>
-                <a href="{{ route('features.create') }} ">新增學生照片資料</a>
+                <h3>學生照片總資料管理</h3>
+            </div>
+            <div>
                 <form action="{{ url('features/dormitory') }}" method='POST'>
                     {!! Form::label('dormitory', '選取宿舍別：') !!}
                     {!! Form::select('dormitory', $dormitories,$select) !!}
                 <input type="submit" value="查詢" />
                 @csrf
                 </form>
+                <a href="{{ route('features.create') }} ">新增學生照片資料</a>
             </div>
-                <table>
-                <tr>
+        </div>
+            <table class="table">
+                <tr class='column_center'>
                     <th>編號</th>
                     <th>學生床位</th>
                     <th>照片路徑</th>
@@ -28,7 +33,7 @@
                 </tr>
                 @if ($display == 1)
                     @foreach($features as $feature)
-                        <tr>
+                        <tr class='column_center'>
                             <td align="center" valign="center">{{ $feature->id }}</td>
                             <td align="center" valign="center">{{ $feature->sbrecord->bed->bedcode }}</td>
                             @if($feature->path != null)
@@ -50,7 +55,7 @@
                     @endforeach
                 @else
                     @foreach($features as $feature)
-                        <tr>
+                        <tr class='column_center'>
                             <td align="center" valign="center">{{ $feature->id }}</td>
                             <td align="center" valign="center">{{ $feature->bedcode }}</td>
                             @if($feature->path != null)

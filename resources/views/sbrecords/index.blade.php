@@ -2,23 +2,27 @@
 
 @section('title','學生床位總資料管理')
 
-@section('dormitorysystem_theme','學生床位總資料管理')
+@section('dormitorysystem_theme','')
 
 @section('dormitorysystem_contents')
     @cannot('user')
-        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
+    <div class="function">
+        <div class="maintitle_btn">
             <h3><a href = "/">回主頁</a></h3>
-            <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
-            <a href="{{ route('sbrecords.senior') }} ">樓長</a>
+            <h3>學生床位總資料管理</h3>   
+        </div>
+        <div>
             <form action="{{ url('sbrecords/dormitory') }}" method='POST'>
                 {!! Form::label('dormitory', '選取宿舍別：') !!}
                 {!! Form::select('dormitory', $dormitories,$select) !!}
             <input type="submit" value="查詢" />
             @csrf
             </form>
+            <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
+            <a href="{{ route('sbrecords.senior') }} ">樓長</a>
         </div>
-        <table>
-            <tr>
+        <table  class="table">
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>學年</th>
                 <th>學期</th>
@@ -32,7 +36,7 @@
             </tr>
             @if($display == 1)
                 @foreach($sbrecords as $sbrecord)
-                <tr>
+                <tr class='column_center'>
                     <td align="center" valign="center">{{ $sbrecord->id }}</td>
                     <td>{{ $sbrecord->school_year }}</td>
                     <td align="center" valign="center">{{ $sbrecord->semester }}</td>
@@ -57,7 +61,7 @@
                 @endforeach
             @else
                 @foreach($sbrecords as $sbrecord)
-                <tr>
+                <tr class='column_center'>
                     <td align="center" valign="center">{{ $sbrecord->id }}</td>
                     <td>{{ $sbrecord->school_year }}</td>
                     <td align="center" valign="center">{{ $sbrecord->semester }}</td>
@@ -91,5 +95,4 @@
             exit();
         @endphp
     @endcannot
-
 @endsection

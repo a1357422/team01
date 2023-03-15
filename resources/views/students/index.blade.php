@@ -2,22 +2,27 @@
 
 @section('title', '學生總資料管理')
 
-@section('dormitorysystem_theme', '學生總資料管理')
+@section('dormitorysystem_theme', '')
 
 @section('dormitorysystem_contents')
     @canany(['superadmin','admin'])
-        <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
+    <div class="function">
+        <div class="maintitle_btn">
             <h3><a href = "/">回主頁</a></h3>
-            <a href="{{ route('students.create') }} ">新增學生資料</a>
+            <h3>學生總資料管理</h3>   
+        </div>
+        <div>
             <form action="{{ url('students/class') }}" method='POST'>
                 {!! Form::label('class', '選取系別：') !!}
                 {!! Form::select('class', $classes,$select) !!}
                 <input type="submit" value="查詢" />
                 @csrf
             </form>
+            <a href="{{ route('students.create') }} ">新增學生資料</a>
         </div>
-        <table>
-            <tr>
+    </div>
+        <table class="table">
+            <tr class='column_center'>
                 <th>編號</th>
                 <th>學號</th>
                 <th>班級</th>
@@ -28,7 +33,7 @@
                 <th>操作</th>
             </tr>
             @foreach($students as $student)
-                <tr>
+                <tr class='column_center'>
                     <td align="center" valign="center">{{ $student->id }}</td>
                     <td align="center" valign="center">{{ $student->number }}</td>
                     <td align="center" valign="center">{{ $student->class }}</td>

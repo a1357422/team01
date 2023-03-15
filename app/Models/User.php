@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         $query->select('role')->groupBy('role');
     }
+
+    public function scopeRole($query, $role)
+    {
+        $query->where('role', '=', $role);
+    }
 }
