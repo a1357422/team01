@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Sbrecord;
 use App\Http\Requests\CreateRollcallRequest;
 use App\Models\Bed;
+use App\Models\Dormitory;
 use App\Models\Leave;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 class RollcallsController extends Controller
 {
     //
+    public $sbrecords = "";
     public function index(){
         $rollcalls = Rollcall::orderBy('id','ASC')->paginate(10);
         $dormitories = Bed::allDormitories()->get();
@@ -127,7 +129,6 @@ class RollcallsController extends Controller
             return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor')]);
         else
             return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory')]);
-            
     }
 
     public function create(){
@@ -154,13 +155,15 @@ class RollcallsController extends Controller
     }
 
     public function store(CreateRollcallRequest $request){
+        $count = 0;
         $sbrecords = Sbrecord::get();
-        $date = date("Y-d-m");
+        $date = date("Y-m-d");
         $check = is_null($request->input("presence"));
         $leaves = Leave::leave()->get();
-        if ($check==true){
-            for($i=1;$i<count($sbrecords)+1;$i++){
-                foreach($leaves as $leave){
+        for($i=1;$i<count($sbrecords)+1;$i++){
+            $count = 0;
+            foreach($leaves as $leave){
+                if ($check==true){
                     if($i == $leave->sbid){
                         $sbrecord = Sbrecord::findOrFail($i);
                         $rollcall = Rollcall::create([
@@ -171,24 +174,9 @@ class RollcallsController extends Controller
                             // 'late' => $late,
                         ]); 
                     }
-                    // else{
-                    //     $sbrecord = Sbrecord::findOrFail($i);
-                    //     $rollcall = Rollcall::create([
-                    //         'sbid' => $sbrecord->id,
-                    //         'date' => $date,
-                    //         'presence' => 0,
-                    //         'leave' => 0,
-                    //         // 'late' => $late,
-                    //     ]); 
-                    // }
                 }
-            }
-            
-        }
-        else{
-            foreach ($request->input("presence") as $presence){
-                for($i=1;$i<count($sbrecords)+1;$i++){
-                    foreach($leaves as $leave){
+                else{
+                    foreach ($request->input("presence") as $presence){
                         if($i == $presence){
                             if($i == $leave->sbid){
                                 $sbrecord = Sbrecord::findOrFail($presence);
@@ -199,17 +187,39 @@ class RollcallsController extends Controller
                                     'leave' => 1,
                                     // 'late' => $late,
                                 ]); 
-                                // break;
+                            }
+                            else{
+                                $sbrecord = Sbrecord::findOrFail($i);
+                                $rollcall = Rollcall::create([
+                                    'sbid' => $sbrecord->id,
+                                    'date' => $date,
+                                    'presence' => 1,
+                                    'leave' => 0,
+                                    // 'late' => $late,
+                                ]); 
                             }                    
                         }
-                        
+                        else{
+                            if($i == $leave->sbid && $count == 0){
+                                $sbrecord = Sbrecord::findOrFail($i);
+                                $rollcall = Rollcall::create([
+                                    'sbid' => $sbrecord->id,
+                                    'date' => $date,
+                                    'presence' => 0,
+                                    'leave' => 1,
+                                    // 'late' => $late,
+                                ]); 
+                                $count += 1;
+                            }
+                        }
                     }
-                    
                 }
-                
             }
             
         }
+        
+            
+        // }
         return redirect("rollcalls");
     }
     public function edit($id){
