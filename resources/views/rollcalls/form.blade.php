@@ -12,6 +12,7 @@
                 <td>{{ $date }}</td>
                 <td>{{ $sbrecord->bed->bedcode }}</td>
                 <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
+                {!! Form::hidden('edition[]', $sbrecord->id) !!}
             </tr>
         @endforeach
     @elseif($display == 3)
@@ -19,7 +20,9 @@
             <td>{{ $rollcall->id }}</td>
             <td>{{ $selectDate }}</td>
             <td>{{ $rollcall->sbrecord->bed->bedcode }}</td>
-            <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
+            <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$rollcall->id,isset($model->checkbox)?:0)!!}</font></td>
+            {!! Form::hidden('edition[]', $sbrecord->id) !!}
+
         </tr>
     @else
         @foreach($sbrecords as $sbrecord)
@@ -28,6 +31,8 @@
                 <td>{{ $date }}</td>
                 <td>{{ $sbrecord->bedcode }}</td>
                 <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
+                {!! Form::hidden('edition[]', $sbrecord->id) !!}
+
             </tr>
         @endforeach
     @endif
