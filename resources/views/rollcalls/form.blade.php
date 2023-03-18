@@ -4,6 +4,8 @@
         <th>點名日期</th>
         <th>學生床位</th>
         <th>{!! Form::label('presence','在場與否')!!}</th>
+        <th>照片</th>
+        <th></th>
     </tr>
     @if($display == 1)
         @foreach($sbrecords as $sbrecord)
@@ -12,6 +14,8 @@
                 <td>{{ $date }}</td>
                 <td>{{ $sbrecord->bed->bedcode }}</td>
                 <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
+                <td> </td>
+                <td><a href="{{ route('webcams.index') }} ">拍照</a></td>
                 {!! Form::hidden('edition[]', $sbrecord->id) !!}
             </tr>
         @endforeach

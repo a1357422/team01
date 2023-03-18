@@ -9,6 +9,7 @@ use App\Http\Controllers\SbrecordsController;
 use App\Http\Controllers\StudentsController;
 use App\Http\Controllers\FeaturesController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\WebcamsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -114,7 +115,8 @@ Route::get('users/{id}/edit',[UsersController::class,'edit'])->where("id","[0-9]
 Route::patch('users/update/{id}',[UsersController::class,'update'])->where("id","[0-9]+")->name('users.update');
 Route::post('users/role', [UsersController::class, 'role'])->name('users.role');
 
-
+Route::get('webcams', [WebcamsController::class, 'index'])->name(('webcams.index'));
+Route::post('webcams', [WebcamsController::class, 'store'])->name('webcams.capture');
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
