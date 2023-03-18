@@ -29,6 +29,7 @@ Route::get('/', function () {
 Route::get('students',[StudentsController::class,'index'])->name('students.index');
 //新增學生資料表單
 Route::get('students/create',[StudentsController::class,'create'])->name('students.create');
+Route::get('students/createdata',[StudentsController::class,'createdata'])->name('students.createdata');
 //顯示一筆學生詳細資料
 Route::get('students/{id}',[StudentsController::class,'show'])->where("id","[0-9]+")->name('students.show');
 //刪除一筆學生資料

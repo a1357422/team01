@@ -25,7 +25,7 @@ class CreateLatesTable extends Migration
             $table->string("address",191)->nullable(false)->comment("單位聯絡地址");
             $table->time("back_time")->nullable(false)->comment("預計每日返回宿舍時間");
             $table->string("filename_path",191)->nullable(false)->comment("佐證圖檔路徑");
-            $table->boolean("floorhead_check")->nullable(false)->comment("樓長審核")->default(true);
+            $table->boolean("floorhead_check")->nullable(false)->comment("樓長審核")->default(false);
             $table->boolean("chief_check")->nullable(false)->comment("總樓長審核")->default(false);
             $table->boolean("housemaster_check")->nullable(false)->comment("宿舍輔導員審核")->default(false);
             $table->boolean("admin_check")->nullable(false)->comment("行政審核")->default(false);

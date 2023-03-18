@@ -155,7 +155,6 @@ class RollcallsController extends Controller
     }
 
     public function store(CreateRollcallRequest $request){
-        // dd(count($request->input('edition')));
         $sbrecords = Sbrecord::get();
         $date = date("Y-m-d");
         $check = is_null($request->input("presence"));
@@ -174,8 +173,8 @@ class RollcallsController extends Controller
                         ]); 
                     }
                     else{
-                        foreach($leaves as $leave){
-                            if($request->input('edition')[$i-1] == $leave->sbid){
+                        if($request->input('edition')[$i-1] == $leaves[$i-1]->sbid){
+                            if($leaves[$i-1]->floorhead_check != 0 && $leaves[$i-1]->housemaster_check != 0){
                                 $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::create([
                                     'sbid' => $sbrecord->id,
@@ -195,14 +194,24 @@ class RollcallsController extends Controller
                                     // 'late' => $late,
                                 ]);
                             }
+                        }
+                        else{
+                            $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                            $rollcall = Rollcall::create([
+                                'sbid' => $sbrecord->id,
+                                'date' => $date,
+                                'presence' => 0,
+                                'leave' => 0,
+                                // 'late' => $late,
+                            ]);
                         }
                     }
                 }
                 else{
                     if(count($leaves)==0){
-                        foreach($request->input("presence") as $presence){
-                            if($i == $presence){
-                                $sbrecord = Sbrecord::findOrFail($presence);
+                        for($j=1;$j<=count($request->input("presence"));$j++){
+                            if($request->input('edition')[$i-1] == $request->input("presence")[$j-1]){
+                                $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::create([
                                     'sbid' => $sbrecord->id,
                                     'date' => $date,
@@ -212,32 +221,7 @@ class RollcallsController extends Controller
                                 ]);
                             }
                             else{
-                                $sbrecord = Sbrecord::findOrFail($i);
-                                $rollcall = Rollcall::create([
-                                    'sbid' => $sbrecord->id,
-                                    'date' => $date,
-                                    'presence' => 0,
-                                    'leave' => 0,
-                                    // 'late' => $late,
-                                ]);
-                            }
-                        }
-                        
-                    }
-                    else{
-                        foreach($leaves as $leave){
-                            if($i == $leave->sbid){
-                                $sbrecord = Sbrecord::findOrFail($i);
-                                $rollcall = Rollcall::create([
-                                    'sbid' => $sbrecord->id,
-                                    'date' => $date,
-                                    'presence' => 1,
-                                    'leave' => 1,
-                                    // 'late' => $late,
-                                ]);
-                            }
-                            else{
-                                $sbrecord = Sbrecord::findOrFail($i);
+                                $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::create([
                                     'sbid' => $sbrecord->id,
                                     'date' => $date,

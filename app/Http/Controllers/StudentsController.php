@@ -195,6 +195,10 @@ class StudentsController extends Controller
         return view("students.create");
     }
 
+    public function createdata(){
+        return view("students.createdata");
+    }
+
     public function store(CreateStudentRequest $request){
         $number = $request->input('number');
         $class = $request->input('class');

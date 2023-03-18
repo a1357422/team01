@@ -21,7 +21,7 @@ class BedsTableSeeder extends Seeder
 
         for ($i = 0; $i < $length; $i++) { 
             if ($i == 0 && $bedcodeString==81){
-                $randomString .= $floorcode_girl1[rand(1, strlen($floorcode_girl1) - 1)]."0".rand(1,9);
+                $randomString .= $floorcode_girl1[rand(0, strlen($floorcode_girl1) - 1)]."0".rand(1,9);
             }
             else if ($i == 0 && $bedcodeString==82){
                 $floorcode_boy1andgirl2 = $floorcode_boy1andgirl2[rand(0, strlen($floorcode_boy1andgirl2) - 1)];
