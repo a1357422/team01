@@ -12,6 +12,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WebcamsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Intervention\Image\Facades\Image;
 
 //Homepage
 // Route::get('/', function () {
@@ -115,7 +116,7 @@ Route::get('users/{id}/edit',[UsersController::class,'edit'])->where("id","[0-9]
 Route::patch('users/update/{id}',[UsersController::class,'update'])->where("id","[0-9]+")->name('users.update');
 Route::post('users/role', [UsersController::class, 'role'])->name('users.role');
 
-Route::get('webcams', [WebcamsController::class, 'index'])->name(('webcams.index'));
+Route::get('webcams/{id}', [WebcamsController::class, 'upload'])->where("id","[0-9]+")->name(('webcams.upload'));
 Route::post('webcams', [WebcamsController::class, 'store'])->name('webcams.capture');
 
 Auth::routes();

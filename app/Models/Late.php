@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -44,6 +45,21 @@ class Late extends Model
 		// INNER JOIN `sbrecords` ON `lates`.sbid = `sbrecords`.id
 		// INNER JOIN `students` ON `sbrecords`.sid=`students`.id
 		// INNER JOIN `beds` ON `sbrecords`.bid = `beds`.id
+    }
+
+    public function scopeLate($query)
+    {
+        $date = Carbon::now()->toDateString();
+        $query->join('sbrecords','lates.sbid','=','sbrecords.id')
+        ->select('sbrecords.id','lates.sbid','lates.start','lates.end')
+        ->where("lates.start","<=","$date")
+        ->where("lates.end",">=","$date")
+        ->orderBy('lates.sbid','asc');
+    }
+
+    public function scopeFindLateSbid($query,$sbid)
+    {
+        $query->select('lates.sbid','lates.floorhead_check','lates.chief_check','lates.housemaster_check','lates.admin_check')->where('lates.sbid','=',"$sbid");
     }
 
     public function sbrecord(){

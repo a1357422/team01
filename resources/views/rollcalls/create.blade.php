@@ -23,7 +23,7 @@
             </form>
         </div>
         @include('message.list')
-        {!! Form::open(['url'=>'rollcalls/store'])!!}
+        {!! Form::open(['url'=>'rollcalls/store','files'=>'true'])!!}
         @if(!empty($dormitories))
             @include ('rollcalls.form',['submitButtonText'=>"新增點名資料"])
         @endif

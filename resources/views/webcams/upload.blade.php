@@ -22,6 +22,9 @@
                 <br/>
                 <input type=button value="Take Snapshot" onClick="take_snapshot()">
                 <input type="hidden" name="image" class="image-tag">
+                {!! Form::hidden('sbid', $sbrecord->id) !!}
+                {!! Form::hidden('name', $sbrecord->student->name) !!}
+                {!! Form::hidden('bedcode', $sbrecord->bed->bedcode) !!}
             </div>
             <div class="col-md-6">
                 <div id="results">Your captured image will appear here...</div>

@@ -9,9 +9,14 @@ use App\Models\Sbrecord;
 use App\Http\Requests\CreateRollcallRequest;
 use App\Models\Bed;
 use App\Models\Dormitory;
+use App\Models\Late;
 use App\Models\Leave;
+use App\Models\Student;
+use App\Models\Webcam;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic as Image; 
 
 class RollcallsController extends Controller
 {
@@ -155,72 +160,250 @@ class RollcallsController extends Controller
     }
 
     public function store(CreateRollcallRequest $request){
+        $files=$request->file('image');
         $sbrecords = Sbrecord::get();
         $date = date("Y-m-d");
         $check = is_null($request->input("presence"));
         $leaves = Leave::leave()->get();
+        $lates = Late::late()->get();
+
         if($request->input('edition')!=null){
             for($i=1;$i<=count($request->input('edition'));$i++){
+                if(in_array($i-1,array_keys($files))){
+                    $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                    $student = Student::findOrFail($sbrecord->sid);
+                    $destinationPath = 'uploads/'.date("md")."_".$student->name;
+                    $files[$i-1]->move($destinationPath,"$student->name.".$files[$i-1]->getClientOriginalExtension());
+                    $webcam = Webcam::create([
+                        'sbid' => $sbrecord->id,
+                        'file_path'=>$destinationPath."/$student->name.".$files[$i-1]->getClientOriginalExtension(),
+                    ]);
+                }
                 if ($check==true){
-                    if(count($leaves)==0){
+                    if(count($leaves)==0 && count($lates)==0){
                         $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                         $rollcall = Rollcall::create([
                             'sbid' => $sbrecord->id,
                             'date' => $date,
                             'presence' => 0,
                             'leave' => 0,
-                            // 'late' => $late,
+                            'late' => 0,
                         ]); 
                     }
                     else{
-                        for($y=0;$y<count($leaves);$y++){
-                            if($request->input('edition')[$i-1] == $leaves[$y]->sbid){
-                                if($leaves[$i-1]->floorhead_check != 0 && $leaves[$y]->housemaster_check != 0){
-                                    $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
-                                    $rollcall = Rollcall::create([
-                                        'sbid' => $sbrecord->id,
-                                        'date' => $date,
-                                        'presence' => 0,
-                                        'leave' => 1,
-                                        // 'late' => $late,
-                                    ]);
-                                }
-                                else{
-                                    $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
-                                    $rollcall = Rollcall::create([
-                                        'sbid' => $sbrecord->id,
-                                        'date' => $date,
-                                        'presence' => 0,
-                                        'leave' => 0,
-                                        // 'late' => $late,
-                                    ]);
-                                }
+                        $check_leave = Leave::FindLeavesbid($request->input('edition')[$i-1])->get();
+                        $check_late = Late::FindLatesbid($request->input('edition')[$i-1])->get();
+                        if(count($check_leave)==1 && count($check_late)==0){
+                            if($request->input('edition')[$i-1] == $check_leave[0]->sbid){
+                                if($check_leave[0]->floorhead_check != 0 && $check_leave[0]->housemaster_check != 0)
+                                    $leave = 1;
+                                else
+                                    $leave = 0;
+                                $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                                $rollcall = Rollcall::create([
+                                    'sbid' => $sbrecord->id,
+                                    'date' => $date,
+                                    'presence' => 0,
+                                    'leave' => $leave,
+                                    'late' => 0,
+                                ]);
                             }
-                            else{
+                        }
+                        elseif(count($check_leave)==0 && count($check_late)==1){
+                            if($request->input('edition')[$i-1] == $check_late[0]->sbid){
+                                if($check_late[0]->floorhead_check != 0 && $check_late[0]->chief_check != 0 && $check_late[0]->housemaster_check != 0 && $check_late[0]->admin_check != 0)
+                                    $late = 1;
+                                else
+                                    $late = 0;
                                 $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::create([
                                     'sbid' => $sbrecord->id,
                                     'date' => $date,
                                     'presence' => 0,
                                     'leave' => 0,
-                                    // 'late' => $late,
+                                    'late' => $late,
                                 ]);
                             }
                         }
-                        
+                        elseif(count($check_leave)==1 && count($check_late)==1){
+                            if($request->input('edition')[$i-1] == $check_leave[0]->sbid){
+                                if($check_leave[0]->floorhead_check != 0 && $check_leave[0]->housemaster_check != 0)
+                                    $leave = 1;
+                                else
+                                    $leave = 0;
+                            }
+                            if($request->input('edition')[$i-1] == $check_late[0]->sbid){
+                                if($check_late[0]->floorhead_check != 0 && $check_late[0]->chief_check != 0 && $check_late[0]->housemaster_check != 0 && $check_late[0]->admin_check != 0)
+                                    $late = 1;
+                                else
+                                    $late = 0;
+                            }
+                            $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                            $rollcall = Rollcall::create([
+                                'sbid' => $sbrecord->id,
+                                'date' => $date,
+                                'presence' => 0,
+                                'leave' => $leave,
+                                'late' => $late,
+                            ]);
+                        }
+                        else{
+                            $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                            $rollcall = Rollcall::create([
+                                'sbid' => $sbrecord->id,
+                                'date' => $date,
+                                'presence' => 0,
+                                'leave' => 0,
+                                'late' => 0,
+                            ]);
+                        }
                     }
                 }
                 else{
-                    if(count($leaves)==0){
-                        for($j=1;$j<=count($request->input("presence"));$j++){
-                            if($request->input('edition')[$i-1] == $request->input("presence")[$j-1]){
+                    if(count($leaves)==0 && count($lates)==0){
+                        if(in_array($request->input('edition')[$i-1],$request->input("presence")) == true){
+                            $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                            $rollcall = Rollcall::create([
+                                'sbid' => $sbrecord->id,
+                                'date' => $date,
+                                'presence' => 1,
+                                'leave' => 0,
+                                // 'late' => $late,
+                            ]);
+                        }
+                        else{
+                            $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                            $rollcall = Rollcall::create([
+                                'sbid' => $sbrecord->id,
+                                'date' => $date,
+                                'presence' => 0,
+                                'leave' => 0,
+                                // 'late' => $late,
+                            ]);
+                        }
+                    }
+                    else{
+                        $check_leave = Leave::FindLeavesbid($request->input('edition')[$i-1])->get();
+                        $check_late = Late::FindLatesbid($request->input('edition')[$i-1])->get();
+                        if(in_array($request->input('edition')[$i-1],$request->input("presence")) == true){
+                            if(count($check_leave)==1 && count($check_late)==0){
+                                if($request->input('edition')[$i-1] == $check_leave[0]->sbid){
+                                    if($check_leave[0]->floorhead_check != 0 && $check_leave[0]->housemaster_check != 0)
+                                        $leave = 1;
+                                    else
+                                        $leave = 0;
+                                    $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                                    $rollcall = Rollcall::create([
+                                        'sbid' => $sbrecord->id,
+                                        'date' => $date,
+                                        'presence' => 1,
+                                        'leave' => $leave,
+                                        'late' => 0,
+                                    ]);
+                                }
+                            }
+                            elseif(count($check_leave)==0 && count($check_late)==1){
+                                if($request->input('edition')[$i-1] == $check_late[0]->sbid){
+                                    if($check_late[0]->floorhead_check != 0 && $check_late[0]->chief_check != 0 && $check_late[0]->housemaster_check != 0 && $check_late[0]->admin_check != 0)
+                                        $late = 1;
+                                    else
+                                        $late = 0;
+                                    $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                                    $rollcall = Rollcall::create([
+                                        'sbid' => $sbrecord->id,
+                                        'date' => $date,
+                                        'presence' => 1,
+                                        'leave' => 0,
+                                        'late' => $late,
+                                    ]);
+                                }
+                            }
+                            elseif(count($check_leave)==1 && count($check_late)==1){
+                                if($request->input('edition')[$i-1] == $check_leave[0]->sbid){
+                                    if($check_leave[0]->floorhead_check != 0 && $check_leave[0]->housemaster_check != 0)
+                                        $leave = 1;
+                                    else
+                                        $leave = 0;
+                                }
+                                if($request->input('edition')[$i-1] == $check_late[0]->sbid){
+                                    if($check_late[0]->floorhead_check != 0 && $check_late[0]->chief_check != 0 && $check_late[0]->housemaster_check != 0 && $check_late[0]->admin_check != 0)
+                                        $late = 1;
+                                    else
+                                        $late = 0;
+                                }
+                                $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                                $rollcall = Rollcall::create([
+                                    'sbid' => $sbrecord->id,
+                                    'date' => $date,
+                                    'presence' => 1,
+                                    'leave' => $leave,
+                                    'late' => $late,
+                                ]);
+                            }
+                            else{
                                 $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::create([
                                     'sbid' => $sbrecord->id,
                                     'date' => $date,
                                     'presence' => 1,
                                     'leave' => 0,
-                                    // 'late' => $late,
+                                    'late' => 0,
+                                ]);
+                            }
+                        }
+                        else{
+                            if(count($check_leave)==1 && count($check_late)==0){
+                                if($request->input('edition')[$i-1] == $check_leave[0]->sbid){
+                                    if($check_leave[0]->floorhead_check != 0 && $check_leave[0]->housemaster_check != 0)
+                                        $leave = 1;
+                                    else
+                                        $leave = 0;
+                                    $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                                    $rollcall = Rollcall::create([
+                                        'sbid' => $sbrecord->id,
+                                        'date' => $date,
+                                        'presence' => 0,
+                                        'leave' => $leave,
+                                        'late' => 0,
+                                    ]);
+                                }
+                            }
+                            elseif(count($check_leave)==0 && count($check_late)==1){
+                                if($request->input('edition')[$i-1] == $check_late[0]->sbid){
+                                    if($check_late[0]->floorhead_check != 0 && $check_late[0]->chief_check != 0 && $check_late[0]->housemaster_check != 0 && $check_late[0]->admin_check != 0)
+                                        $late = 1;
+                                    else
+                                        $late = 0;
+                                    $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                                    $rollcall = Rollcall::create([
+                                        'sbid' => $sbrecord->id,
+                                        'date' => $date,
+                                        'presence' => 0,
+                                        'leave' => 0,
+                                        'late' => $late,
+                                    ]);
+                                }
+                            }
+                            elseif(count($check_leave)==1 && count($check_late)==1){
+                                if($request->input('edition')[$i-1] == $check_leave[0]->sbid){
+                                    if($check_leave[0]->floorhead_check != 0 && $check_leave[0]->housemaster_check != 0)
+                                        $leave = 1;
+                                    else
+                                        $leave = 0;
+                                }
+                                if($request->input('edition')[$i-1] == $check_late[0]->sbid){
+                                    if($check_late[0]->floorhead_check != 0 && $check_late[0]->chief_check != 0 && $check_late[0]->housemaster_check != 0 && $check_late[0]->admin_check != 0)
+                                        $late = 1;
+                                    else
+                                        $late = 0;
+                                }
+                                $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                                $rollcall = Rollcall::create([
+                                    'sbid' => $sbrecord->id,
+                                    'date' => $date,
+                                    'presence' => 0,
+                                    'leave' => $leave,
+                                    'late' => $late,
                                 ]);
                             }
                             else{
@@ -230,7 +413,7 @@ class RollcallsController extends Controller
                                     'date' => $date,
                                     'presence' => 0,
                                     'leave' => 0,
-                                    // 'late' => $late,
+                                    'late' => 0,
                                 ]);
                             }
                         }

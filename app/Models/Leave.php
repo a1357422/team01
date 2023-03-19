@@ -34,10 +34,15 @@ class Leave extends Model
     {
         $date = Carbon::now()->toDateString();
         $query->join('sbrecords','leaves.sbid','=','sbrecords.id')
-        ->select('sbrecords.id','leaves.sbid','leaves.start','leaves.end','leaves.floorhead_check','leaves.housemaster_check')
+        ->select('sbrecords.id','leaves.sbid','leaves.start','leaves.end')
         ->where("leaves.start","<=","$date")
         ->where("leaves.end",">=","$date")
         ->orderBy('leaves.sbid','asc');
+    }
+
+    public function scopeFindLeaveSbid($query,$sbid)
+    {
+        $query->select('leaves.sbid','leaves.floorhead_check','leaves.housemaster_check')->where('leaves.sbid','=',"$sbid");
     }
 
     public function sbrecord(){
