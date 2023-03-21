@@ -21,8 +21,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(LeavesTableSeeder::class);
         // $this->call(LatesTableSeeder::class);
         // $this->call(RollcallsTableSeeder::class);
-        $this->call(FeaturesTableSeeder::class);
-        $this->call(WebcamsTableSeeder::class);
 
     }
 }

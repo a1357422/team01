@@ -37,7 +37,6 @@
                 <li><a href = "/rollcalls">點名系統</a></li>
                 <li><a href = "/lates">晚歸系統</a></li>
                 <li><a href = "/leaves">外宿系統</a></li>
-                <li><a href = "/features">照片系統</a></li>
             </ui>
         @elsecan('admin') <!--宿舍行政-->
             <ui class="dashboard">
@@ -48,7 +47,6 @@
                 <li><a href = "/rollcalls">點名系統</a></li>
                 <li><a href = "/lates">晚歸系統</a></li>
                 <li><a href = "/leaves">外宿系統</a></li>
-                <li><a href = "/features">照片系統</a></li>
             </ui>
         @elsecan('housemaster') <!--宿舍輔導員-->
             <ui class="dashboard">

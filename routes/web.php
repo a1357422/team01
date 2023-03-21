@@ -7,7 +7,6 @@ use App\Http\Controllers\LeavesController;
 use App\Http\Controllers\RollcallsController;
 use App\Http\Controllers\SbrecordsController;
 use App\Http\Controllers\StudentsController;
-use App\Http\Controllers\FeaturesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\WebcamsController;
 use Illuminate\Support\Facades\Auth;
@@ -80,6 +79,8 @@ Route::post('rollcalls/store',[RollcallsController::class,'store'])->name('rollc
 Route::get('rollcalls/{id}/edit',[RollcallsController::class,'edit'])->where("id","[0-9]+")->name('rollcalls.edit');
 Route::patch('rollcalls/update/{id}',[RollcallsController::class,'update'])->where("id","[0-9]+")->name('rollcalls.update');
 Route::post('rollcalls/dormitory', [RollcallsController::class,'dormitory'])->name('rollcalls.dormitory');
+Route::get('rollcalls/{id}/upload', [RollcallsController::class, 'upload'])->where("id","[0-9]+")->name(('rollcalls.upload'));
+Route::post('rollcalls/capture', [RollcallsController::class, 'storeimage'])->name('rollcalls.capture');
 
 
 Route::get('lates',[LatesController::class,'index'])->name('lates.index');
@@ -102,22 +103,10 @@ Route::get('leaves/{id}/edit',[LeavesController::class,'edit'])->where("id","[0-
 Route::patch('leaves/update/{id}',[LeavesController::class,'update'])->where("id","[0-9]+")->name('leaves.update');
 Route::post('leaves/dormitory', [LeavesController::class,'dormitory'])->name('leaves.dormitory');
 
-Route::get('features',[FeaturesController::class,'index'])->name('features.index');
-Route::get('features/create',[FeaturesController::class,'create'])->name('features.create');
-Route::get('features/{id}',[FeaturesController::class,'show'])->where("id","[0-9]+")->name('features.show');
-Route::delete('features/delete/{id}',[FeaturesController::class,'destroy'])->where("id","[0-9]+")->name('features.destroy');
-Route::post('features/store',[FeaturesController::class,'store'])->name('features.store');
-Route::get('features/{id}/edit',[FeaturesController::class,'edit'])->where("id","[0-9]+")->name('features.edit');
-Route::patch('features/update/{id}',[FeaturesController::class,'update'])->where("id","[0-9]+")->name('features.update');
-Route::post('features/dormitory', [FeaturesController::class,'dormitory'])->name('features.dormitory');
-
 Route::get('users',[UsersController::class,'index'])->name('users.index');
 Route::get('users/{id}/edit',[UsersController::class,'edit'])->where("id","[0-9]+")->name('users.edit');
 Route::patch('users/update/{id}',[UsersController::class,'update'])->where("id","[0-9]+")->name('users.update');
 Route::post('users/role', [UsersController::class, 'role'])->name('users.role');
-
-Route::get('webcams/{id}', [WebcamsController::class, 'upload'])->where("id","[0-9]+")->name(('webcams.upload'));
-Route::post('webcams', [WebcamsController::class, 'store'])->name('webcams.capture');
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

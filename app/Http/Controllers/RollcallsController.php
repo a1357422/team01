@@ -4,15 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Rollcall;
 // use Request
-use Illuminate\Support\Facades\DB;
 use App\Models\Sbrecord;
 use App\Http\Requests\CreateRollcallRequest;
 use App\Models\Bed;
-use App\Models\Dormitory;
 use App\Models\Late;
 use App\Models\Leave;
-use App\Models\Student;
-use App\Models\Webcam;
+use App\Models\Photo;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -25,6 +22,13 @@ class RollcallsController extends Controller
         $rollcalls = Rollcall::orderBy('id','ASC')->paginate(10);
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
+
+        // $photo = Photo::get();
+        // dd($photo);
+        // $imagepath = $photo[1]->upload_file_path." ". $photo[0]->webcam_file_path;
+        // $result = exec("python 照片辨識.py 2>error.txt $imagepath");
+        // var_dump($result);
+        
         foreach ($dormitories as $dormitory)
         {
             if($dormitory->did == "1"){
@@ -42,6 +46,12 @@ class RollcallsController extends Controller
         }
 
         return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
+    }
+
+    public function upload($id)
+    {
+        $sbrecord=Sbrecord::findOrFail($id);
+        return view('rollcalls.upload',["sbrecord"=>$sbrecord]);
     }
 
     public function api_rollcalls()
@@ -130,10 +140,10 @@ class RollcallsController extends Controller
             }
         }
         if(@$_POST[ '新增表單查詢' ] == '新增表單查詢'){
-            return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor')]);
+            return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md")]);
         } 
         else
-            return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory')]);
+            return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md")]);
     }
 
     public function create(){
@@ -156,7 +166,7 @@ class RollcallsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1]);
+        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md")]);
     }
 
     public function store(CreateRollcallRequest $request){
@@ -171,12 +181,13 @@ class RollcallsController extends Controller
             for($i=1;$i<=count($request->input('edition'));$i++){
                 if(in_array($i-1,array_keys($files))){
                     $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
-                    $student = Student::findOrFail($sbrecord->sid);
-                    $destinationPath = 'uploads/'.date("md")."_".$student->name;
-                    $files[$i-1]->move($destinationPath,"$student->name.".$files[$i-1]->getClientOriginalExtension());
-                    $webcam = Webcam::create([
+                    $bed = Bed::findOrFail($sbrecord->bid);
+                    $destinationPath = 'storage/uploads/'.date("md")."/".$bed->bedcode;
+                    $files[$i-1]->move($destinationPath,"$bed->bedcode.".$files[$i-1]->getClientOriginalExtension());
+                    $photo = Photo::create([
                         'sbid' => $sbrecord->id,
-                        'file_path'=>$destinationPath."/$student->name.".$files[$i-1]->getClientOriginalExtension(),
+                        'upload_file_path'=>$destinationPath."/$bed->bedcode.".$files[$i-1]->getClientOriginalExtension(),
+                        'webcam_file_path'=>"",
                     ]);
                 }
                 if ($check==true){
@@ -268,7 +279,7 @@ class RollcallsController extends Controller
                                 'date' => $date,
                                 'presence' => 1,
                                 'leave' => 0,
-                                // 'late' => $late,
+                                'late' => 0,
                             ]);
                         }
                         else{
@@ -278,7 +289,7 @@ class RollcallsController extends Controller
                                 'date' => $date,
                                 'presence' => 0,
                                 'leave' => 0,
-                                // 'late' => $late,
+                                'late' => 0,
                             ]);
                         }
                     }
@@ -423,6 +434,50 @@ class RollcallsController extends Controller
         }
         return redirect("rollcalls");
     }
+
+    public function storeimage(Request $request)
+    {
+        $sbrecords = Sbrecord::get();
+        $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->get();
+        $dormitories = Bed::allDormitories()->get();
+        $tags = [];
+        $date = date("md");
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+
+        $img = $request->image;
+        if($img!=null){
+            $folderPath = "webcams/".$date."/".$request->input('bedcode')."/";
+            $image_parts = explode(";base64,", $img);
+            $image_type_aux = explode("image/", $image_parts[0]);
+            $image_type = $image_type_aux[1];
+            $image_base64 = base64_decode($image_parts[1]);
+            // $fileName = uniqid() . '.png';
+            $fileName = $request->input('bedcode');
+            $file = $folderPath . $fileName.'.png';
+            Storage::disk('public')->put($file, $image_base64);
+            $upload = Photo::create([
+                'sbid' => $request->input('sbid'),
+                'upload_file_path'=>"",
+                'webcam_file_path'=>"storage/".$file,
+            ]);
+        }
+        return redirect("rollcalls/create");
+    }
+
     public function edit($id){
         $rollcall = Rollcall::findOrFail($id);
         $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');  

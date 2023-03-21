@@ -16,8 +16,12 @@
                 <td>{{ $sbrecord->bed->bedcode }}</td>
                 <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
                 <td>{{ Form::file('image[]') }}</td>
-                <!-- <td/> -->
-                <td><a href="{{ route('webcams.upload',$sbrecord->id) }} ">拍照</a></td>
+                @if(file_exists(public_path("/storage/webcams/".$MonthDay."/".$sbrecord->bed->bedcode."/".$sbrecord->bed->bedcode.".png")))
+                    <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$sbrecord->bed->bedcode}}/{{$sbrecord->bed->bedcode}}.png"width="50" height="50"alt=""/></td>
+                @else
+                    <td/>
+                @endif
+                <td><a href="{{ route('rollcalls.upload',$sbrecord->id) }} ">拍照</a></td>
                 {!! Form::hidden('edition[]', $sbrecord->id) !!}
             </tr>
         @endforeach
@@ -37,8 +41,12 @@
                 <td>{{ $sbrecord->bedcode }}</td>
                 <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
                 <td>{{ Form::file('image[]') }}</td>
-                <!-- <td/> -->
-                <td><a href="{{ route('webcams.upload',$sbrecord->id) }} ">拍照</a></td>
+                @if(file_exists(public_path("/storage/webcams/".$MonthDay."/".$sbrecord->bedcode."/".$sbrecord->bedcode.".png")))
+                    <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$sbrecord->bedcode}}/{{$sbrecord->bedcode}}.png"width="50" height="50"alt=""/></td>
+                @else
+                    <td/>
+                @endif
+                <td><a href="{{ route('rollcalls.upload',$sbrecord->id,$sbrecords) }} ">拍照</a></td>
                 {!! Form::hidden('edition[]', $sbrecord->id) !!}
 
             </tr>

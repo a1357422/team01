@@ -12,7 +12,8 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.5",
-        "laravelcollective/html": "^6.3"
+        "laravelcollective/html": "^6.3",
+        "symfony/process": "^5.4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
