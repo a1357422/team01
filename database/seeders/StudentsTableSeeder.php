@@ -89,34 +89,72 @@ class StudentsTableSeeder extends Seeder
     {
         //
         for ($i=0;$i<142;$i++){
-            $number = $this->StudentIDCreate();
-            $class = $this->generateRandomClass();
-            $name = $this->generateRandomName();
-            $address = $this->generateRandomName(15);
-            $phone = $this->generateRandomPhone();
-            $guardian = $this->generateRandomName();
-            $nationality = $this->generateRandomNationality();
-            $salutation = $this->generateRandomRelation();
-            $password = Hash::make($number);
+            if($i == 8){
+                DB::table('students')->insert([
+                    'number' => "D1094162012",
+                    'class' => "資網三B",
+                    'name' => "簡至昊",
+                    'address' => "桃園市龜山區萬壽路一段300號",
+                    'phone' => "0282093211",
+                    'nationality' => "台灣",
+                    'guardian' => "xxx",
+                    'salutation' => "父",
+                    'remark' => ""
+                ]); 
+                DB::table('users')->insert([
+                    'name' => "簡至昊",
+                    'email' => "D1094162012@gm.lhu.edu.tw",
+                    'password' => Hash::make("D1094162012")
+                ]);
+            }
+            if($i == 10){
+                DB::table('students')->insert([
+                    'number' => "D1094182042",
+                    'class' => "資網三B",
+                    'name' => "羅銘麒",
+                    'address' => "桃園市龜山區萬壽路一段300號",
+                    'phone' => "0282093211",
+                    'nationality' => "台灣",
+                    'guardian' => "xxx",
+                    'salutation' => "父",
+                    'remark' => ""
+                ]); 
+                DB::table('users')->insert([
+                    'name' => "羅銘麒",
+                    'email' => "D1094182042@gm.lhu.edu.tw",
+                    'password' => Hash::make("D1094182042")
+                ]);
+            }
+            else{
+                $number = $this->StudentIDCreate();
+                $class = $this->generateRandomClass();
+                $name = $this->generateRandomName();
+                $address = $this->generateRandomName(15);
+                $phone = $this->generateRandomPhone();
+                $guardian = $this->generateRandomName();
+                $nationality = $this->generateRandomNationality();
+                $salutation = $this->generateRandomRelation();
+                $password = Hash::make($number);
 
+                DB::table('students')->insert([
+                    'number' => $number,
+                    'class' => $class,
+                    'name' => $name,
+                    'address' => $address,
+                    'phone' => $phone,
+                    'nationality' => $nationality,
+                    'guardian' => $guardian,
+                    'salutation' => $salutation,
+                    'remark' => ""
+                ]); 
 
-            DB::table('students')->insert([
-                'number' => $number,
-                'class' => $class,
-                'name' => $name,
-                'address' => $address,
-                'phone' => $phone,
-                'nationality' => $nationality,
-                'guardian' => $guardian,
-                'salutation' => $salutation,
-                'remark' => ""
-            ]); 
-
-            DB::table('users')->insert([
-                'name' => $name,
-                'email' => "$number@gm.lhu.edu.tw",
-                'password' => $password
-            ]);
+                DB::table('users')->insert([
+                    'name' => $name,
+                    'email' => "$number@gm.lhu.edu.tw",
+                    'password' => $password
+                ]);
+            }
+            
         }
     }
 }

@@ -8,12 +8,20 @@ use App\Models\Sbrecord;
 use Illuminate\Support\Facades\DB;
 use App\Models\Student;
 use App\Models\Bed;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class SbrecordsController extends Controller
 {
     //
     public function index(){
+        // $sbrecords = Sbrecord::senior()->get();
+        // $users = User::get();
+        // foreach($sbrecords as $sbrecord){
+        //     if($sbrecord->floor_head){
+                
+        //     }
+        // }
         $sbrecords = Sbrecord::paginate(10);
         $dormitories = Bed::allDormitories()->get();
         

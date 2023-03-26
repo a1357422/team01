@@ -5,7 +5,7 @@
 @section('dormitorysystem_theme','')
 
 @section('dormitorysystem_contents')
-    @canany(['superadmin','admin','chief','floorhead'])
+    @canany(['superadmin','admin'])
         <div class="function">
             <div class="maintitle_btn">
                 <h3><a href = "/">回主頁</a></h3>
@@ -28,7 +28,6 @@
                 <th>外宿日訖</th>
                 <th>外宿原因</th>
                 <th>操作</th>
-                <!-- <th>操作</th> -->
                 <th>操作</th>
                 <th>操作</th>
             </tr>
@@ -41,7 +40,6 @@
                         <td>{{ $leave->end }}</td>
                         <td>{{ $leave->reason }}</td>
                         <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                        <!-- <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核</a></font></td> -->
                         <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
                         <td>
                             <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
@@ -61,7 +59,6 @@
                         <td>{{ $leave->end }}</td>
                         <td>{{ $leave->reason }}</td>
                         <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                        <!-- <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核</a></font></td> -->
                         <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
                         <td>
                             <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
@@ -78,7 +75,7 @@
                 {{$leaves->links()}}
             @endif
 
-    @elsecanany(['superadmin','admin','chief'])
+    @elsecanany(['floorhead','housemaster','chief'])
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
             <h3><a href = "/">回主頁</a></h3>
             <form action="{{ url('leaves/dormitory') }}" method='POST'>
@@ -88,7 +85,7 @@
             @csrf
             </form>
         </div>
-            <table>
+            <table class="table">
                 <tr class='column_center'>
                     <th>編號</th>
                     <th>學生床位</th>
@@ -100,7 +97,7 @@
                 </tr>
                 @if ($display == 1)
                     @foreach($leaves as $leave)
-                        <tr>
+                        <tr class='column_center'>
                             <td>{{ $leave->id }}</td>
                             <td>{{ $leave->sbrecord->bed->bedcode }}</td>
                             <td>{{ $leave->start }}</td>
@@ -133,7 +130,7 @@
             <h3><a href = "/">回主頁</a></h3>
             <a href="{{ route('leaves.create') }} ">新增外宿資料</a>
         </div>
-            <table>
+            <table class="table">
                 <tr class='column_center'>
                     <th>編號</th>
                     <th>學生床位</th>

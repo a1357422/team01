@@ -68,7 +68,6 @@ class RollcallsController extends Controller
     public function presence()
     {
         $rollcalls = Rollcall::Presence()->get();
-        // dd($rollcalls);
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
 

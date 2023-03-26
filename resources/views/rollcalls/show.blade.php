@@ -27,7 +27,16 @@
                 照片：
                 @if(file_exists(public_path("/storage/webcams/".$MonthDay."/".$rollcall->sbrecord->bed->bedcode."/".$rollcall->sbrecord->bed->bedcode.".png")))
                     <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.png"alt=""/></td>
-                    <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.png"alt=""/></td>
+                    <td><img src= "{{ asset('storage/uploads/profiles') }}/{{$rollcall->sbrecord->student->name}}/{{$rollcall->sbrecord->student->name}}.png"alt=""/></td>
+                @elseif(file_exists(public_path("/storage/webcams/".$MonthDay."/".$rollcall->sbrecord->bed->bedcode."/".$rollcall->sbrecord->bed->bedcode.".jpg")))
+                    <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.jpg"alt=""/></td>
+                    <td><img src= "{{ asset('storage/uploads/profiles') }}/{{$rollcall->sbrecord->student->name}}/{{$rollcall->sbrecord->student->name}}.jpg"alt=""/></td>
+                @elseif(file_exists(public_path("/storage/uploads/".$MonthDay."/".$rollcall->sbrecord->bed->bedcode."/".$rollcall->sbrecord->bed->bedcode.".png")))
+                    <td><img src= "{{ asset('storage/uploads') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.png"alt=""/></td>
+                    <td><img src= "{{ asset('storage/uploads/profiles') }}/{{$rollcall->sbrecord->student->name}}/{{$rollcall->sbrecord->student->name}}.png"alt=""/></td>
+                @elseif(file_exists(public_path("/storage/uploads/".$MonthDay."/".$rollcall->sbrecord->bed->bedcode."/".$rollcall->sbrecord->bed->bedcode.".jpg")))
+                    <td><img src= "{{ asset('storage/uploads') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.jpg"alt=""/></td>
+                    <td><img src= "{{ asset('storage/uploads/profiles') }}/{{$rollcall->sbrecord->student->name}}/{{$rollcall->sbrecord->student->name}}.jpg"alt=""/></td>
                 @else
                     <td/>
                 @endif

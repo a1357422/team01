@@ -5,7 +5,7 @@
 @section('dormitorysystem_theme','')
 
 @section('dormitorysystem_contents')
-    @canany(['superadmin','admin','chief','floorhead'])
+    @canany(['superadmin','admin'])
         <div class="function">
             <div class="maintitle_btn">
                 <h3><a href = "/">回主頁</a></h3>
@@ -18,7 +18,7 @@
                     <input type="submit" value="查詢" />
                     @csrf
                 </form>
-                <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
+                <!-- <a href="{{ route('lates.create') }} ">新增晚歸資料</a> -->
             </div>
         </div>
             <table class="table">
@@ -84,12 +84,81 @@
                 @if($showPagination)
                     {{$lates->links()}}
                 @endif
+
+        @elsecanany(['housemaster','chief','floorhead'])
+        <div class="function">
+            <div class="maintitle_btn">
+                <h3><a href = "/">回主頁</a></h3>
+                <h3>晚歸總資料管理</h3>
+            </div>
+            <div>
+                <form action="{{ url('lates/dormitory') }}" method='POST'>
+                    {!! Form::label('dormitory', '選取宿舍別：') !!}
+                    {!! Form::select('dormitory', $dormitories,$select) !!}
+                    <input type="submit" value="查詢" />
+                    @csrf
+                </form>
+            </div>
+        </div>
+            <table class="table">
+                <tr class='column_center'>
+                    <th>編號</th>
+                    <th>學生床位</th>
+                    <th>長期晚歸日起</th>
+                    <th>長期晚歸日訖</th>
+                    <th>長期晚歸原因</th>
+                    <th>單位名稱</th>
+                    <th>預計每日返回宿舍時間</th>
+                    <th>操作</th>
+                    <th>操作</th>
+                </tr>
+                @if ($display == 1)
+                    @foreach($lates as $late)
+                        <tr class='column_center'>
+                            <td>{{ $late->id }}</td>
+                            <td>{{ $late->sbrecord->bed->bedcode }}</td>
+                            <td>{{ $late->start }}</td>
+                            <td>{{ $late->end }}</td>
+                            <td>{{ $late->reason }}</td>
+                            <td>{{ $late->company }}</td>
+                            <td align="center" valign="center">{{ $late->back_time }}</td>
+                            <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
+                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                        </tr>
+                    @endforeach
+                @else
+                    @foreach($lates as $late)
+                        <tr class='column_center'>
+                            <td>{{ $late->id }}</td>
+                            <td>{{ $late->bedcode }}</td>
+                            <td>{{ $late->start }}</td>
+                            <td>{{ $late->end }}</td>
+                            <td>{{ $late->reason }}</td>
+                            <td>{{ $late->company }}</td>
+                            <td align="center" valign="center">{{ $late->back_time }}</td>
+                            <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
+                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                            <td>
+                                <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">
+                                    <input class="btn btn-default" type="submit" value="刪除" />
+                                    @method('delete')
+                                    @csrf
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
+            </table>
+                @if($showPagination)
+                    {{$lates->links()}}
+                @endif
+
     @elsecanany('user')
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
                 <h3><a href = "/">回主頁</a></h3>
                 <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
             </div>
-                <table>
+                <table class="table">
                     <tr class='column_center'>
                         <th>編號</th>
                         <th>學生床位</th>

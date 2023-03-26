@@ -243,6 +243,7 @@ class StudentsController extends Controller
     public function update($id,CreateStudentRequest $request){
         $student = Student::findOrFail($id);
 
+        $file = $request->file('profile');
         $student->number = $request->input('number');
         $student->class = $request->input('class');
         $student->name = $request->input('name');
@@ -252,6 +253,11 @@ class StudentsController extends Controller
         $student->guardian = $request->input('guardian');
         $student->salutation = $request->input('salutation');
         $student->remark = $request->input('remark');
+
+        $destinationPath = 'storage/uploads/profiles/'.$student->name;
+        $file->move($destinationPath,"$student->name.".$file->getClientOriginalExtension());
+
+        $student->profile_file_path = $destinationPath."/$student->name.".$file->getClientOriginalExtension();
 
         $student->save();
         return redirect('students');

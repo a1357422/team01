@@ -31,7 +31,7 @@ class CreateStudentRequest extends FormRequest
             'phone' => 'nullable|string|min:9|max:191', //市話9碼 手機10碼
             'nationality' => 'nullable|string|min:2|max:191',
             'guardian' => 'required|string|min:2|max:191',
-            'salutation' => 'required|string|min:2|max:191',
+            'salutation' => 'required|string|min:1|max:191',
             'remark' => 'nullable|string|min:0|max:191'
         ];
     }

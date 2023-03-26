@@ -12,13 +12,15 @@
             <h3>點名總資料管理</h3>
         </div>
         <div>
-            <form action="{{ url('rollcalls/dormitory') }}" method='POST'>
-                {!! Form::label('dormitory', '選取宿舍別：') !!}
-                {!! Form::select('dormitory', $dormitories,$select) !!}
-                <input type="hidden" name="表單查詢" value="表單查詢">
-            <input type="submit" value="查詢" />
-            @csrf
-            </form>
+            @if($display ==1 )
+                <form action="{{ url('rollcalls/dormitory') }}" method='POST'>
+                    {!! Form::label('dormitory', '選取宿舍別：') !!}
+                    {!! Form::select('dormitory', $dormitories,$select) !!}
+                    <input type="hidden" name="表單查詢" value="表單查詢">
+                <input type="submit" value="查詢" />
+                @csrf
+                </form>
+            @endif
             <a href="{{ route('rollcalls.create') }} ">新增點名資料</a>
             <a href="{{ route('rollcalls.presence') }} ">未到人員</a>
         </div>
@@ -26,14 +28,14 @@
             <div> 
             未到名單：<br/>
                 @foreach($rollcalls as $rollcall)
-                    {!! nl2br($rollcall->sbrecord->bed->bedcode."\n") !!}
+                    {!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}
                 @endforeach
             </div>
         @elseif($textbox == True && $display==2)
-        <div> 
+            <div> 
             未到名單：<br/>
                 @foreach($rollcalls as $rollcall)
-                    {!! nl2br($rollcall->bedcode."\n") !!}
+                    {!! nl2br($rollcall->bedcode."   ".$rollcall->name."\n") !!}
                 @endforeach
             </div>
         @else
