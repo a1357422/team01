@@ -121,20 +121,43 @@ class BedsTableSeeder extends Seeder
     public function run()
     {
         
-        for($i = 0; $i<30; $i++){
-            $bedcode = $this->generateRandomBedcode();
-            $did = $this->generateRandomDid();
-            $floor = $this->generateRandomFloor();
-            $roomtype = $this->generateRandomRoomtype();
+        for($i = 0; $i<37; $i++){
+            if($i<10){
+                if($i+1 == 2)
+                    continue;
+                for($j=1;$j<=4;$j++){
+                    $bedcode1 = "8340".$i+1 ."-".$j;
+                    DB::table('beds')->insert([
+                        'bedcode' => $bedcode1,
+                        'did' => 4,
+                        'floor' => "4F",
+                        'roomtype' => "四人房"
+                    ]);
+                }
+            }
+            else{
+                for($j=1;$j<=4;$j++){
+                    $bedcode1 = "834".$i+1 . "-" . $j;
+                    DB::table('beds')->insert([
+                        'bedcode' => $bedcode1,
+                        'did' => 4,
+                        'floor' => "4F",
+                        'roomtype' => "四人房"
+                    ]);
+                }
+            }
+            
+            // $bedcode = $this->generateRandomBedcode();
+            // $did = $this->generateRandomDid();
+            // $floor = $this->generateRandomFloor();
+            // $roomtype = $this->generateRandomRoomtype();
         
-            DB::table('beds')->insert([
-                'bedcode' => $bedcode,
-                'did' => $did,
-                'floor' => $floor,
-                'roomtype' => $roomtype
-            ]);
+            // DB::table('beds')->insert([
+            //     'bedcode' => $bedcode1,
+            //     'did' => $did,
+            //     'floor' => $floor,
+            //     'roomtype' => $roomtype
+            // ]);
         }
-
-        
     }
 }

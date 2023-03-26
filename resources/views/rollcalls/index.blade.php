@@ -20,7 +20,24 @@
             @csrf
             </form>
             <a href="{{ route('rollcalls.create') }} ">新增點名資料</a>
+            <a href="{{ route('rollcalls.presence') }} ">未到人員</a>
         </div>
+        @if($textbox == True && $display==1)
+            <div> 
+            未到名單：<br/>
+                @foreach($rollcalls as $rollcall)
+                    {!! nl2br($rollcall->sbrecord->bed->bedcode."\n") !!}
+                @endforeach
+            </div>
+        @elseif($textbox == True && $display==2)
+        <div> 
+            未到名單：<br/>
+                @foreach($rollcalls as $rollcall)
+                    {!! nl2br($rollcall->bedcode."\n") !!}
+                @endforeach
+            </div>
+        @else
+        @endif
     </div>
         <table class="table">
                 <tr class='column_center'>
@@ -30,7 +47,8 @@
                     <th>在場與否</th>
                     <th>外宿</th>
                     <th>晚歸</th>
-                    <th>操作</th>
+                    <th>照片辨識結果</th>
+                    <th>操作</th> 
                     <th>操作</th>
                     <th>操作</th>
                 </tr>
@@ -54,6 +72,11 @@
                         <td align="center" valign="center"><font color=green>{{ $rollcall->late = "V" }}</font></td>
                         @else 
                         <td align="center" valign="center"><font color=red>{{ $rollcall->late = "X" }} </font></td>
+                        @endif
+                        @if ($rollcall->identify === 1)
+                        <td align="center" valign="center"><font color=green>{{ $rollcall->identify = "V" }}</font></td>
+                        @else 
+                        <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
                         @endif
                         <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
                         <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id]) }}">修改資料</a></font></td>

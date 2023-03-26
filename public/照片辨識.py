@@ -2,10 +2,14 @@ import cv2
 import numpy as np
 import sys
 
+def cv_imread(file_path):
+    cv_img = cv2.imdecode(np.fromfile(file_path,dtype=np.uint8),-1)
+    cv_img = cv2.cvtColor(cv_img, cv2.COLOR_RGB2BGR)
+    return cv_img
 
 # 讀取兩張照片
-img1 = cv2.imread(sys.argv[1], 0)
-img2 = cv2.imread(sys.argv[2], 0)
+img1 = cv_imread(sys.argv[1])
+img2 = cv_imread(sys.argv[2])
 # 創建ORB特徵檢測器和描述符
 orb = cv2.ORB_create()
 

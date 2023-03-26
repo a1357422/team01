@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>laravel webcam capture image and save from camera - ItSolutionStuff.com</title>
+    <title>拍攝照片</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
@@ -12,7 +12,7 @@
 <body>
     
 <div class="container">
-    <h1 class="text-center">Laravel webcam capture image and save from camera - ItSolutionStuff.com</h1>
+    <h1 class="text-center">拍攝照片</h1>
      
     <form method="POST" action="{{ route('rollcalls.capture') }}">
         @csrf
@@ -20,18 +20,18 @@
             <div class="col-md-6">
                 <div id="my_camera"></div>
                 <br/>
-                <input type=button value="Take Snapshot" onClick="take_snapshot()">
+                <input type=button value="拍照" onClick="take_snapshot()">
                 <input type="hidden" name="image" class="image-tag">
                 {!! Form::hidden('sbid', $sbrecord->id) !!}
                 {!! Form::hidden('name', $sbrecord->student->name) !!}
                 {!! Form::hidden('bedcode', $sbrecord->bed->bedcode) !!}
             </div>
             <div class="col-md-6">
-                <div id="results">Your captured image will appear here...</div>
+                <div id="results">你所拍攝的照片會顯示在這</div>
             </div>
             <div class="col-md-12 text-center">
                 <br/>
-                <button class="btn btn-success">Submit</button>
+                <button class="btn btn-success">送出</button>
             </div>
         </div>
     </form>

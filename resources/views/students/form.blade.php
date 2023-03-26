@@ -1,4 +1,7 @@
 <div>
+    大頭照：{!! Form::file('profile')!!}
+</div>
+<div>
     {!! Form::label('number','學號：')!!}
     {!! Form::text('number',null)!!}
 </div>

@@ -7,6 +7,7 @@ use App\Models\Student;
 use Illuminate\Support\Facades\DB;
 //use Request;
 use App\Http\Requests\CreateStudentRequest;
+use App\Models\Photo;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 
@@ -200,6 +201,7 @@ class StudentsController extends Controller
     }
 
     public function store(CreateStudentRequest $request){
+        $file = $request->file('profile');
         $number = $request->input('number');
         $class = $request->input('class');
         $name = $request->input('name');
@@ -209,8 +211,12 @@ class StudentsController extends Controller
         $guardian = $request->input('guardian');
         $salutation = $request->input('salutation');
         $remark = $request->input('remark');
+        $destinationPath = 'storage/uploads/profiles/'.$name;
+        $file->move($destinationPath,"$name.".$file->getClientOriginalExtension());
+        // dd($destinationPath);
 
         $student = Student::create([
+            'profile_file_path'=>$destinationPath."/$name.".$file->getClientOriginalExtension(),
             'number' => $number,
             'class' => $class,
             'name' => $name,

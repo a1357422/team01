@@ -15,6 +15,7 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id()->comment("編號");
+            $table->string('profile_file_path',191)->nullable(true)->comment("個人照片路徑");
             $table->string("number",191)->nullable(false)->comment("學號");
             $table->string("class",191)->nullable(false)->comment("班級");
             $table->string("name",191)->nullable(false)->comment("姓名");

@@ -15,7 +15,7 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("sbid")->unsigned()->nullable(false)->comment("學生姓名");
+            $table->foreignId("sbid")->unsigned()->nullable(false)->comment("學生編號");
             $table->foreign('sbid')->references('id')->on('sbrecords')->onDelete('cascade');
             $table->string('upload_file_path',191)->nullable(true)->comment("上傳照片路徑");
             $table->string('webcam_file_path',191)->nullable(true)->comment("拍攝照片路徑");
@@ -30,6 +30,6 @@ class CreatePhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('webcams');
+        Schema::dropIfExists('photos');
     }
 }

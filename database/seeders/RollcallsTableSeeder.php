@@ -29,6 +29,7 @@ class RollcallsTableSeeder extends Seeder
                 'presence' => rand(0,1),
                 'leave' => $choice[rand(0,2)],
                 'late' => $choice[rand(0,2)],
+                'identify' => $choice[rand(0,2)]
         ]);
         }
         

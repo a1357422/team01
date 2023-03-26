@@ -10,6 +10,7 @@ use App\Models\Bed;
 use App\Models\Late;
 use App\Models\Leave;
 use App\Models\Photo;
+use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -19,16 +20,32 @@ class RollcallsController extends Controller
 {
     //
     public function index(){
+        $rollcalls = Rollcall::get();
+        $photos = Photo::get();
+        // dd($photos);
+        for($i=1;$i<=count($rollcalls);$i++){
+            foreach ($photos as $photo){
+                if($rollcalls[$i-1]->sbid==$photo->sbid){
+                    $sbrecord = Sbrecord::findOrFail($rollcalls[$i-1]->sbid);
+                    $student = Student::findOrFail($sbrecord->sid);
+                    if ($photo->webcam_file_path != "")
+                        $imagepath = $student->profile_file_path." ". $photo->webcam_file_path;
+                    elseif($photo->upload_file_path != "")
+                        $imagepath = $student->profile_file_path." ". $photo->upload_file_path;
+                    else
+                        break;
+                    $result = exec("python 照片辨識.py 2>error.txt $imagepath");
+                    if($result == "success")
+                        $rollcalls[$i-1]->identify = 1;
+                    else
+                        $rollcalls[$i-1]->identify = 0;
+                    $rollcalls[$i-1]->save();
+                }
+            }
+        }
         $rollcalls = Rollcall::orderBy('id','ASC')->paginate(10);
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
-
-        // $photo = Photo::get();
-        // dd($photo);
-        // $imagepath = $photo[1]->upload_file_path." ". $photo[0]->webcam_file_path;
-        // $result = exec("python 照片辨識.py 2>error.txt $imagepath");
-        // var_dump($result);
-        
         foreach ($dormitories as $dormitory)
         {
             if($dormitory->did == "1"){
@@ -45,8 +62,34 @@ class RollcallsController extends Controller
             }
         }
 
-        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
+        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1,'textbox'=>False]);
     }
+
+    public function presence()
+    {
+        $rollcalls = Rollcall::Presence()->get();
+        // dd($rollcalls);
+        $dormitories = Bed::allDormitories()->get();
+        $tags = [];
+
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>True]);
+    }
+
 
     public function upload($id)
     {
@@ -108,7 +151,8 @@ class RollcallsController extends Controller
 
     public function show($id){
         $rollcall = Rollcall::findOrFail($id);
-        return view("rollcalls.show",["rollcall"=>$rollcall]);
+        $date=date("md");
+        return view("rollcalls.show",["rollcall"=>$rollcall,"MonthDay"=>$date]);
     }
 
     public function destroy($id){
@@ -143,7 +187,7 @@ class RollcallsController extends Controller
             return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md")]);
         } 
         else
-            return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md")]);
+            return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True]);
     }
 
     public function create(){
@@ -179,16 +223,18 @@ class RollcallsController extends Controller
 
         if($request->input('edition')!=null){
             for($i=1;$i<=count($request->input('edition'));$i++){
-                if(in_array($i-1,array_keys($files))){
-                    $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
-                    $bed = Bed::findOrFail($sbrecord->bid);
-                    $destinationPath = 'storage/uploads/'.date("md")."/".$bed->bedcode;
-                    $files[$i-1]->move($destinationPath,"$bed->bedcode.".$files[$i-1]->getClientOriginalExtension());
-                    $photo = Photo::create([
-                        'sbid' => $sbrecord->id,
-                        'upload_file_path'=>$destinationPath."/$bed->bedcode.".$files[$i-1]->getClientOriginalExtension(),
-                        'webcam_file_path'=>"",
-                    ]);
+                if($files != null){
+                    if(in_array($i-1,array_keys($files))){
+                        $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
+                        $bed = Bed::findOrFail($sbrecord->bid);
+                        $destinationPath = 'storage/uploads/'.date("md")."/".$bed->bedcode;
+                        $files[$i-1]->move($destinationPath,"$bed->bedcode.".$files[$i-1]->getClientOriginalExtension());
+                        $photo = Photo::create([
+                            'sbid' => $sbrecord->id,
+                            'upload_file_path'=>$destinationPath."/$bed->bedcode.".$files[$i-1]->getClientOriginalExtension(),
+                            'webcam_file_path'=>"",
+                        ]);
+                    }
                 }
                 if ($check==true){
                     if(count($leaves)==0 && count($lates)==0){
@@ -199,6 +245,7 @@ class RollcallsController extends Controller
                             'presence' => 0,
                             'leave' => 0,
                             'late' => 0,
+                            'identify' => 0,
                         ]); 
                     }
                     else{
@@ -217,6 +264,7 @@ class RollcallsController extends Controller
                                     'presence' => 0,
                                     'leave' => $leave,
                                     'late' => 0,
+                                    'identify' => 0,
                                 ]);
                             }
                         }
@@ -233,6 +281,7 @@ class RollcallsController extends Controller
                                     'presence' => 0,
                                     'leave' => 0,
                                     'late' => $late,
+                                    'identify' => 0,
                                 ]);
                             }
                         }
@@ -256,6 +305,7 @@ class RollcallsController extends Controller
                                 'presence' => 0,
                                 'leave' => $leave,
                                 'late' => $late,
+                                'identify' => 0,
                             ]);
                         }
                         else{
@@ -266,6 +316,7 @@ class RollcallsController extends Controller
                                 'presence' => 0,
                                 'leave' => 0,
                                 'late' => 0,
+                                'identify' => 0,
                             ]);
                         }
                     }
@@ -280,6 +331,7 @@ class RollcallsController extends Controller
                                 'presence' => 1,
                                 'leave' => 0,
                                 'late' => 0,
+                                'identify' => 0,
                             ]);
                         }
                         else{
@@ -290,6 +342,7 @@ class RollcallsController extends Controller
                                 'presence' => 0,
                                 'leave' => 0,
                                 'late' => 0,
+                                'identify' => 0,
                             ]);
                         }
                     }
@@ -310,6 +363,7 @@ class RollcallsController extends Controller
                                         'presence' => 1,
                                         'leave' => $leave,
                                         'late' => 0,
+                                        'identify' => 0,
                                     ]);
                                 }
                             }
@@ -326,6 +380,7 @@ class RollcallsController extends Controller
                                         'presence' => 1,
                                         'leave' => 0,
                                         'late' => $late,
+                                        'identify' => 0,
                                     ]);
                                 }
                             }
@@ -349,6 +404,7 @@ class RollcallsController extends Controller
                                     'presence' => 1,
                                     'leave' => $leave,
                                     'late' => $late,
+                                    'identify' => 0,
                                 ]);
                             }
                             else{
@@ -359,6 +415,7 @@ class RollcallsController extends Controller
                                     'presence' => 1,
                                     'leave' => 0,
                                     'late' => 0,
+                                    'identify' => 0,
                                 ]);
                             }
                         }
@@ -376,6 +433,7 @@ class RollcallsController extends Controller
                                         'presence' => 0,
                                         'leave' => $leave,
                                         'late' => 0,
+                                        'identify' => 0,
                                     ]);
                                 }
                             }
@@ -392,6 +450,7 @@ class RollcallsController extends Controller
                                         'presence' => 0,
                                         'leave' => 0,
                                         'late' => $late,
+                                        'identify' => 0,
                                     ]);
                                 }
                             }
@@ -415,6 +474,7 @@ class RollcallsController extends Controller
                                     'presence' => 0,
                                     'leave' => $leave,
                                     'late' => $late,
+                                    'identify' => 0,
                                 ]);
                             }
                             else{
@@ -425,6 +485,7 @@ class RollcallsController extends Controller
                                     'presence' => 0,
                                     'leave' => 0,
                                     'late' => 0,
+                                    'identify' => 0,
                                 ]);
                             }
                         }
@@ -432,6 +493,8 @@ class RollcallsController extends Controller
                 }
             }
         }
+        $rollcalls = Rollcall::get();
+        // dd($rollcalls);
         return redirect("rollcalls");
     }
 
@@ -486,12 +549,14 @@ class RollcallsController extends Controller
     }
     public function update($id,CreateRollcallRequest $request){
         $rollcall = Rollcall::findOrFail($id);
-        if($request->input('presence') == "on")
+        if($request->input('presence') != null){
             $rollcall->presence = 1;
-        else
+        }
+        else{
             $rollcall->presence = 0;
         // $rollcall->leave = $request->input('leave');
         // $rollcall->late = $request->input('late');
+        }
 
         $rollcall->save();
         return redirect('rollcalls');

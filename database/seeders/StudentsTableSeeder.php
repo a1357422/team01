@@ -88,7 +88,7 @@ class StudentsTableSeeder extends Seeder
     public function run()
     {
         //
-        for ($i=0;$i<30;$i++){
+        for ($i=0;$i<142;$i++){
             $number = $this->StudentIDCreate();
             $class = $this->generateRandomClass();
             $name = $this->generateRandomName();
@@ -110,49 +110,13 @@ class StudentsTableSeeder extends Seeder
                 'guardian' => $guardian,
                 'salutation' => $salutation,
                 'remark' => ""
-        ]); 
+            ]); 
+
             DB::table('users')->insert([
                 'name' => $name,
                 'email' => "$number@gm.lhu.edu.tw",
                 'password' => $password
             ]);
         }
-        $password = Hash::make('00000000');
-            DB::table('users')->insert([
-                'name' => "系統後台管理員",
-                'role' => "superadmin",
-                'email' => "superadmin@gmail.com",
-                'password' => $password
-            ]);
-            DB::table('users')->insert([
-                'name' => "宿舍行政",
-                'role' => "admin",
-                'email' => "admin@gmail.com",
-                'password' => $password
-            ]);
-            DB::table('users')->insert([
-                'name' => "宿舍輔導員",
-                'role' => "housemaster",
-                'email' => "housemaster@gmail.com",
-                'password' => $password
-            ]);
-            DB::table('users')->insert([
-                'name' => "總樓長",
-                'role' => "chief",
-                'email' => "chief@gmail.com",
-                'password' => $password
-            ]);
-            DB::table('users')->insert([
-                'name' => "樓長",
-                'role' => "floorhead",
-                'email' => "floorhead@gmail.com",
-                'password' => $password
-            ]);
-            DB::table('users')->insert([
-                'name' => "住宿生",
-                'email' => "user@gmail.com",
-                'password' => $password
-            ]);
-        
     }
 }

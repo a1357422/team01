@@ -7,8 +7,8 @@
 @section('dormitorysystem_contents')
     @canany(['user'])
         @include('message.list')
-        {!! Form::open(['url'=>'students/store'])!!}
-        @include('students.form',['submitButtonText'=>"新增學生資料"])
+        {!! Form::open(['url'=>'students/store','files'=>'true'])!!}
+        @include('students.form',['submitButtonText'=>"確定"])
         {!! Form::close()!!}
     @else <!--若沒登入或是非系統後台管理者將導回主頁-->
         @php

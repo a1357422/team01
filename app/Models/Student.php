@@ -10,6 +10,7 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable=[
+        "profile_file_path",
         "number",
         "class",
         "name",

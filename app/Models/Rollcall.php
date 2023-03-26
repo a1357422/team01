@@ -26,14 +26,16 @@ class Rollcall extends Model
         ->join('beds','sbrecords.bid','=','beds.id')
         ->select('rollcalls.id','rollcalls.date','sbrecords.semester','beds.bedcode','rollcalls.presence','rollcalls.leave','rollcalls.late')
         ->where('beds.did','=',"$did");
-        
-    //     SELECT `rollcalls`.id , `rollcalls`.date,`rollcalls`.sbid,`rollcalls`.presence,`rollcalls`.leave,`rollcalls`.late,
-	// 	`sbrecords`.id,`beds`.`bedcode`
-    //         FROM `rollcalls`
-    //         INNER JOIN `sbrecords` ON `rollcalls`.sbid = `sbrecords`.id
-    //         INNER JOIN `students` ON `sbrecords`.sid=`students`.id
-    //         INNER JOIN `beds` ON `sbrecords`.bid = `beds`.id
-            
+    }
+
+    public function scopePresence($query)
+    {
+        $query->select('*')->where('rollcalls.presence','=',0);
+    }
+
+    public function scopeFindRollcallSbid($query,$sbid)
+    {
+        $query->select('rollcalls.id','rollcalls.sbid')->where('rollcalls.sbid','=',"$sbid");
     }
 
     public function sbrecord(){

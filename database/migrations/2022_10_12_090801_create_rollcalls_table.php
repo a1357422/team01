@@ -21,6 +21,7 @@ class CreateRollcallsTable extends Migration
             $table->boolean("presence")->nullable(false)->comment("在場與否")->default(0);
             $table->boolean("leave")->nullable(true)->comment("外宿");
             $table->boolean("late")->nullable(true)->comment("晚歸");
+            $table->boolean("identify")->nullable(true)->comment("照片辨識結果");
             $table->timestamps();
         });
     }

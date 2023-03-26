@@ -24,6 +24,13 @@
                 @else 
                 晚歸：<font color=red>{{ $rollcall->late = "X" }}</font> <br>
                 @endif
+                照片：
+                @if(file_exists(public_path("/storage/webcams/".$MonthDay."/".$rollcall->sbrecord->bed->bedcode."/".$rollcall->sbrecord->bed->bedcode.".png")))
+                    <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.png"alt=""/></td>
+                    <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.png"alt=""/></td>
+                @else
+                    <td/>
+                @endif
         @else <!--若沒登入或是非系統後台管理者將導回主頁-->
                 @php
                         header("Location: " . URL::to('/'), true, 302);
