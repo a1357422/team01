@@ -15,6 +15,7 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
+            $table->date("date")->nullable(false)->comment("日期");
             $table->foreignId("sbid")->unsigned()->nullable(false)->comment("學生編號");
             $table->foreign('sbid')->references('id')->on('sbrecords')->onDelete('cascade');
             $table->string('upload_file_path',191)->nullable(true)->comment("上傳照片路徑");

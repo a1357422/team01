@@ -228,11 +228,20 @@ class RollcallsController extends Controller
                         $bed = Bed::findOrFail($sbrecord->bid);
                         $destinationPath = 'storage/uploads/'.date("md")."/".$bed->bedcode;
                         $files[$i-1]->move($destinationPath,"$bed->bedcode.".$files[$i-1]->getClientOriginalExtension());
-                        $photo = Photo::create([
+                        $photo_sbid = Photo::FindPhotoSbid($sbrecord->id)->get();
+                        if(count($photo_sbid)==0){
+                            $photo = Photo::create([
+                            'date' => date("Y-m-d"),
                             'sbid' => $sbrecord->id,
                             'upload_file_path'=>$destinationPath."/$bed->bedcode.".$files[$i-1]->getClientOriginalExtension(),
                             'webcam_file_path'=>"",
-                        ]);
+                            ]);
+                        }
+                        else{
+                            $photo = Photo::FindPhotoSbid($sbrecord->id)->first();
+                            $photo->upload_file_path = $destinationPath."/$bed->bedcode.".$files[$i-1]->getClientOriginalExtension();
+                            $photo->save();
+                        }
                     }
                 }
                 if ($check==true){
@@ -529,13 +538,28 @@ class RollcallsController extends Controller
             $image_base64 = base64_decode($image_parts[1]);
             // $fileName = uniqid() . '.png';
             $fileName = $request->input('bedcode');
+            $sbid = $request->input('sbid');
             $file = $folderPath . $fileName.'.png';
             Storage::disk('public')->put($file, $image_base64);
-            $upload = Photo::create([
-                'sbid' => $request->input('sbid'),
-                'upload_file_path'=>"",
-                'webcam_file_path'=>"storage/".$file,
-            ]);
+            $photo_sbid = Photo::FindPhotoSbid($sbid)->get();
+            if(count($photo_sbid)==0){
+                $upload = Photo::create([
+                    'date' => date("Y-m-d"),
+                    'sbid' => $request->input('sbid'),
+                    'upload_file_path'=>"",
+                    'webcam_file_path'=>"storage/".$file,
+                ]);
+            }
+            else{
+                $photo = Photo::FindPhotoSbid($sbid)->first();
+                $photo->webcam_file_path = "storage/".$file;
+                $photo->save();
+            }
+            // $upload = Photo::create([
+            //     'sbid' => $request->input('sbid'),
+            //     'upload_file_path'=>"",
+            //     'webcam_file_path'=>"storage/".$file,
+            // ]);
         }
         return redirect("rollcalls/create");
     }
