@@ -38,8 +38,13 @@ class Student extends Model
         return $this->hasMany("App\Models\Sbrecord","sid");
     }
 
+    public function user(){
+        return $this->belongsTo("App\Models\User","id","sid");
+    }
+
     public function delete(){
         $this->sbrecords()->delete();
+        $this->user()->delete();
         return parent::delete();
     }
 }

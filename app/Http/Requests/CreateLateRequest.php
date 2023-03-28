@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CreateLateRequest extends FormRequest
@@ -30,7 +31,7 @@ class CreateLateRequest extends FormRequest
             'company' => 'required|string|max:191',
             'contact' => 'required|string|max:191',
             'address' => 'required|string|max:191',
-            'back_time' => 'required',
+            'back_time' => 'required|date_format:H:i|after:23:00|before:23:59',
             'filename_path' => 'required',
         ];
     }
@@ -46,6 +47,7 @@ class CreateLateRequest extends FormRequest
             "company.required" => "單位名稱 為必填",
             "contact.required" => "單位聯絡電話 為必填",
             "address.required" => "單位聯絡地址 為必填",
+            "back_time.after"=> "晚歸最晚只可申請至00:00",
             "back_time.required" => "預計每日返回宿舍時間 為必填",
             "filename_path.required" => "佐證圖檔路徑 為必填",
         ];

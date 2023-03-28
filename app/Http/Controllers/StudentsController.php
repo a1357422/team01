@@ -254,11 +254,14 @@ class StudentsController extends Controller
         $student->salutation = $request->input('salutation');
         $student->remark = $request->input('remark');
 
-        $destinationPath = 'storage/uploads/profiles/'.$student->name;
-        $file->move($destinationPath,"$student->name.".$file->getClientOriginalExtension());
+        if($file != null){
+            $destinationPath = 'storage/uploads/profiles/'.$student->name;
+            $file->move($destinationPath,"$student->name.".$file->getClientOriginalExtension());
 
-        $student->profile_file_path = $destinationPath."/$student->name.".$file->getClientOriginalExtension();
+            $student->profile_file_path = $destinationPath."/$student->name.".$file->getClientOriginalExtension();
 
+        }
+        
         $student->save();
         return redirect('students');
     }

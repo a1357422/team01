@@ -60,4 +60,9 @@ class User extends Authenticatable
     {
         $query->where('role', '=', $role);
     }
+
+    public function student(){
+        return $this->belongsTo("App\Models\Student","sid","id");
+    }
+
 }

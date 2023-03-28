@@ -44,7 +44,7 @@
                 <li><a href = "/beds">床位系統</a></li>
                 <li><a href = "/dormitories">宿舍系統</a></li>
                 <li><a href = "/sbrecords">學生床位系統</a></li>
-                <li><a href = "/rollcalls">點名系統</a></li>
+                <!-- <li><a href = "/rollcalls">點名系統</a></li> -->
                 <li><a href = "/lates">晚歸系統</a></li>
                 <li><a href = "/leaves">外宿系統</a></li>
             </ui>

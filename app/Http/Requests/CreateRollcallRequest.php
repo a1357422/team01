@@ -24,12 +24,14 @@ class CreateRollcallRequest extends FormRequest
     public function rules()
     {
         return [
+            'image.*' => 'nullable|mimes:jpeg,jpg,png',
         ];
     }
 
     public function messages()
     {
         return [
+            "image.*.mimes" => "檔案必須是jpeg,jpg,png",
         ];
     }
 }

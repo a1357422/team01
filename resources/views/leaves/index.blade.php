@@ -27,7 +27,8 @@
                 <th>外宿日起</th>
                 <th>外宿日訖</th>
                 <th>外宿原因</th>
-                <th>操作</th>
+                <th>樓長審核</th>
+                <th>宿舍輔導員審核</th>
                 <th>操作</th>
                 <th>操作</th>
             </tr>
@@ -39,7 +40,16 @@
                         <td>{{ $leave->start }}</td>
                         <td>{{ $leave->end }}</td>
                         <td>{{ $leave->reason }}</td>
-                        <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
+                        @if ($leave->floorhead_check === 1)
+                        <td><font color=green>{{ $leave->floorhead_check = "V" }}</font></td>
+                        @else
+                        <td><font color=red>{{ $leave->floorhead_check = "X" }}</font></td>
+                        @endif
+                        @if ($leave->housemaster_check === 1)
+                        <td><font color=green>{{ $leave->housemaster_check = "V" }}</font></td>
+                        @else
+                        <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
+                        @endif
                         <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
                         <td>
                             <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
@@ -58,7 +68,16 @@
                         <td>{{ $leave->start }}</td>
                         <td>{{ $leave->end }}</td>
                         <td>{{ $leave->reason }}</td>
-                        <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
+                        @if ($leave->floorhead_check === 1)
+                        <td><font color=green>{{ $leave->floorhead_check = "V" }}</font></td>
+                        @else
+                        <td><font color=red>{{ $leave->floorhead_check = "X" }}</font></td>
+                        @endif
+                        @if ($leave->housemaster_check === 1)
+                        <td><font color=green>{{ $leave->housemaster_check = "V" }}</font></td>
+                        @else
+                        <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
+                        @endif
                         <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
                         <td>
                             <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
@@ -92,32 +111,111 @@
                     <th>外宿日起</th>
                     <th>外宿日訖</th>
                     <th>外宿原因</th>
+                    <th>樓長審核</th>
+                    <th>宿舍輔導員審核</th>
                     <th>操作</th>
                     <th>操作</th>
                 </tr>
                 @if ($display == 1)
                     @foreach($leaves as $leave)
-                        <tr class='column_center'>
-                            <td>{{ $leave->id }}</td>
-                            <td>{{ $leave->sbrecord->bed->bedcode }}</td>
-                            <td>{{ $leave->start }}</td>
-                            <td>{{ $leave->end }}</td>
-                            <td>{{ $leave->reason }}</td>
-                            <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                            <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核情形</a></font></td>
-                        </tr>
+                        @if(auth()->user()->role == "floorhead")
+                            <tr class='column_center'>
+                                <td>{{ $leave->id }}</td>
+                                <td>{{ $leave->sbrecord->bed->bedcode }}</td>
+                                <td>{{ $leave->start }}</td>
+                                <td>{{ $leave->end }}</td>
+                                <td>{{ $leave->reason }}</td>
+                                @if ($leave->floorhead_check === 1)
+                                <td><font color=green>{{ $leave->floorhead_check = "V" }}</font></td>
+                                @else
+                                <td><font color=red>{{ $leave->floorhead_check = "X" }}</font></td>
+                                @endif
+                                @if ($leave->housemaster_check === 1)
+                                <td/>
+                                @else
+                                <td/>
+                                @endif
+                                <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
+                                <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
+                            </tr>
+                        @elseif(auth()->user()->role == "housemaster")
+                            @if($leave->floorhead_check === 1)
+                                <tr class='column_center'>
+                                    <td>{{ $leave->id }}</td>
+                                    <td>{{ $leave->sbrecord->bed->bedcode }}</td>
+                                    <td>{{ $leave->start }}</td>
+                                    <td>{{ $leave->end }}</td>
+                                    <td>{{ $leave->reason }}</td>
+                                    @if ($leave->floorhead_check === 1)
+                                    <td><font color=green>{{ $leave->floorhead_check = "V" }}</font></td>
+                                    @else
+                                    <td><font color=red>{{ $leave->floorhead_check = "X" }}</font></td>
+                                    @endif
+                                    @if ($leave->housemaster_check === 1)
+                                    <td><font color=green>{{ $leave->housemaster_check = "V" }}</font></td>
+                                    @else
+                                    <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
+                                    @endif
+                                    <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
+                                    <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
+                                </tr>
+                            @endif
+                        @endif
                     @endforeach
                 @else
                     @foreach($leaves as $leave)
-                        <tr class='column_center'>
+                        @if(auth()->user()->role == "floorhead")
+                            <tr class='column_center'>
+                                <td>{{ $leave->id }}</td>
+                                <td>{{ $leave->bedcode }}</td>
+                                <td>{{ $leave->start }}</td>
+                                <td>{{ $leave->end }}</td>
+                                <td>{{ $leave->reason }}</td>
+                                @if ($leave->floorhead_check === 1)
+                                <td><font color=green>{{ $leave->floorhead_check = "V" }}</font></td>
+                                @else
+                                <td><font color=red>{{ $leave->floorhead_check = "X" }}</font></td>
+                                @endif
+                                @if ($leave->housemaster_check === 1)
+                                <td/>
+                                @else
+                                <td/>
+                                @endif
+                                <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
+                                <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
+                            </tr>
+                        @elseif(auth()->user()->role == "housemaster")
+                            @if($leave->floorhead_check === 1)
+                                <tr class='column_center'>
+                                    <td>{{ $leave->id }}</td>
+                                    <td>{{ $leave->bedcode }}</td>
+                                    <td>{{ $leave->start }}</td>
+                                    <td>{{ $leave->end }}</td>
+                                    <td>{{ $leave->reason }}</td>
+                                    @if ($leave->floorhead_check === 1)
+                                    <td><font color=green>{{ $leave->floorhead_check = "V" }}</font></td>
+                                    @else
+                                    <td><font color=red>{{ $leave->floorhead_check = "X" }}</font></td>
+                                    @endif
+                                    @if ($leave->housemaster_check === 1)
+                                    <td><font color=green>{{ $leave->housemaster_check = "V" }}</font></td>
+                                    @else
+                                    <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
+                                    @endif
+                                    <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
+                                    <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
+                                </tr>
+                            @endif
+                        @endif    
+                    <!-- <tr class='column_center'>
                             <td>{{ $leave->id }}</td>
                             <td>{{ $leave->bedcode }}</td>
                             <td>{{ $leave->start }}</td>
                             <td>{{ $leave->end }}</td>
                             <td>{{ $leave->reason }}</td>
                             <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                            <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核情形</a></font></td>
-                        </tr>
+                            <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
+                        </tr> -->
                     @endforeach
                 @endif
             </table>
@@ -138,7 +236,7 @@
                     <th>外宿日訖</th>
                     <th>外宿原因</th>
                     <th>操作</th>
-                    <th>操作</th>
+                    <th>審核是否通過</th>
                 </tr>
                 @if ($display == 1)
                     @foreach($all_leaves as $leave)
@@ -149,22 +247,12 @@
                                 <td>{{ $leave->start }}</td>
                                 <td>{{ $leave->end }}</td>
                                 <td>{{ $leave->reason }}</td>
-                                <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
                                 <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核情形</a></font></td>
-                            </tr>
-                        @endif
-                    @endforeach
-                @else
-                    @foreach($all_leaves as $leave)
-                        @if(auth()->user()->name == $leave->sbrecord->student->name)
-                            <tr class='column_center'>
-                                <td>{{ $leave->id }}</td>
-                                <td>{{ $leave->bedcode }}</td>
-                                <td>{{ $leave->start }}</td>
-                                <td>{{ $leave->end }}</td>
-                                <td>{{ $leave->reason }}</td>
-                                <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                                <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核情形</a></font></td>
+                                @if($leave->floorhead_check === 1 && $leave->housemaster_check ===1)
+                                <td><font color=green>V</font></td>
+                                @else
+                                <td><font color=red>X</font></td>
+                                @endif
                             </tr>
                         @endif
                     @endforeach

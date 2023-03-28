@@ -24,6 +24,7 @@ class CreateStudentRequest extends FormRequest
     public function rules()
     {
         return [
+            'profile' => 'file|mimes:jpeg,jpg,png',
             'number' => 'required|string|min:11|max:191',
             'class' => 'required|string|min:4|max:191',
             'name' => 'required|string|min:2|max:191',
@@ -39,6 +40,7 @@ class CreateStudentRequest extends FormRequest
     public function messages()
     {
         return [
+            "profile.mimes" => "檔案必須是jpeg,jpg,png",
             "number.required" => "學號 為必填",
             "number.min" => "學號 至少需11個字元",
             "class.required" => "班級 為必填",

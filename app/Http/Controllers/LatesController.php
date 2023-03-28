@@ -95,7 +95,6 @@ class LatesController extends Controller
 
     public function show($id){
         $late = Late::findOrFail($id);
-
         return view('lates.show', ['late' => $late]);
     }
     public function dormitory(Request $request)

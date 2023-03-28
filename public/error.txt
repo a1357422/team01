@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "D:\LHU\1111Class\wamp64\www\team01\public\ทำค๙ฟ๋รั.py", line 12, in <module>
+    img2 = cv_imread(sys.argv[2])
+IndexError: list index out of range
