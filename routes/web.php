@@ -86,6 +86,7 @@ Route::post('rollcalls/capture', [RollcallsController::class, 'storeimage'])->na
 
 Route::get('lates',[LatesController::class,'index'])->name('lates.index');
 Route::get('lates/create',[LatesController::class,'create'])->name('lates.create');
+Route::get('lates/download/{id}',[LatesController::class,'download'])->where("id","[0-9]+")->name('lates.download');
 Route::get('lates/{id}',[LatesController::class,'show'])->where("id","[0-9]+")->name('lates.show');
 Route::get('lates/examine/{id}',[LatesController::class,'examine'])->where("id","[0-9]+")->name('lates.examine');
 Route::delete('lates/delete/{id}',[LatesController::class,'destroy'])->where("id","[0-9]+")->name('lates.destroy');

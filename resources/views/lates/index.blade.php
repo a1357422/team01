@@ -30,6 +30,7 @@
                     <th>長期晚歸原因</th>
                     <th>單位名稱</th>
                     <th>預計每日返回宿舍時間</th>
+                    <th>佐證資料</th>
                     <th>樓長審核</th>
                     <th>總樓長審核</th>
                     <th>宿舍輔導員審核</th>
@@ -48,6 +49,7 @@
                             <td>{{ $late->reason }}</td>
                             <td>{{ $late->company }}</td>
                             <td align="center" valign="center">{{ $late->back_time }}</td>
+                            <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->sbrecord->bed->bedcode}}</a></td>
                             @if ($late->floorhead_check === 1)
                             <td><font color=green>{{ $late->floorhead_check = "V" }}</font></td>
                             @else
@@ -90,6 +92,7 @@
                             <td>{{ $late->reason }}</td>
                             <td>{{ $late->company }}</td>
                             <td align="center" valign="center">{{ $late->back_time }}</td>
+                            <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->bedcode}}</a></td>
                             <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
                             <!-- <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核</a></font></td> -->
                             <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
@@ -132,6 +135,7 @@
                     <th>長期晚歸原因</th>
                     <th>單位名稱</th>
                     <th>預計每日返回宿舍時間</th>
+                    <th>佐證資料</th>
                     <th>樓長審核</th>
                     <th>總樓長審核</th>
                     <th>宿舍輔導員審核</th>
@@ -150,6 +154,7 @@
                                 <td>{{ $late->reason }}</td>
                                 <td>{{ $late->company }}</td>
                                 <td align="center" valign="center">{{ $late->back_time }}</td>
+                                <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->sbrecord->bed->bedcode}}</a></td>
                                 @if ($late->floorhead_check === 1)
                                 <td><font color=green>{{ $late->floorhead_check = "V" }}</font></td>
                                 @else
@@ -183,6 +188,7 @@
                                     <td>{{ $late->reason }}</td>
                                     <td>{{ $late->company }}</td>
                                     <td align="center" valign="center">{{ $late->back_time }}</td>
+                                    <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->sbrecord->bed->bedcode}}</a></td>
                                     @if ($late->floorhead_check === 1)
                                     <td><font color=green>{{ $late->floorhead_check = "V" }}</font></td>
                                     @else
@@ -217,6 +223,7 @@
                                     <td>{{ $late->reason }}</td>
                                     <td>{{ $late->company }}</td>
                                     <td align="center" valign="center">{{ $late->back_time }}</td>
+                                    <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->sbrecord->bed->bedcode}}</a></td>
                                     @if ($late->floorhead_check === 1)
                                     <td><font color=green>{{ $late->floorhead_check = "V" }}</font></td>
                                     @else
@@ -254,6 +261,7 @@
                                 <td>{{ $late->reason }}</td>
                                 <td>{{ $late->company }}</td>
                                 <td align="center" valign="center">{{ $late->back_time }}</td>
+                                <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->bedcode}}</a><td>
                                 @if ($late->floorhead_check === 1)
                                 <td><font color=green>{{ $late->floorhead_check = "V" }}</font></td>
                                 @else
@@ -287,6 +295,7 @@
                                     <td>{{ $late->reason }}</td>
                                     <td>{{ $late->company }}</td>
                                     <td align="center" valign="center">{{ $late->back_time }}</td>
+                                    <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->sbrecord->bed->bedcode}}</a></td>
                                     @if ($late->floorhead_check === 1)
                                     <td><font color=green>{{ $late->floorhead_check = "V" }}</font></td>
                                     @else
@@ -321,6 +330,7 @@
                                     <td>{{ $late->reason }}</td>
                                     <td>{{ $late->company }}</td>
                                     <td align="center" valign="center">{{ $late->back_time }}</td>
+                                    <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->bedcode}}</a></td>
                                     @if ($late->floorhead_check === 1)
                                     <td><font color=green>{{ $late->floorhead_check = "V" }}</font></td>
                                     @else
@@ -385,6 +395,7 @@
                         <th>長期晚歸原因</th>
                         <th>單位名稱</th>
                         <th>預計每日返回宿舍時間</th>
+                        <th>佐證資料</th>
                         <th>操作</th>
                         <th>審核是否通過</th>
                     </tr>
@@ -399,6 +410,7 @@
                                     <td>{{ $late->reason }}</td>
                                     <td>{{ $late->company }}</td>
                                     <td align="center" valign="center">{{ $late->back_time }}</td>
+                                    <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->sbrecord->bed->bedcode}}</a></td>
                                     <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核情形</a></font></td>
                                     @if($late->floorhead_check === 1 && $late->chief_check === 1 && $late->housemaster_check ===1 && $late->admin_check ===1)
                                     <td><font color=green>V</font></td>

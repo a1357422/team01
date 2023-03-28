@@ -7,6 +7,7 @@ use App\Models\Sbrecord;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\CreateLateRequest;
 use App\Models\Bed;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -133,11 +134,19 @@ class LatesController extends Controller
         $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   
         return view("lates.create",['sbrecords'=>$sbrecords]);
     }
+
+    public function download($id){
+        $late = Late::findOrFail($id);
+        return response()->download($late->filename_path);
+    }
+
     public function store(CreateLateRequest $request){
         $user_sbids = Sbrecord::User(Auth::user()->name)->get();
         foreach($user_sbids as $user_sbid){
             $sbid = $user_sbid->id;
         }
+        $sbrecord = Sbrecord::FindOrFail($sbid);
+        $bed = Bed::FindOrFail($sbrecord->bid);
         $start = $request->input('start');
         $end = $request->input('end');
         $reason = $request->input('reason');
@@ -145,7 +154,9 @@ class LatesController extends Controller
         $contact = $request->input('contact');
         $address = $request->input('address');
         $back_time = $request->input('back_time');
-        $filename_path = $request->input('filename_path');
+        $filename_path = $request->file('filename_path');
+        $destinationPath = 'storage/lates/'.date("md")."/".$bed->bedcode;
+        $filename_path->move($destinationPath,"$bed->bedcode.".$filename_path->getClientOriginalExtension());
         $late = Late::create([
             'sbid' => $sbid,
             'start' => $start,
@@ -155,7 +166,7 @@ class LatesController extends Controller
             'contact' => $contact,
             'address' => $address,
             'back_time' => $back_time,
-            'filename_path' => $filename_path,
+            'filename_path' => $destinationPath."/$bed->bedcode.".$filename_path->getClientOriginalExtension(),
         ]);
         return redirect("lates");
     }
