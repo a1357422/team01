@@ -568,7 +568,8 @@ class RollcallsController extends Controller
         $rollcall = Rollcall::findOrFail($id);
         $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');  
         $selectDate = $rollcall->date;
-        return view('rollcalls.edit',['display'=>3,'rollcall'=>$rollcall,'sbrecords'=>$sbrecords,'selectDate'=>$selectDate]);
+        $selectPresence = $rollcall->presence;
+        return view('rollcalls.edit',['display'=>3,'rollcall'=>$rollcall,'sbrecords'=>$sbrecords,'selectDate'=>$selectDate,'selectPresence'=>$selectPresence,"MonthDay"=>date("md")]);
     }
     public function update($id,CreateRollcallRequest $request){
         $rollcall = Rollcall::findOrFail($id);

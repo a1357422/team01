@@ -1,4 +1,5 @@
 <table>
+    @if($display == 1)
     <tr>
         <th>編號</th>
         <th>點名日期</th>
@@ -8,7 +9,6 @@
         <th>拍攝照片</th>
         <th></th>
     </tr>
-    @if($display == 1)
         @foreach($sbrecords as $sbrecord)
             <tr>
                 <td>{{ $sbrecord->id }}</td>
@@ -26,14 +26,33 @@
             </tr>
         @endforeach
     @elseif($display == 3)
+    <tr>
+        <th>編號</th>
+        <th>點名日期</th>
+        <th>學生床位</th>
+        <th>{!! Form::label('presence','在場與否')!!}</th>
+        <th/>
+    </tr>
         <tr>
             <td>{{ $rollcall->id }}</td>
             <td>{{ $selectDate }}</td>
             <td>{{ $rollcall->sbrecord->bed->bedcode }}</td>
+            @if($selectPresence == 1)
+            <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$rollcall->id,isset($model->checkbox)?:1)!!}</font></td>
+            @else
             <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$rollcall->id,isset($model->checkbox)?:0)!!}</font></td>
-
+            @endif
         </tr>
     @else
+    <tr>
+        <th>編號</th>
+        <th>點名日期</th>
+        <th>學生床位</th>
+        <th>{!! Form::label('presence','在場與否')!!}</th>
+        <th>上傳照片</th>
+        <th>拍攝照片</th>
+        <th></th>
+    </tr>
         @foreach($sbrecords as $sbrecord)
             <tr>
                 <td>{{ $sbrecord->id }}</td>
