@@ -63,11 +63,15 @@ class Sbrecord extends Model
     public function lates(){
         return $this->hasMany("App\Models\late","sbid");
     }
+    public function photos(){
+        return $this->hasMany("App\Models\photo","sbid");
+    }
     
     public function delete(){
         $this->rollcalls()->delete();
         $this->leaves()->delete();
         $this->lates()->delete();
+        $this->photos()->delete();
         
         return parent::delete();
     }

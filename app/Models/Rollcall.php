@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,11 +32,6 @@ class Rollcall extends Model
     public function scopePresence($query)
     {
         $query->select('*')->where('rollcalls.presence','=',0);
-    }
-
-    public function scopeFindRollcallSbid($query,$sbid)
-    {
-        $query->select('rollcalls.id','rollcalls.sbid')->where('rollcalls.sbid','=',"$sbid");
     }
 
     public function sbrecord(){
