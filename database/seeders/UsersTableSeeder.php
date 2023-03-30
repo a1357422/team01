@@ -17,43 +17,37 @@ class UsersTableSeeder extends Seeder
     public function run(){
         $password = Hash::make('00000000');
             DB::table('users')->insert([
-                'sid' => 143,
-                'name' => "系統後台管理員",
+                'sid' => 9999,
                 'role' => "superadmin",
                 'email' => "superadmin@gmail.com",
                 'password' => $password
             ]);
             DB::table('users')->insert([
-                'sid' => 144,
-                'name' => "宿舍行政",
+                'sid' => 9998,
                 'role' => "admin",
                 'email' => "admin@gmail.com",
                 'password' => $password
             ]);
             DB::table('users')->insert([
-                'sid' => 145,
-                'name' => "宿舍輔導員",
+                'sid' => 9997,
                 'role' => "housemaster",
                 'email' => "housemaster@gmail.com",
                 'password' => $password
             ]);
             DB::table('users')->insert([
-                'sid' => 146,
-                'name' => "總樓長",
+                'sid' => 9996,
                 'role' => "chief",
                 'email' => "chief@gmail.com",
                 'password' => $password
             ]);
             DB::table('users')->insert([
-                'sid' => 147,
-                'name' => "樓長",
+                'sid' => 9995,
                 'role' => "floorhead",
                 'email' => "floorhead@gmail.com",
                 'password' => $password
             ]);
             DB::table('users')->insert([
-                'sid' => 148,
-                'name' => "住宿生",
+                'sid' => 9994,
                 'email' => "user@gmail.com",
                 'password' => $password
             ]);

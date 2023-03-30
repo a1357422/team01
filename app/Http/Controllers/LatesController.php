@@ -141,7 +141,7 @@ class LatesController extends Controller
     }
 
     public function store(CreateLateRequest $request){
-        $user_sbids = Sbrecord::User(Auth::user()->name)->get();
+        $user_sbids = Sbrecord::User(Auth::user()->student->name)->get();
         foreach($user_sbids as $user_sbid){
             $sbid = $user_sbid->id;
         }

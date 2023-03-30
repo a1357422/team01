@@ -162,7 +162,7 @@ class SbrecordsController extends Controller
     public function create(){
         $students = Student::orderBy('students.id', 'asc')->pluck('students.name', 'students.id');
         $beds = Bed::orderBy('beds.id', 'asc')->pluck('beds.bedcode', 'beds.id');
-        return view("sbrecords.create",["students"=>$students,"beds"=>$beds]);
+        return view("sbrecords.create",["students"=>$students,"beds"=>$beds,"selectSemester"=>0,"selectFloor_head"=>0,"selectResponsible_floor"=>""]);
     }
     
     public function store(CreateSbrecordRequest $request){
@@ -173,16 +173,19 @@ class SbrecordsController extends Controller
         $bid = $request->input('bid');
         $floor_head = $request->input('floor_head');
         $responsible_floor = $request->input('responsible_floor');
-
-        $sbrecord = Sbrecord::create([
+        $sbrecord = Sbrecord::updateOrCreate(['school_year'=>$school_year,'semester'=>$semester,'sid'=>$sid],[
             'school_year' => $school_year,
             'semester' => $semester,
             'sid' => $sid,
             'bid' => $bid,
             'floor_head' => $floor_head,
             'responsible_floor' => $responsible_floor,
-
         ]);
+        if($floor_head == 1){
+            $user = User::updateOrCreate(['sid'=>$sid],[
+                'role'=> 'floorhead'
+            ]);
+        }
         return redirect("sbrecords");
     }
     public function edit($id){
@@ -195,7 +198,7 @@ class SbrecordsController extends Controller
         $selectFloor_head = $sbrecord->floor_head;
         $selectResponsible_floor = $sbrecord->responsible_floor;
 
-        return view('sbrecords.edit',['sbrecord'=>$sbrecord,"students"=>$students,"beds"=>$beds, "selectsemester"=>$selectSemester, 'selectName'=>$selectName,'selectBedcode'=>$selectBedcode, "selectFloor_head"=>$selectFloor_head, "selectResponsible_floor"=>$selectResponsible_floor]);
+        return view('sbrecords.edit',['sbrecord'=>$sbrecord,"students"=>$students,"beds"=>$beds, "selectSemester"=>$selectSemester, 'selectName'=>$selectName,'selectBedcode'=>$selectBedcode, "selectFloor_head"=>$selectFloor_head, "selectResponsible_floor"=>$selectResponsible_floor]);
     }
     public function update($id,CreateSbrecordRequest $request){
         $sbrecord = Sbrecord::findOrFail($id);
@@ -206,6 +209,11 @@ class SbrecordsController extends Controller
         $sbrecord->bid = $request->input('bid');
         $sbrecord->floor_head = $request->input('floor_head');
         $sbrecord->responsible_floor = $request->input('responsible_floor');
+        if($sbrecord->floor_head == 1){
+            $user = User::updateOrCreate(['sid'=>$sbrecord->sid],[
+                'role'=> 'floorhead'
+            ]);
+        }
 
         $sbrecord->save();
         return redirect('sbrecords');

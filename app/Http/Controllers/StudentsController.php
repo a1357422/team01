@@ -212,11 +212,26 @@ class StudentsController extends Controller
         $salutation = $request->input('salutation');
         $remark = $request->input('remark');
         $destinationPath = 'storage/uploads/profiles/'.$name;
-        $file->move($destinationPath,"$name.".$file->getClientOriginalExtension());
+
+        if($file != null){
+            $file->move($destinationPath,"$name.".$file->getClientOriginalExtension());
+            $student = Student::create([
+                'profile_file_path'=>$destinationPath."/$name.".$file->getClientOriginalExtension(),
+                'number' => $number,
+                'class' => $class,
+                'name' => $name,
+                'address' => $address,
+                'phone' => $phone,
+                'nationality' => $nationality,
+                'guardian' => $guardian,
+                'salutation' => $salutation,
+                'remark' => $remark,
+            ]);
+        }
         // dd($destinationPath);
 
         $student = Student::create([
-            'profile_file_path'=>$destinationPath."/$name.".$file->getClientOriginalExtension(),
+            'profile_file_path'=>"",
             'number' => $number,
             'class' => $class,
             'name' => $name,
@@ -230,7 +245,7 @@ class StudentsController extends Controller
         // 新增學生資料時順便建立帳號
         $password = Hash::make($number);
         $user = User::create([
-            'name' => $name,
+            'sid' => $student->id,
             'email' => "$number@gm.lhu.edu.tw",
             'password' => $password
         ]);

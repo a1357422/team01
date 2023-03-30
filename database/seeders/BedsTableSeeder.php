@@ -87,13 +87,13 @@ class BedsTableSeeder extends Seeder
         else if($domitorycode=="82"){
             if ($floorcode == "1"){
                 $int_value = (int)($bedcord[3].$bedcord[4]);
-                if($int_value>11)$domitorynumber=$did[2];
-                else $domitorynumber = $did[1];
+                if($int_value>11)$domitorynumber=$did[1];
+                else $domitorynumber = $did[2];
             }
             else if ($floorcode =="2"){
                 $int_value = (int)($bedcord[3].$bedcord[4]);
-                if($int_value>14)$domitorynumber=$did[2];
-                else $domitorynumber = $did[1];
+                if($int_value>14)$domitorynumber=$did[1];
+                else $domitorynumber = $did[2];
             }
             else $domitorynumber = $did[1];
         }
@@ -146,18 +146,19 @@ class BedsTableSeeder extends Seeder
                     ]);
                 }
             }
-            
-            // $bedcode = $this->generateRandomBedcode();
-            // $did = $this->generateRandomDid();
-            // $floor = $this->generateRandomFloor();
-            // $roomtype = $this->generateRandomRoomtype();
         
-            // DB::table('beds')->insert([
-            //     'bedcode' => $bedcode1,
-            //     'did' => $did,
-            //     'floor' => $floor,
-            //     'roomtype' => $roomtype
-            // ]);
+        // for($i=0;$i<30;$i++){
+        //     $bedcode = $this->generateRandomBedcode();
+        //     $did = $this->generateRandomDid();
+        //     $floor = $this->generateRandomFloor();
+        //     $roomtype = $this->generateRandomRoomtype();
+        
+        //     DB::table('beds')->insert([
+        //         'bedcode' => $bedcode,
+        //         'did' => $did,
+        //         'floor' => $floor,
+        //         'roomtype' => $roomtype
+        //     ]);
         }
     }
 }

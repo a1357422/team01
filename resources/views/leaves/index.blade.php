@@ -240,7 +240,7 @@
                 </tr>
                 @if ($display == 1)
                     @foreach($all_leaves as $leave)
-                        @if(auth()->user()->name == $leave->sbrecord->student->name)
+                        @if(auth()->user()->student->name == $leave->sbrecord->student->name)
                             <tr class='column_center'>
                                 <td>{{ $leave->id }}</td>
                                 <td>{{ $leave->sbrecord->bed->bedcode }}</td>

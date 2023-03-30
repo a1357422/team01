@@ -3,7 +3,7 @@
 @section('dormitorysystem_contents')
     @if (Route::has('login'))
         @auth
-        <h3><u>{{Auth::user()->name}}</u> 您好</h3>
+        <h3><u>{{Auth::user()->student->name}}</u> 您好</h3>
         @can('admin')
         <ui>
             <li><a href = "/students">學生系統</a></li>

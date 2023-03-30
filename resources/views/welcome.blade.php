@@ -6,17 +6,17 @@
     @if (Route::has('login')) <!--登入-->
         @auth
             @if(auth()->user()->role == "superadmin")
-            <h3>系統後台管理員 <u>{{Auth::user()->name}}</u> 您好 </h3>
+            <h3>系統後台管理員 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
             @elseif(auth()->user()->role == "housemaster")
-            <h3>宿舍輔導員 <u>{{Auth::user()->name}}</u> 您好 </h3>
+            <h3>宿舍輔導員 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
             @elseif(auth()->user()->role == "admin")
-            <h3>宿舍行政 <u>{{Auth::user()->name}}</u> 您好 </h3>
+            <h3>宿舍行政 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
             @elseif(auth()->user()->role == "chief")
-            <h3>總樓長 <u>{{Auth::user()->name}}</u> 您好 </h3>
+            <h3>總樓長 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
             @elseif(auth()->user()->role == "floorhead")
-            <h3>樓長 <u>{{Auth::user()->name}}</u> 您好 </h3>
+            <h3>樓長 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
             @else
-            <h3><u>{{Auth::user()->name}}</u> 您好 </h3>
+            <h3><u>{{Auth::user()->student->name}}</u> 您好 </h3>
             @endif
 
         @canany(['chief','floorhead']) <!--總樓長、樓長-->

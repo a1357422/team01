@@ -7,7 +7,7 @@
 @section('dormitorysystem_contents')
     @include('message.list')
     <div>
-        學生姓名：{{Auth::user()->name}}
+        學生姓名：{{Auth::user()->student->name}}
     </div>
     {!! Form::open(['url'=>'lates/store','files'=>'true'])!!}
     @include('lates.form1',['submitButtonText'=>"新增晚歸資料"])

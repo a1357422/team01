@@ -9,7 +9,7 @@ class UsersController extends Controller
 {
     //
     public function index(){
-        $users = User::paginate(10);
+        $users = User::name()->paginate(10);
         $roles = User::allRoles()->get();
         $tags = [];
         foreach ($roles as $role)

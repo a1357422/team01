@@ -27,8 +27,8 @@ class Sbrecord extends Model
     public function scopeUser($query, $user)
     {
         $query->join('students','sbrecords.sid','=','students.id')
-        ->join('users','students.name','=','users.name')
-        ->select('sbrecords.id')
+        ->join('users','users.sid','=','students.id')
+        ->select('*')
         ->where('students.name','=',"$user");
     }
 
@@ -36,7 +36,8 @@ class Sbrecord extends Model
     {
         $query->join('students','sbrecords.sid','=','students.id')
         ->join('beds','sbrecords.bid','=','beds.id')
-        ->select('sbrecords.id','sbrecords.school_year','sbrecords.semester','students.name','beds.bedcode')
+        // ->select('sbrecords.id','sbrecords.school_year','sbrecords.semester','students.name','beds.bedcode')
+        ->select('*')
         ->where('beds.did','=',"$did")
         ->where('bedcode', 'LIKE', "__$floor%");
     }

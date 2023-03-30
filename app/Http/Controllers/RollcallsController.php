@@ -13,6 +13,7 @@ use App\Models\Photo;
 use App\Models\Student;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image; 
 
@@ -190,7 +191,28 @@ class RollcallsController extends Controller
     }
 
     public function create(){
-        $sbrecords = Sbrecord::get();
+        $floorhead = Sbrecord::User(Auth::user()->student->name)->first();
+        $floor = substr($floorhead->responsible_floor,0,1);
+        $bed = Bed::findOrFail($floorhead->bid);
+        // dd(substr($bed->bedcode,2,3));
+        if(substr($bed->bedcode,0,2) == "81")
+            $dormitory = 1;
+        elseif(substr($bed->bedcode,0,2) == "82"){
+            if ($floor == "1"){
+                $int_value = (int)(substr($bed->bedcode,3,2));
+                if($int_value>11)$dormitory=2;
+                else $dormitory=3;
+            }
+            elseif ($floor == "2"){
+                $int_value = (int)(substr($bed->bedcode,3,2));
+                if($int_value>14)$dormitory=2;
+                else $dormitory=3;
+            }
+            else $dormitory=3;
+        }
+        elseif(substr($bed->bedcode,0,2) == "83")
+            $dormitory = 4;
+        $sbrecords = Sbrecord::Dormitory($dormitory,$floor)->get();
         $dormitories = Bed::allDormitories()->get();
         $date = date("m/d");
         $tags = [];

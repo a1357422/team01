@@ -26,7 +26,7 @@ class User extends Authenticatable
     const ROLE_USER = 'user'; //住宿生
 
     protected $fillable = [
-        'name',
+        'sid',
         'email',
         'password',
         'role'
@@ -50,6 +50,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function scopeName($query)
+    {
+        $query->join('students','users.sid','=','students.id')->select('*');
+    }
 
     public function scopeAllRoles($query)
     {

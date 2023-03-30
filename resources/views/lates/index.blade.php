@@ -401,7 +401,7 @@
                     </tr>
                     @if ($display == 1)
                         @foreach($all_lates as $late)
-                            @if(auth()->user()->name == $late->sbrecord->student->name)
+                            @if(auth()->user()->student->name == $late->sbrecord->student->name)
                                 <tr class='column_center'>
                                     <td>{{ $late->id }}</td>
                                     <td>{{ $late->sbrecord->bed->bedcode }}</td>
