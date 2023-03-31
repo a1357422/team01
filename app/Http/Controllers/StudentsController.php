@@ -246,6 +246,7 @@ class StudentsController extends Controller
         $password = Hash::make($number);
         $user = User::create([
             'sid' => $student->id,
+            'name' => $name,
             'email' => "$number@gm.lhu.edu.tw",
             'password' => $password
         ]);

@@ -6,41 +6,17 @@
     @if (Route::has('login')) <!--登入-->
         @auth
             @if(auth()->user()->role == "superadmin")
-                @if(auth()->user()->sid == 9999)
-                    <h3>系統後台管理員 您好 </h3>
-                @else
-                    <h3>系統後台管理員 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
-                @endif
+                <h3>系統後台管理員 <u>{{Auth::user()->name}}</u> 您好 </h3>
             @elseif(auth()->user()->role == "housemaster")
-                @if(auth()->user()->sid == 9998)
-                    <h3>宿舍輔導員 您好 </h3>
-                @else
-                    <h3>宿舍輔導員 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
-                @endif
+                <h3>宿舍輔導員 <u>{{Auth::user()->name}}</u> 您好 </h3>
             @elseif(auth()->user()->role == "admin")
-                @if(auth()->user()->sid == 9997)
-                    <h3>宿舍行政 您好 </h3>
-                @else
-                    <h3>宿舍行政 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
-                @endif
+                <h3>宿舍行政 <u>{{Auth::user()->name}}</u> 您好 </h3>
             @elseif(auth()->user()->role == "chief")
-                @if(auth()->user()->sid == 9996)
-                    <h3>總樓長 您好 </h3>
-                @else
-                    <h3>總樓長 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
-                @endif
+                <h3>總樓長 <u>{{Auth::user()->name}}</u> 您好 </h3>
             @elseif(auth()->user()->role == "floorhead")
-                @if(auth()->user()->sid == 9995)
-                    <h3>樓長 您好 </h3>
-                @else
-                    <h3>樓長 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
-                @endif
+                <h3>樓長 <u>{{Auth::user()->name}}</u> 您好 </h3>
             @else
-                @if(auth()->user()->sid == 9994)
-                    <h3>住宿生 您好 </h3>
-                @else
-                    <h3><u>{{Auth::user()->student->name}}</u> 您好 </h3>
-                @endif
+                <h3><u>{{Auth::user()->name}}</u> 您好 </h3>
             @endif
 
         @canany(['chief','floorhead']) <!--總樓長、樓長-->

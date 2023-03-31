@@ -103,6 +103,7 @@ class StudentsTableSeeder extends Seeder
                 ]);
                 DB::table('users')->insert([
                     'sid' => 9,
+                    'name' =>"簡至昊",
                     'email' => "D1094162012@gm.lhu.edu.tw",
                     'password' => Hash::make("D1094162012")
                 ]);
@@ -122,6 +123,7 @@ class StudentsTableSeeder extends Seeder
                 ]); 
                 DB::table('users')->insert([
                     'sid' => 12,
+                    'name' =>"羅銘麒",
                     'email' => "D1094182042@gm.lhu.edu.tw",
                     'password' => Hash::make("D1094182042")
                 ]);
@@ -151,6 +153,7 @@ class StudentsTableSeeder extends Seeder
 
                 DB::table('users')->insert([
                     'sid' => $i+1,
+                    'name' => $name,
                     'email' => "$number@gm.lhu.edu.tw",
                     'password' => $password
                 ]);

@@ -8,7 +8,7 @@
     @cannot('')
         @include('message.list')
         <div>
-            學生姓名：{{Auth::user()->student->name}}
+            學生姓名：{{Auth::user()->name}}
         </div>
         {!! Form::open(['url'=>'leaves/store'])!!}
         @include('leaves.form1',['submitButtonText'=>"新增外宿資料"])

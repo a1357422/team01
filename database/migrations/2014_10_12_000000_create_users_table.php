@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->id()->comment("編號");
             $table->foreignId("sid")->unsigned()->nullable(false)->comment("學生姓名");
             $table->foreign('sid')->references('id')->on('students')->onDelete('cascade');
+            $table->string('name')->comment("使用者姓名");
             $table->string('role')->default(User::ROLE_USER)->comment("權限"); // 加入角色欄位
             $table->string('email')->unique()->comment("電子信箱");
             $table->timestamp('email_verified_at')->nullable()->comment("信箱驗證完成時間");

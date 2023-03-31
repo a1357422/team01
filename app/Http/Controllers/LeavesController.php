@@ -133,7 +133,7 @@ class LeavesController extends Controller
         return view("leaves.create",["sbrecords"=>$sbrecords]);
     }
     public function store(CreateLeaveRequest $request){
-        $user_sbids = Sbrecord::User(Auth::user()->student->name)->get();
+        $user_sbids = Sbrecord::User(Auth::user()->name)->get();
         foreach($user_sbids as $user_sbid){
             $sbid = $user_sbid->id;
         }
