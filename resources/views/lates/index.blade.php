@@ -18,7 +18,6 @@
                     <input type="submit" value="查詢" />
                     @csrf
                 </form>
-                <!-- <a href="{{ route('lates.create') }} ">新增晚歸資料</a> -->
             </div>
         </div>
             <table class="table">
@@ -356,24 +355,6 @@
                                 </tr>
                             @endif
                         @endif
-                        <!-- <tr class='column_center'>
-                            <td>{{ $late->id }}</td>
-                            <td>{{ $late->bedcode }}</td>
-                            <td>{{ $late->start }}</td>
-                            <td>{{ $late->end }}</td>
-                            <td>{{ $late->reason }}</td>
-                            <td>{{ $late->company }}</td>
-                            <td align="center" valign="center">{{ $late->back_time }}</td>
-                            <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
-                            <td>
-                                <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">
-                                    <input class="btn btn-default" type="submit" value="刪除" />
-                                    @method('delete')
-                                    @csrf
-                                </form>
-                            </td>
-                        </tr> -->
                     @endforeach
                 @endif
             </table>

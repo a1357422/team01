@@ -6,17 +6,41 @@
     @if (Route::has('login')) <!--登入-->
         @auth
             @if(auth()->user()->role == "superadmin")
-            <h3>系統後台管理員 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @if(auth()->user()->sid == 9999)
+                    <h3>系統後台管理員 您好 </h3>
+                @else
+                    <h3>系統後台管理員 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @endif
             @elseif(auth()->user()->role == "housemaster")
-            <h3>宿舍輔導員 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @if(auth()->user()->sid == 9998)
+                    <h3>宿舍輔導員 您好 </h3>
+                @else
+                    <h3>宿舍輔導員 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @endif
             @elseif(auth()->user()->role == "admin")
-            <h3>宿舍行政 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @if(auth()->user()->sid == 9997)
+                    <h3>宿舍行政 您好 </h3>
+                @else
+                    <h3>宿舍行政 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @endif
             @elseif(auth()->user()->role == "chief")
-            <h3>總樓長 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @if(auth()->user()->sid == 9996)
+                    <h3>總樓長 您好 </h3>
+                @else
+                    <h3>總樓長 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @endif
             @elseif(auth()->user()->role == "floorhead")
-            <h3>樓長 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @if(auth()->user()->sid == 9995)
+                    <h3>樓長 您好 </h3>
+                @else
+                    <h3>樓長 <u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @endif
             @else
-            <h3><u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @if(auth()->user()->sid == 9994)
+                    <h3>住宿生 您好 </h3>
+                @else
+                    <h3><u>{{Auth::user()->student->name}}</u> 您好 </h3>
+                @endif
             @endif
 
         @canany(['chief','floorhead']) <!--總樓長、樓長-->
@@ -34,9 +58,6 @@
                 <li><a href = "/beds">床位系統</a></li>
                 <li><a href = "/dormitories">宿舍系統</a></li>
                 <li><a href = "/sbrecords">學生床位系統</a></li>
-                <li><a href = "/rollcalls">點名系統</a></li>
-                <li><a href = "/lates">晚歸系統</a></li>
-                <li><a href = "/leaves">外宿系統</a></li>
             </ui>
         @elsecan('admin') <!--宿舍行政-->
             <ui class="dashboard">
@@ -44,7 +65,6 @@
                 <li><a href = "/beds">床位系統</a></li>
                 <li><a href = "/dormitories">宿舍系統</a></li>
                 <li><a href = "/sbrecords">學生床位系統</a></li>
-                <!-- <li><a href = "/rollcalls">點名系統</a></li> -->
                 <li><a href = "/lates">晚歸系統</a></li>
                 <li><a href = "/leaves">外宿系統</a></li>
             </ui>

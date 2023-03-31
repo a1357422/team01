@@ -15,6 +15,7 @@ class CreateRollcallsTable extends Migration
     {
         Schema::create('rollcalls', function (Blueprint $table) {
             $table->id()->comment("編號");
+            $table->string('rollcaller',191)->nullable(true)->comment("點名者");
             $table->date("date")->nullable(false)->comment("點名日期");
             $table->foreignId("sbid")->unsigned()->nullable(false)->comment("學生床位");
             $table->foreign('sbid')->references('id')->on('sbrecords')->onDelete('cascade');

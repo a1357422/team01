@@ -270,6 +270,7 @@ class RollcallsController extends Controller
                     if(count($leaves)==0 && count($lates)==0){
                         $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                         $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                            'rollcaller' => Auth::user()->student->name,
                             'sbid' => $sbrecord->id,
                             'date' => $date,
                             'presence' => 0,
@@ -289,6 +290,7 @@ class RollcallsController extends Controller
                                     $leave = 0;
                                 $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                    'rollcaller' => Auth::user()->student->name,
                                     'sbid' => $sbrecord->id,
                                     'date' => $date,
                                     'presence' => 0,
@@ -306,6 +308,7 @@ class RollcallsController extends Controller
                                     $late = 0;
                                 $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                    'rollcaller' => Auth::user()->student->name,
                                     'sbid' => $sbrecord->id,
                                     'date' => $date,
                                     'presence' => 0,
@@ -330,6 +333,7 @@ class RollcallsController extends Controller
                             }
                             $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                             $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                'rollcaller' => Auth::user()->student->name,
                                 'sbid' => $sbrecord->id,
                                 'date' => $date,
                                 'presence' => 0,
@@ -341,6 +345,7 @@ class RollcallsController extends Controller
                         else{
                             $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                             $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                'rollcaller' => Auth::user()->student->name,
                                 'sbid' => $sbrecord->id,
                                 'date' => $date,
                                 'presence' => 0,
@@ -356,6 +361,7 @@ class RollcallsController extends Controller
                         if(in_array($request->input('edition')[$i-1],$request->input("presence")) == true){
                             $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                             $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                'rollcaller' => Auth::user()->student->name,
                                 'sbid' => $sbrecord->id,
                                 'date' => $date,
                                 'presence' => 1,
@@ -367,6 +373,7 @@ class RollcallsController extends Controller
                         else{
                             $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                             $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                'rollcaller' => Auth::user()->student->name,
                                 'sbid' => $sbrecord->id,
                                 'date' => $date,
                                 'presence' => 0,
@@ -388,6 +395,7 @@ class RollcallsController extends Controller
                                         $leave = 0;
                                     $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                     $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                        'rollcaller' => Auth::user()->student->name,
                                         'sbid' => $sbrecord->id,
                                         'date' => $date,
                                         'presence' => 1,
@@ -405,6 +413,7 @@ class RollcallsController extends Controller
                                         $late = 0;
                                     $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                     $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                        'rollcaller' => Auth::user()->student->name,
                                         'sbid' => $sbrecord->id,
                                         'date' => $date,
                                         'presence' => 1,
@@ -429,6 +438,7 @@ class RollcallsController extends Controller
                                 }
                                 $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                    'rollcaller' => Auth::user()->student->name,
                                     'sbid' => $sbrecord->id,
                                     'date' => $date,
                                     'presence' => 1,
@@ -440,6 +450,7 @@ class RollcallsController extends Controller
                             else{
                                 $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                    'rollcaller' => Auth::user()->student->name,
                                     'sbid' => $sbrecord->id,
                                     'date' => $date,
                                     'presence' => 1,
@@ -458,6 +469,7 @@ class RollcallsController extends Controller
                                         $leave = 0;
                                     $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                     $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                        'rollcaller' => Auth::user()->student->name,
                                         'sbid' => $sbrecord->id,
                                         'date' => $date,
                                         'presence' => 0,
@@ -475,6 +487,7 @@ class RollcallsController extends Controller
                                         $late = 0;
                                     $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                     $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                        'rollcaller' => Auth::user()->student->name,
                                         'sbid' => $sbrecord->id,
                                         'date' => $date,
                                         'presence' => 0,
@@ -499,6 +512,7 @@ class RollcallsController extends Controller
                                 }
                                 $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                    'rollcaller' => Auth::user()->student->name,
                                     'sbid' => $sbrecord->id,
                                     'date' => $date,
                                     'presence' => 0,
@@ -510,6 +524,7 @@ class RollcallsController extends Controller
                             else{
                                 $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
                                 $rollcall = Rollcall::updateOrCreate(['sbid'=>$sbrecord->id,'date'=>$date],[
+                                    'rollcaller' => Auth::user()->student->name,
                                     'sbid' => $sbrecord->id,
                                     'date' => $date,
                                     'presence' => 0,
@@ -603,6 +618,8 @@ class RollcallsController extends Controller
         // $rollcall->leave = $request->input('leave');
         // $rollcall->late = $request->input('late');
         }
+        $rollcall->rollcaller = Auth::user()->student->name;
+
 
         $rollcall->save();
         return redirect('rollcalls');

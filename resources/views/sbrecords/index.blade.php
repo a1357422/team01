@@ -18,7 +18,9 @@
             <input type="submit" value="查詢" />
             @csrf
             </form>
-            <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
+            @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
+                <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
+            @endif
             <a href="{{ route('sbrecords.senior') }} ">樓長</a>
         </div>
         <table  class="table">
@@ -31,7 +33,9 @@
                 <th>樓長</th>
                 <th>負責的樓層</th>
                 <th>操作</th>
-                <th>操作</th>
+                @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
+                    <th>操作</th>
+                @endif
                 <th>操作</th>
             </tr>
             @if($display == 1)
@@ -49,7 +53,9 @@
                     @endif
                     <td align="center" valign="center">{{ $sbrecord->responsible_floor }}</td>
                     <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->id]) }}">詳細資料</a></font></td>
-                    <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
+                    @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
+                        <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
+                    @endif
                     <td>
                         <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
                             <input class="btn btn-default" type="submit" value="刪除" />
@@ -74,7 +80,9 @@
                     @endif
                     <td align="center" valign="center">{{ $sbrecord->responsible_floor }}</td>
                     <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->id]) }}">詳細資料</a></font></td>
-                    <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
+                    @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
+                        <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
+                    @endif
                     <td>
                         <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
                             <input class="btn btn-default" type="submit" value="刪除" />

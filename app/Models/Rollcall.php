@@ -11,6 +11,7 @@ class Rollcall extends Model
     use HasFactory;
 
     protected $fillable=[
+        "rollcaller",
         "date",
         "sbid",
         "presence",

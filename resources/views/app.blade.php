@@ -114,9 +114,67 @@
                             @endif -->
                         @else
                             <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->student->name }}
-                                </a>
+                                @if(auth()->user()->role == "superadmin")
+                                    @if(Auth::user()->sid == "9999")
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            系統後台管理員
+                                        </a>
+                                    @else
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            {{ Auth::user()->student->name }}
+                                        </a>
+                                    @endif
+                                @elseif(auth()->user()->role == "housemaster")
+                                    @if(Auth::user()->sid == "9998")
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            宿舍輔導員
+                                        </a>
+                                    @else
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            {{ Auth::user()->student->name }}
+                                        </a>
+                                    @endif
+                                @elseif(auth()->user()->role == "admin")
+                                    @if(Auth::user()->sid == "9997")
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            宿舍行政
+                                        </a>
+                                    @else
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            {{ Auth::user()->student->name }}
+                                        </a>
+                                    @endif
+                                @elseif(auth()->user()->role == "chief")
+                                    @if(Auth::user()->sid == "9996")
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            總樓長
+                                        </a>
+                                    @else
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            {{ Auth::user()->student->name }}
+                                        </a>
+                                    @endif
+                                @elseif(auth()->user()->role == "floorhead")
+                                    @if(Auth::user()->sid == "9995")
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            樓長
+                                        </a>
+                                    @else
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            {{ Auth::user()->student->name }}
+                                        </a>
+                                    @endif
+                                @else
+                                    @if(Auth::user()->sid == "9994")
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            住宿生
+                                        </a>
+                                    @else
+                                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                            {{ Auth::user()->student->name }}
+                                        </a>
+                                    @endif
+                                @endif
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"

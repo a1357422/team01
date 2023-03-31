@@ -24,14 +24,14 @@ class UsersTableSeeder extends Seeder
             ]);
             DB::table('users')->insert([
                 'sid' => 9998,
-                'role' => "admin",
-                'email' => "admin@gmail.com",
+                'role' => "housemaster",
+                'email' => "housemaster@gmail.com",
                 'password' => $password
             ]);
             DB::table('users')->insert([
                 'sid' => 9997,
-                'role' => "housemaster",
-                'email' => "housemaster@gmail.com",
+                'role' => "admin",
+                'email' => "admin@gmail.com",
                 'password' => $password
             ]);
             DB::table('users')->insert([
