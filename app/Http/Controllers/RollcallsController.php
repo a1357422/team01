@@ -30,9 +30,9 @@ class RollcallsController extends Controller
                     $sbrecord = Sbrecord::findOrFail($rollcalls[$i-1]->sbid);
                     $student = Student::findOrFail($sbrecord->sid);
                     if ($photo->webcam_file_path != "")
-                        $imagepath = $student->profile_file_path." ". $photo->webcam_file_path;
+                        $imagepath = $photo->webcam_file_path." ". $student->profile_file_path;
                     elseif($photo->upload_file_path != "")
-                        $imagepath = $student->profile_file_path." ". $photo->upload_file_path;
+                        $imagepath = $photo->upload_file_path." ". $student->profile_file_path;
                     else
                         break;
                     $result = exec("python 照片辨識.py 2>error.txt $imagepath");
