@@ -88,7 +88,7 @@ class StudentsTableSeeder extends Seeder
     public function run()
     {
         //
-        for ($i=0;$i<142;$i++){
+        for ($i=0;$i<144;$i++){
             if($i == 8){
                 DB::table('students')->insert([
                     'number' => "D1094162012",

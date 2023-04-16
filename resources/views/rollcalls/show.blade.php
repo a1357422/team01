@@ -27,10 +27,10 @@
                 照片：
                 @foreach($roomcodes as $roomcode)
                     @if (strpos($rollcall->sbrecord->bed->bedcode, (string)$roomcode) === 0)
-                        @if(file_exists(public_path("/storage/roomphotos/".$MonthDay."/".$roomcode."/".$roomcode.".png")))
-                            <td><img src= "{{ asset('storage/roomphotos') }}/{{$MonthDay}}/{{$roomcode}}/{{$roomcode}}.png"alt=""/></td>
-                        @elseif(file_exists(public_path("/storage/roomphotos/".$MonthDay."/".$roomcode."/".$roomcode.".jpg")))
-                            <td><img src= "{{ asset('storage/roomphotos') }}/{{$MonthDay}}/{{$roomcode}}/{{$roomcode}}.jpg"alt=""/></td>
+                        @if(file_exists(public_path("/storage/uploads/".$MonthDay."/".$roomcode."/".$roomcode.".png")))
+                            <td><img src= "{{ asset('storage/uploads') }}/{{$MonthDay}}/{{$roomcode}}/{{$roomcode}}.png"alt=""/></td>
+                        @elseif(file_exists(public_path("/storage/uploads/".$MonthDay."/".$roomcode."/".$roomcode.".jpg")))
+                            <td><img src= "{{ asset('storage/uploads') }}/{{$MonthDay}}/{{$roomcode}}/{{$roomcode}}.jpg"alt=""/></td>
                         @endif
                     @endif
                 @endforeach
@@ -39,12 +39,6 @@
                     <td><img src= "{{ asset('storage/uploads/profiles') }}/{{$rollcall->sbrecord->student->name}}/{{$rollcall->sbrecord->student->name}}.png"alt=""/></td>
                 @elseif(file_exists(public_path("/storage/webcams/".$MonthDay."/".$rollcall->sbrecord->bed->bedcode."/".$rollcall->sbrecord->bed->bedcode.".jpg")))
                     <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.jpg"alt=""/></td>
-                    <td><img src= "{{ asset('storage/uploads/profiles') }}/{{$rollcall->sbrecord->student->name}}/{{$rollcall->sbrecord->student->name}}.jpg"alt=""/></td>
-                @elseif(file_exists(public_path("/storage/uploads/".$MonthDay."/".$rollcall->sbrecord->bed->bedcode."/".$rollcall->sbrecord->bed->bedcode.".png")))
-                    <td><img src= "{{ asset('storage/uploads') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.png"alt=""/></td>
-                    <td><img src= "{{ asset('storage/uploads/profiles') }}/{{$rollcall->sbrecord->student->name}}/{{$rollcall->sbrecord->student->name}}.png"alt=""/></td>
-                @elseif(file_exists(public_path("/storage/uploads/".$MonthDay."/".$rollcall->sbrecord->bed->bedcode."/".$rollcall->sbrecord->bed->bedcode.".jpg")))
-                    <td><img src= "{{ asset('storage/uploads') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.jpg"alt=""/></td>
                     <td><img src= "{{ asset('storage/uploads/profiles') }}/{{$rollcall->sbrecord->student->name}}/{{$rollcall->sbrecord->student->name}}.jpg"alt=""/></td>
                 @elseif(file_exists(public_path("/storage/uploads/profiles/".$rollcall->sbrecord->student->name."/".$rollcall->sbrecord->student->name . ".jpg")))
                     <td><img src= "{{ asset('storage/uploads/profiles') }}/{{$rollcall->sbrecord->student->name}}/{{$rollcall->sbrecord->student->name}}.jpg"alt=""/></td>

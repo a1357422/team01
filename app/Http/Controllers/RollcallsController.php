@@ -7,6 +7,7 @@ use App\Models\Rollcall;
 use App\Models\Sbrecord;
 use App\Http\Requests\CreateRollcallRequest;
 use App\Models\Bed;
+use App\Models\Dormitory;
 use App\Models\Late;
 use App\Models\Leave;
 use App\Models\Photo;
@@ -29,9 +30,7 @@ class RollcallsController extends Controller
                 if($rollcalls[$i-1]->sbid==$photo->sbid){
                     $sbrecord = Sbrecord::findOrFail($rollcalls[$i-1]->sbid);
                     $student = Student::findOrFail($sbrecord->sid);
-                    if($photo->roomphoto_file_path != "")
-                        $imagepath = $photo->roomphoto_file_path." ". $student->profile_file_path;
-                    elseif ($photo->webcam_file_path != "")
+                    if ($photo->webcam_file_path != "")
                         $imagepath = $photo->webcam_file_path." ". $student->profile_file_path;
                     elseif($photo->upload_file_path != "")
                         $imagepath = $photo->upload_file_path." ". $student->profile_file_path;
@@ -51,18 +50,14 @@ class RollcallsController extends Controller
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
-            if($dormitory->did == "1"){
+            if($dormitory->did == "1")
                 $tags["$dormitory->did"] = "女一宿";
-            }
-            else if($dormitory->did == "2"){
+            else if($dormitory->did == "2")
                 $tags["$dormitory->did"] = "女二宿";
-            }
-            else if($dormitory->did == "3"){
+            else if($dormitory->did == "3")
                 $tags["$dormitory->did"] = "男一宿";
-            }
-            else{
+            else
                 $tags["$dormitory->did"] = "涵青館";
-            }
         }
 
         return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1,'textbox'=>False]);
@@ -76,27 +71,23 @@ class RollcallsController extends Controller
 
         foreach ($dormitories as $dormitory)
         {
-            if($dormitory->did == "1"){
+            if($dormitory->did == "1")
                 $tags["$dormitory->did"] = "女一宿";
-            }
-            else if($dormitory->did == "2"){
+            else if($dormitory->did == "2")
                 $tags["$dormitory->did"] = "女二宿";
-            }
-            else if($dormitory->did == "3"){
+            else if($dormitory->did == "3")
                 $tags["$dormitory->did"] = "男一宿";
-            }
-            else{
+            else
                 $tags["$dormitory->did"] = "涵青館";
-            }
         }
         return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>True]);
     }
 
 
-    public function upload($id)
+    public function upload($bedcode)
     {
-        $sbrecord=Sbrecord::findOrFail($id);
-        return view('rollcalls.upload',["sbrecord"=>$sbrecord]);
+        $sbrecords=Sbrecord::BedCode($bedcode)->get();
+        return view('rollcalls.upload',["sbrecords"=>$sbrecords]);
     }
 
     public function api_rollcalls()
@@ -172,10 +163,19 @@ class RollcallsController extends Controller
     public function dormitory(Request $request)
     {
         $sbrecords = Sbrecord::Dormitory($request->input('dormitory'),$request->input('floor'))->get();
+        $sbrecordcount = count($sbrecords);
         $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->get();
         $dormitories = Bed::allDormitories()->get();
+        $dormitory = Dormitory::findOrFail($request->input('dormitory'));
+        if($dormitory->name == "女一宿")
+            $dormitorycode = "81";
+        elseif($dormitory->name == "女二宿"||$dormitory->name == "男一宿")
+            $dormitorycode = "82";
+        else
+            $dormitorycode = "83";
+        $bedcode_prefix = $dormitorycode . $request->input('floor'); 
         $roomcodes = [];
-        $bedcodes = Bed::get();
+        $bedcodes = Bed::Bedcode($bedcode_prefix)->get();
         foreach($bedcodes as $bedcode){
             array_push($roomcodes,substr($bedcode->bedcode,0,5));
             $roomcodes = array_unique($roomcodes);
@@ -184,78 +184,81 @@ class RollcallsController extends Controller
         $date = date("m/d");
         foreach ($dormitories as $dormitory)
         {
-            if($dormitory->did == "1"){
+            if($dormitory->did == "1")
                 $tags["$dormitory->did"] = "女一宿";
-            }
-            else if($dormitory->did == "2"){
+            else if($dormitory->did == "2")
                 $tags["$dormitory->did"] = "女二宿";
-            }
-            else if($dormitory->did == "3"){
+            else if($dormitory->did == "3")
                 $tags["$dormitory->did"] = "男一宿";
-            }
-            else{
+            else
                 $tags["$dormitory->did"] = "涵青館";
-            }
         }
         if(@$_POST[ '新增表單查詢' ] == '新增表單查詢'){
-            return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md")]);
+            return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md")]);
         } 
         else
-            return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True]);
+            return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True]);
     }
 
     public function create(){
-        $floorhead = Sbrecord::User(Auth::user()->name)->first();
-        $floor = substr($floorhead->responsible_floor,0,1);
-        $bed = Bed::findOrFail($floorhead->bid);
-        $roomcodes = [];
-        $bedcodes = Bed::get();
-        foreach($bedcodes as $bedcode){
-            array_push($roomcodes,substr($bedcode->bedcode,0,5));
-            $roomcodes = array_unique($roomcodes);
-        }
-        // dd(substr($bed->bedcode,2,3));
-        if(substr($bed->bedcode,0,2) == "81")
-            $dormitory = 1;
-        elseif(substr($bed->bedcode,0,2) == "82"){
-            if ($floor == "1"){
-                $int_value = (int)(substr($bed->bedcode,3,2));
-                if($int_value>11)$dormitory=2;
+        if(Sbrecord::User(Auth::user()->name)->first() != null){
+            $floorhead = Sbrecord::User(Auth::user()->name)->first();
+            $floor = substr($floorhead->responsible_floor,0,1);
+            $bed = Bed::findOrFail($floorhead->bid);
+            $bedcode_prefix = substr($bed->bedcode,0,2) . $floor; 
+            $roomcodes = [];
+            $bedcodes = Bed::Bedcode($bedcode_prefix)->get();
+            foreach($bedcodes as $bedcode){
+                array_push($roomcodes,substr($bedcode->bedcode,0,5));
+                $roomcodes = array_unique($roomcodes);
+            }
+            if(substr($bed->bedcode,0,2) == "81")
+                $dormitory = 1;
+            elseif(substr($bed->bedcode,0,2) == "82"){
+                if ($floor == "1"){
+                    $int_value = (int)(substr($bed->bedcode,3,2));
+                    if($int_value>11)$dormitory=2;
+                    else $dormitory=3;
+                }
+                elseif ($floor == "2"){
+                    $int_value = (int)(substr($bed->bedcode,3,2));
+                    if($int_value>14)$dormitory=2;
+                    else $dormitory=3;
+                }
                 else $dormitory=3;
             }
-            elseif ($floor == "2"){
-                $int_value = (int)(substr($bed->bedcode,3,2));
-                if($int_value>14)$dormitory=2;
-                else $dormitory=3;
-            }
-            else $dormitory=3;
+            elseif(substr($bed->bedcode,0,2) == "83")
+                $dormitory = 4;
+            $sbrecords = Sbrecord::Dormitory($dormitory,$floor)->get();
         }
-        elseif(substr($bed->bedcode,0,2) == "83")
-            $dormitory = 4;
-        $sbrecords = Sbrecord::Dormitory($dormitory,$floor)->get();
+        else{
+            $roomcodes = [];
+            $bedcodes = Bed::get();
+            foreach($bedcodes as $bedcode){
+                array_push($roomcodes,substr($bedcode->bedcode,0,5));
+                $roomcodes = array_unique($roomcodes);
+            }
+            $sbrecords = Sbrecord::get();
+        }
+        $sbrecordcount = count($sbrecords);
         $dormitories = Bed::allDormitories()->get();
         $date = date("m/d");
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
-            if($dormitory->did == "1"){
+            if($dormitory->did == "1")
                 $tags["$dormitory->did"] = "女一宿";
-            }
-            else if($dormitory->did == "2"){
+            else if($dormitory->did == "2")
                 $tags["$dormitory->did"] = "女二宿";
-            }
-            else if($dormitory->did == "3"){
+            else if($dormitory->did == "3")
                 $tags["$dormitory->did"] = "男一宿";
-            }
-            else{
+            else
                 $tags["$dormitory->did"] = "涵青館";
-            }
         }
-        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md")]);
+        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md")]);
     }
 
     public function store(CreateRollcallRequest $request){
-        $files=$request->file('image');
         $roomphotos = $request->file('roomimage');
         $sbrecords = Sbrecord::get();
         $date = date("Y-m-d");
@@ -267,7 +270,7 @@ class RollcallsController extends Controller
                 for($j=1;$j<=count($request->input("roomcodes"));$j++){
                     if(in_array($j-1,array_keys($roomphotos))){
                         $sbrecords = Sbrecord::BedCode($request->input("roomcodes")[$j-1])->get();
-                        $destinationPath = 'storage/roomphotos/'.date("md")."/".$request->input("roomcodes")[$j-1];
+                        $destinationPath = 'storage/uploads/'.date("md")."/".$request->input("roomcodes")[$j-1];
                         $roomphotos[$j-1]->move($destinationPath,$request->input("roomcodes")[$j-1].".".$roomphotos[$j-1]->getClientOriginalExtension());
                         foreach($sbrecords as $sbrecord){
                             $photo_sbid = Photo::FindPhotoSbid($sbrecord->id)->get();
@@ -275,14 +278,13 @@ class RollcallsController extends Controller
                                 $photo = Photo::create([
                                 'date' => date("Y-m-d"),
                                 'sbid' => $sbrecord->id,
-                                'roomphoto_file_path'=>$destinationPath."/".$request->input("roomcodes")[$j-1].".".$roomphotos[$j-1]->getClientOriginalExtension(),
-                                'upload_file_path'=>"",
+                                'upload_file_path'=>$destinationPath."/".$request->input("roomcodes")[$j-1].".".$roomphotos[$j-1]->getClientOriginalExtension(),
                                 'webcam_file_path'=>"",
                                 ]);
                             }
                             else{
                                 $photo = Photo::FindPhotoSbid($sbrecord->id)->first();
-                                $photo->roomphoto_file_path = $destinationPath."/".$request->input("roomcodes")[$j-1].".".$roomphotos[$j-1]->getClientOriginalExtension();
+                                $photo->upload_file_path = $destinationPath."/".$request->input("roomcodes")[$j-1].".".$roomphotos[$j-1]->getClientOriginalExtension();
                                 $photo->save();
                             }
                         }
@@ -290,28 +292,6 @@ class RollcallsController extends Controller
                 }
             }
             for($i=1;$i<=count($request->input('edition'));$i++){
-                if($files != null){
-                    if(in_array($i-1,array_keys($files))){
-                        $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
-                        $bed = Bed::findOrFail($sbrecord->bid);
-                        $destinationPath = 'storage/uploads/'.date("md")."/".$bed->bedcode;
-                        $files[$i-1]->move($destinationPath,"$bed->bedcode.".$files[$i-1]->getClientOriginalExtension());
-                        $photo_sbid = Photo::FindPhotoSbid($sbrecord->id)->get();
-                        if(count($photo_sbid)==0){
-                            $photo = Photo::create([
-                            'date' => date("Y-m-d"),
-                            'sbid' => $sbrecord->id,
-                            'upload_file_path'=>$destinationPath."/$bed->bedcode.".$files[$i-1]->getClientOriginalExtension(),
-                            'webcam_file_path'=>"",
-                            ]);
-                        }
-                        else{
-                            $photo = Photo::FindPhotoSbid($sbrecord->id)->first();
-                            $photo->upload_file_path = $destinationPath."/$bed->bedcode.".$files[$i-1]->getClientOriginalExtension();
-                            $photo->save();
-                        }
-                    }
-                }
                 if ($check==true){
                     if(count($leaves)==0 && count($lates)==0){
                         $sbrecord = Sbrecord::findOrFail($request->input('edition')[$i-1]);
@@ -585,12 +565,13 @@ class RollcallsController extends Controller
             }
         }
         $rollcalls = Rollcall::get();
-        // dd($rollcalls);
         return redirect("rollcalls");
     }
 
     public function storeimage(Request $request)
     {
+        foreach($request->input('bedcodes') as $bedcode)
+            $newbedcodes = substr($bedcode,0,5);
         $sbrecords = Sbrecord::get();
         $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->get();
         $dormitories = Bed::allDormitories()->get();
@@ -614,35 +595,31 @@ class RollcallsController extends Controller
 
         $img = $request->image;
         if($img!=null){
-            $folderPath = "webcams/".$date."/".$request->input('bedcode')."/";
+            $folderPath = "webcams/".$date."/".$newbedcodes."/";
             $image_parts = explode(";base64,", $img);
             $image_type_aux = explode("image/", $image_parts[0]);
             $image_type = $image_type_aux[1];
             $image_base64 = base64_decode($image_parts[1]);
-            // $fileName = uniqid() . '.png';
-            $fileName = $request->input('bedcode');
-            $sbid = $request->input('sbid');
+            $fileName = $newbedcodes;
             $file = $folderPath . $fileName.'.png';
+            $sbid = $request->input('sbid');
             Storage::disk('public')->put($file, $image_base64);
-            $photo_sbid = Photo::FindPhotoSbid($sbid)->get();
-            if(count($photo_sbid)==0){
-                $upload = Photo::create([
-                    'date' => date("Y-m-d"),
-                    'sbid' => $request->input('sbid'),
-                    'upload_file_path'=>"",
-                    'webcam_file_path'=>"storage/".$file,
-                ]);
+            foreach($request->input('sbids') as $sbid){
+                $photo_sbid = Photo::FindPhotoSbid($sbid)->get();
+                if(count($photo_sbid)==0){
+                    $upload = Photo::create([
+                        'date' => date("Y-m-d"),
+                        'sbid' => $sbid,
+                        'upload_file_path'=>"",
+                        'webcam_file_path'=>"storage/".$file,
+                    ]);
+                }
+                else{
+                    $photo = Photo::FindPhotoSbid($sbid)->first();
+                    $photo->webcam_file_path = "storage/".$file;
+                    $photo->save();
+                }
             }
-            else{
-                $photo = Photo::FindPhotoSbid($sbid)->first();
-                $photo->webcam_file_path = "storage/".$file;
-                $photo->save();
-            }
-            // $upload = Photo::create([
-            //     'sbid' => $request->input('sbid'),
-            //     'upload_file_path'=>"",
-            //     'webcam_file_path'=>"storage/".$file,
-            // ]);
         }
         return redirect("rollcalls/create");
     }

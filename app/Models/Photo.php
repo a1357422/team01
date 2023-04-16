@@ -13,7 +13,6 @@ class Photo extends Model
     protected $fillable=[
         "date",
         "sbid",
-        "roomphoto_file_path",
         "upload_file_path",
         "webcam_file_path",
         "created_at",

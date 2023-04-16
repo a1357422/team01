@@ -22,9 +22,11 @@
                 <br/>
                 <input type=button value="拍照" onClick="take_snapshot()">
                 <input type="hidden" name="image" class="image-tag">
-                {!! Form::hidden('sbid', $sbrecord->id) !!}
-                {!! Form::hidden('name', $sbrecord->student->name) !!}
-                {!! Form::hidden('bedcode', $sbrecord->bed->bedcode) !!}
+                @foreach($sbrecords as $sbrecord)
+                    {!! Form::hidden('sbids[]', $sbrecord->id) !!}
+                    {!! Form::hidden('names[]', $sbrecord->student->name) !!}
+                    {!! Form::hidden('bedcodes[]', $sbrecord->bed->bedcode) !!}
+                @endforeach
             </div>
             <div class="col-md-6">
                 <div id="results">你所拍攝的照片會顯示在這</div>

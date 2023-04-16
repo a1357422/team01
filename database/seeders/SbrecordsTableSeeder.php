@@ -15,7 +15,7 @@ class SbrecordsTableSeeder extends Seeder
     public function run()
     {
         //
-        for($i=1;$i<142;$i++){
+        for($i=1;$i<145;$i++){
             DB::table('sbrecords')->insert([
                 'school_year' => 111,
                 'semester' => 2,

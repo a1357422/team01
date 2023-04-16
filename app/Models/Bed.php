@@ -29,6 +29,11 @@ class Bed extends Model
         $query->where('did', '=', $did);
     }
 
+    public function scopeBedcode($query, $bedcode_prefix)
+    {
+        $query->where('bedcode','Like',"$bedcode_prefix%");
+    }
+
     public function dormitory(){
         return $this->belongsTo("App\Models\Dormitory","did","id");
     }

@@ -80,7 +80,7 @@ Route::post('rollcalls/store',[RollcallsController::class,'store'])->name('rollc
 Route::get('rollcalls/{id}/edit',[RollcallsController::class,'edit'])->where("id","[0-9]+")->name('rollcalls.edit');
 Route::patch('rollcalls/update/{id}',[RollcallsController::class,'update'])->where("id","[0-9]+")->name('rollcalls.update');
 Route::post('rollcalls/dormitory', [RollcallsController::class,'dormitory'])->name('rollcalls.dormitory');
-Route::get('rollcalls/{id}/upload', [RollcallsController::class, 'upload'])->where("id","[0-9]+")->name(('rollcalls.upload'));
+Route::get('rollcalls/{bedcode}/upload', [RollcallsController::class, 'upload'])->where("bedcode","[0-9]+")->name(('rollcalls.upload'));
 Route::post('rollcalls/capture', [RollcallsController::class, 'storeimage'])->name('rollcalls.capture');
 
 
