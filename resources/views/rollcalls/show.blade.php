@@ -25,6 +25,15 @@
                 晚歸：<font color=red>{{ $rollcall->late = "X" }}</font> <br>
                 @endif
                 照片：
+                @foreach($roomcodes as $roomcode)
+                    @if (strpos($rollcall->sbrecord->bed->bedcode, (string)$roomcode) === 0)
+                        @if(file_exists(public_path("/storage/roomphotos/".$MonthDay."/".$roomcode."/".$roomcode.".png")))
+                            <td><img src= "{{ asset('storage/roomphotos') }}/{{$MonthDay}}/{{$roomcode}}/{{$roomcode}}.png"alt=""/></td>
+                        @elseif(file_exists(public_path("/storage/roomphotos/".$MonthDay."/".$roomcode."/".$roomcode.".jpg")))
+                            <td><img src= "{{ asset('storage/roomphotos') }}/{{$MonthDay}}/{{$roomcode}}/{{$roomcode}}.jpg"alt=""/></td>
+                        @endif
+                    @endif
+                @endforeach
                 @if(file_exists(public_path("/storage/webcams/".$MonthDay."/".$rollcall->sbrecord->bed->bedcode."/".$rollcall->sbrecord->bed->bedcode.".png")))
                     <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$rollcall->sbrecord->bed->bedcode}}/{{$rollcall->sbrecord->bed->bedcode}}.png"alt=""/></td>
                     <td><img src= "{{ asset('storage/uploads/profiles') }}/{{$rollcall->sbrecord->student->name}}/{{$rollcall->sbrecord->student->name}}.png"alt=""/></td>

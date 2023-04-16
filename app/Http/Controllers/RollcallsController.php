@@ -29,7 +29,9 @@ class RollcallsController extends Controller
                 if($rollcalls[$i-1]->sbid==$photo->sbid){
                     $sbrecord = Sbrecord::findOrFail($rollcalls[$i-1]->sbid);
                     $student = Student::findOrFail($sbrecord->sid);
-                    if ($photo->webcam_file_path != "")
+                    if($photo->roomphoto_file_path != "")
+                        $imagepath = $photo->roomphoto_file_path." ". $student->profile_file_path;
+                    elseif ($photo->webcam_file_path != "")
                         $imagepath = $photo->webcam_file_path." ". $student->profile_file_path;
                     elseif($photo->upload_file_path != "")
                         $imagepath = $photo->upload_file_path." ". $student->profile_file_path;
@@ -152,7 +154,13 @@ class RollcallsController extends Controller
     public function show($id){
         $rollcall = Rollcall::findOrFail($id);
         $date=date("md");
-        return view("rollcalls.show",["rollcall"=>$rollcall,"MonthDay"=>$date]);
+        $roomcodes = [];
+        $bedcodes = Bed::get();
+        foreach($bedcodes as $bedcode){
+            array_push($roomcodes,substr($bedcode->bedcode,0,5));
+            $roomcodes = array_unique($roomcodes);
+        }
+        return view("rollcalls.show",["rollcall"=>$rollcall,"roomcodes"=>$roomcodes,"MonthDay"=>$date]);
     }
 
     public function destroy($id){
@@ -166,6 +174,12 @@ class RollcallsController extends Controller
         $sbrecords = Sbrecord::Dormitory($request->input('dormitory'),$request->input('floor'))->get();
         $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->get();
         $dormitories = Bed::allDormitories()->get();
+        $roomcodes = [];
+        $bedcodes = Bed::get();
+        foreach($bedcodes as $bedcode){
+            array_push($roomcodes,substr($bedcode->bedcode,0,5));
+            $roomcodes = array_unique($roomcodes);
+        }
         $tags = [];
         $date = date("m/d");
         foreach ($dormitories as $dormitory)
@@ -184,16 +198,22 @@ class RollcallsController extends Controller
             }
         }
         if(@$_POST[ '新增表單查詢' ] == '新增表單查詢'){
-            return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md")]);
+            return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md")]);
         } 
         else
-            return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True]);
+            return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True]);
     }
 
     public function create(){
         $floorhead = Sbrecord::User(Auth::user()->name)->first();
         $floor = substr($floorhead->responsible_floor,0,1);
         $bed = Bed::findOrFail($floorhead->bid);
+        $roomcodes = [];
+        $bedcodes = Bed::get();
+        foreach($bedcodes as $bedcode){
+            array_push($roomcodes,substr($bedcode->bedcode,0,5));
+            $roomcodes = array_unique($roomcodes);
+        }
         // dd(substr($bed->bedcode,2,3));
         if(substr($bed->bedcode,0,2) == "81")
             $dormitory = 1;
@@ -231,18 +251,44 @@ class RollcallsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md")]);
+        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md")]);
     }
 
     public function store(CreateRollcallRequest $request){
         $files=$request->file('image');
+        $roomphotos = $request->file('roomimage');
         $sbrecords = Sbrecord::get();
         $date = date("Y-m-d");
         $check = is_null($request->input("presence"));
         $leaves = Leave::leave()->get();
         $lates = Late::late()->get();
-
         if($request->input('edition')!=null){
+            if($roomphotos != null){
+                for($j=1;$j<=count($request->input("roomcodes"));$j++){
+                    if(in_array($j-1,array_keys($roomphotos))){
+                        $sbrecords = Sbrecord::BedCode($request->input("roomcodes")[$j-1])->get();
+                        $destinationPath = 'storage/roomphotos/'.date("md")."/".$request->input("roomcodes")[$j-1];
+                        $roomphotos[$j-1]->move($destinationPath,$request->input("roomcodes")[$j-1].".".$roomphotos[$j-1]->getClientOriginalExtension());
+                        foreach($sbrecords as $sbrecord){
+                            $photo_sbid = Photo::FindPhotoSbid($sbrecord->id)->get();
+                            if(count($photo_sbid)==0){
+                                $photo = Photo::create([
+                                'date' => date("Y-m-d"),
+                                'sbid' => $sbrecord->id,
+                                'roomphoto_file_path'=>$destinationPath."/".$request->input("roomcodes")[$j-1].".".$roomphotos[$j-1]->getClientOriginalExtension(),
+                                'upload_file_path'=>"",
+                                'webcam_file_path'=>"",
+                                ]);
+                            }
+                            else{
+                                $photo = Photo::FindPhotoSbid($sbrecord->id)->first();
+                                $photo->roomphoto_file_path = $destinationPath."/".$request->input("roomcodes")[$j-1].".".$roomphotos[$j-1]->getClientOriginalExtension();
+                                $photo->save();
+                            }
+                        }
+                    }
+                }
+            }
             for($i=1;$i<=count($request->input('edition'));$i++){
                 if($files != null){
                     if(in_array($i-1,array_keys($files))){

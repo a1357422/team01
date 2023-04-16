@@ -42,6 +42,14 @@ class Sbrecord extends Model
         ->where('bedcode', 'LIKE', "__$floor%");
     }
 
+    public function scopeBedCode($query, $bedcode)
+    {
+        $query->join('students','sbrecords.sid','=','students.id')
+        ->join('beds','sbrecords.bid','=','beds.id')
+        ->select('*')
+        ->where('bedcode', 'LIKE', "$bedcode%");
+    }
+
     public function scopeSchool_year($query, $school_year=111,$semester=2)
     {
         $query->select('sbrecords.id','sbrecords.school_year','sbrecords.semester')
