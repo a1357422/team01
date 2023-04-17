@@ -201,6 +201,14 @@ class RollcallsController extends Controller
             $roomcodes = [];
             $bedcodes = Bed::Bedcode($bedcode_prefix)->get();
             $photos = Photo::get();
+            $roomnumbers = [];
+            foreach ($photos as $photo){
+                $sbrecord = Sbrecord::findOrFail($photo->sbid);
+                $bed = Bed::findOrFail($sbrecord->bid);
+                $bedcode = substr($bed->bedcode,0,5);
+                array_push($roomnumbers,$bedcode);
+                $roomnumbers = array_unique($roomnumbers);
+            }
             foreach($bedcodes as $bedcode){
                 array_push($roomcodes,substr($bedcode->bedcode,0,5));
                 $roomcodes = array_unique($roomcodes);
@@ -248,7 +256,7 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
-        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md"),"photos"=>$photos]);
+        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomnumbers'=>$roomnumbers,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md"),"photos"=>$photos]);
     }
 
     public function store(CreateRollcallRequest $request){
