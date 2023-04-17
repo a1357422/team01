@@ -22,29 +22,6 @@ class RollcallsController extends Controller
 {
     //
     public function index(){
-        $rollcalls = Rollcall::get();
-        $photos = Photo::get();
-        // dd($photos);
-        for($i=1;$i<=count($rollcalls);$i++){
-            foreach ($photos as $photo){
-                if($rollcalls[$i-1]->sbid==$photo->sbid){
-                    $sbrecord = Sbrecord::findOrFail($rollcalls[$i-1]->sbid);
-                    $student = Student::findOrFail($sbrecord->sid);
-                    if ($photo->webcam_file_path != "")
-                        $imagepath = $photo->webcam_file_path." ". $student->profile_file_path;
-                    elseif($photo->upload_file_path != "")
-                        $imagepath = $photo->upload_file_path." ". $student->profile_file_path;
-                    else
-                        break;
-                    $result = exec("python 照片辨識.py 2>error.txt $imagepath");
-                    if($result == "success")
-                        $rollcalls[$i-1]->identify = 1;
-                    else
-                        $rollcalls[$i-1]->identify = 0;
-                    $rollcalls[$i-1]->save();
-                }
-            }
-        }
         $rollcalls = Rollcall::orderBy('id','ASC')->paginate(10);
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
@@ -144,6 +121,21 @@ class RollcallsController extends Controller
 
     public function show($id){
         $rollcall = Rollcall::findOrFail($id);
+        $photo = Photo::Where('sbid',$rollcall->sbid)->first();
+        $sbrecord = Sbrecord::findOrFail($rollcall->sbid);
+        $student = Student::findOrFail($sbrecord->sid);
+        if($photo != null){
+            if ($photo->webcam_file_path != "")
+                $photo_path = $photo->webcam_file_path;
+            else
+                $photo_path = $photo->upload_file_path;
+        }
+        else
+            $photo_path = "";
+        if ($student->profile_file_path != "")
+            $profile_path = $student->profile_file_path;
+        else
+            $profile_path = "";
         $date=date("md");
         $roomcodes = [];
         $bedcodes = Bed::get();
@@ -151,7 +143,7 @@ class RollcallsController extends Controller
             array_push($roomcodes,substr($bedcode->bedcode,0,5));
             $roomcodes = array_unique($roomcodes);
         }
-        return view("rollcalls.show",["rollcall"=>$rollcall,"roomcodes"=>$roomcodes,"MonthDay"=>$date]);
+        return view("rollcalls.show",["rollcall"=>$rollcall,"roomcodes"=>$roomcodes,"MonthDay"=>$date,"photo_path"=>$photo_path,"profile_path"=>$profile_path]);
     }
 
     public function destroy($id){
@@ -208,6 +200,7 @@ class RollcallsController extends Controller
             $bedcode_prefix = substr($bed->bedcode,0,2) . $floor; 
             $roomcodes = [];
             $bedcodes = Bed::Bedcode($bedcode_prefix)->get();
+            $photos = Photo::get();
             foreach($bedcodes as $bedcode){
                 array_push($roomcodes,substr($bedcode->bedcode,0,5));
                 $roomcodes = array_unique($roomcodes);
@@ -255,7 +248,7 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
-        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md")]);
+        return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md"),"photos"=>$photos]);
     }
 
     public function store(CreateRollcallRequest $request){
@@ -565,6 +558,28 @@ class RollcallsController extends Controller
             }
         }
         $rollcalls = Rollcall::get();
+        $photos = Photo::get();
+        // dd($photos);
+        for($i=1;$i<=count($rollcalls);$i++){
+            foreach ($photos as $photo){
+                if($rollcalls[$i-1]->sbid==$photo->sbid){
+                    $sbrecord = Sbrecord::findOrFail($rollcalls[$i-1]->sbid);
+                    $student = Student::findOrFail($sbrecord->sid);
+                    if ($photo->webcam_file_path != "")
+                        $imagepath = $photo->webcam_file_path." ". $student->profile_file_path;
+                    elseif($photo->upload_file_path != "")
+                        $imagepath = $photo->upload_file_path." ". $student->profile_file_path;
+                    else
+                        break;
+                    $result = exec("python 照片辨識.py 2>error.txt $imagepath");
+                    if($result == "success")
+                        $rollcalls[$i-1]->identify = 1;
+                    else
+                        $rollcalls[$i-1]->identify = 0;
+                    $rollcalls[$i-1]->save();
+                }
+            }
+        }
         return redirect("rollcalls");
     }
 

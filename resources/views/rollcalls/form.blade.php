@@ -18,11 +18,19 @@
             <td>{{ Form::file('roomimage[]') }}</td>
             {!! Form::hidden('roomcodes[]', $roomcode) !!}
             <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td>
-            @if(file_exists(public_path("/storage/webcams/".$MonthDay."/".$roomcode."/".$roomcode.".png")))
-                <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$roomcode}}/{{$roomcode}}.png"width="50" height="50"alt=""/></td>
-            @else
-                <td/>
-            @endif
+            @foreach($sbrecords as $sbrecord)
+                @foreach($photos as $photo)
+                    @if($sbrecord->id == $photo->sbid)
+                    <td><img src= "{{ asset($photo->webcam_file_path) }}"width="50" height="50"alt=""/></td>
+                        @if(file_exists(public_path($photo->webcam_file_path)))
+                            <td><img src= "{{ asset($photo->webcam_file_path) }}"width="50" height="50"alt=""/></td>
+                            @continue
+                        @else
+                            <td/>
+                        @endif
+                    @endif
+                @endforeach
+            @endforeach
             @foreach($sbrecords as $sbrecord)
                 @if (strpos($sbrecord->bed->bedcode, (string)$roomcode) === 0)
                     <tr>
