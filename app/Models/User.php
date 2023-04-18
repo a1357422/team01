@@ -54,7 +54,7 @@ class User extends Authenticatable
 
     public function scopeName($query)
     {
-        $query->join('students','users.sid','=','students.id')->select('*');
+        $query->join('students','users.sid','=','students.id')->select('users.*');
     }
 
     public function scopeAllRoles($query)

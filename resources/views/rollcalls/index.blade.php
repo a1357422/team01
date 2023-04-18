@@ -12,7 +12,7 @@
             <h3>點名總資料管理</h3>
         </div>
         <div>
-            @if($display ==1 )
+            <!-- @if($display == 1) -->
                 <form action="{{ url('rollcalls/dormitory') }}" method='POST'>
                     {!! Form::label('dormitory', '選取宿舍別：') !!}
                     {!! Form::select('dormitory', $dormitories,$select) !!}
@@ -20,7 +20,7 @@
                 <input type="submit" value="查詢" />
                 @csrf
                 </form>
-            @endif
+            <!-- @endif -->
             <a href="{{ route('rollcalls.create') }} ">新增點名資料</a>
             <a href="{{ route('rollcalls.presence') }} ">未到人員</a>
         </div>
@@ -39,9 +39,8 @@
                 @endforeach
             </div>
         @else
-        @endif
-    </div>
-        <table class="table">
+            </div>
+            <table class="table">
                 <tr class='column_center'>
                     <th>編號</th>
                     <th>點名日期</th>
@@ -112,6 +111,11 @@
                             @else 
                             <td align="center" valign="center"><font color=red>{{ $rollcall->late = "X" }} </font></td>
                             @endif
+                            @if ($rollcall->identify === 1)
+                            <td align="center" valign="center"><font color=green>{{ $rollcall->identify = "V" }}</font></td>
+                            @else 
+                            <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
+                            @endif
                             <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
                             <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id]) }}">修改資料</a></font></td>
                             <td>
@@ -125,6 +129,7 @@
                     @endforeach
                 @endif
             </table>
+        @endif
         @if($showPagination)
             {{$rollcalls->links()}}
         @endif

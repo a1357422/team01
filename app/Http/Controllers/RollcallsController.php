@@ -185,8 +185,19 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
+        $photos = Photo::get();
+        $roomnumbers = [];
+        foreach ($photos as $photo){
+            if($photo->date == date("Y-m-d")){
+                $sbrecord = Sbrecord::findOrFail($photo->sbid);
+                $bed = Bed::findOrFail($sbrecord->bid);
+                $bedcode = substr($bed->bedcode,0,5);
+                array_push($roomnumbers,$bedcode);
+                $roomnumbers = array_unique($roomnumbers);
+            }
+        }
         if(@$_POST[ '新增表單查詢' ] == '新增表單查詢'){
-            return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md")]);
+            return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md"),'roomnumbers'=>$roomnumbers,"photos"=>$photos]);
         } 
         else if (@$_POST[ '表單查詢' ] == '表單查詢')
             return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>False]);

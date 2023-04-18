@@ -81,6 +81,21 @@
                 <th></th>
                 <td>{{ Form::file('roomimage[]') }}</td>
                 {!! Form::hidden('roomcodes[]', $roomcode) !!}
+                <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td>
+                @foreach($roomnumbers as $roomnumber)
+                    @foreach($photos as $photo)
+                        @if($roomnumber == $roomcode)
+                            @if($photo->webcam_file_path != NULL)
+                                @if(file_exists(public_path($photo->webcam_file_path)))
+                                    <td><img src= "{{ asset($photo->webcam_file_path) }}"width="50" height="50"alt=""/></td>
+                                    @break
+                                @else
+                                    <td/>
+                                @endif
+                            @endif
+                        @endif
+                    @endforeach
+                @endforeach
                 @foreach($sbrecords as $sbrecord)
                     @if (strpos($sbrecord->bed->bedcode, (string)$roomcode) === 0)
                         <tr>
@@ -88,12 +103,6 @@
                             <td>{{ $date }}</td>
                             <td>{{ $sbrecord->bedcode }}</td>
                             <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
-                            @if(file_exists(public_path("/storage/webcams/".$MonthDay."/".$sbrecord->bedcode."/".$sbrecord->bedcode.".png")))
-                                <td><img src= "{{ asset('storage/webcams') }}/{{$MonthDay}}/{{$sbrecord->bedcode}}/{{$sbrecord->bedcode}}.png"width="50" height="50"alt=""/></td>
-                            @else
-                                <td/>
-                            @endif
-                            <td><a href="{{ route('rollcalls.upload',$sbrecord->id,$sbrecords) }} ">拍照</a></td>
                             {!! Form::hidden('edition[]', $sbrecord->id) !!}
                         </tr>
                     @endif
