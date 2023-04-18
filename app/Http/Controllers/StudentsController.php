@@ -192,7 +192,7 @@ class StudentsController extends Controller
     }
 
     public function create(){
-        return view("students.create");
+        return view("students.create",['showphoto'=>0]);
     }
 
     public function createdata(){
@@ -253,7 +253,7 @@ class StudentsController extends Controller
     }
     public function edit($id){
         $student = Student::findOrFail($id);
-        return view('students.edit',['student'=>$student]);
+        return view('students.edit',['student'=>$student,'showphoto'=>1]);
     }
     public function update($id,CreateStudentRequest $request){
         $student = Student::findOrFail($id);
