@@ -21,11 +21,13 @@
             @foreach($roomnumbers as $roomnumber)
                 @foreach($photos as $photo)
                     @if($roomnumber == $roomcode)
-                        @if(file_exists(public_path($photo->webcam_file_path)))
-                            <td><img src= "{{ asset($photo->webcam_file_path) }}"width="50" height="50"alt=""/></td>
-                            @break
-                        @else
-                            <td/>
+                        @if($photo->webcam_file_path != NULL)
+                            @if(file_exists(public_path($photo->webcam_file_path)))
+                                <td><img src= "{{ asset($photo->webcam_file_path) }}"width="50" height="50"alt=""/></td>
+                                @break
+                            @else
+                                <td/>
+                            @endif
                         @endif
                     @endif
                 @endforeach
