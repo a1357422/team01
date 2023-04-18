@@ -228,19 +228,21 @@ class StudentsController extends Controller
             ]);
         }
         // dd($destinationPath);
-
-        $student = Student::create([
-            'profile_file_path'=>"",
-            'number' => $number,
-            'class' => $class,
-            'name' => $name,
-            'address' => $address,
-            'phone' => $phone,
-            'nationality' => $nationality,
-            'guardian' => $guardian,
-            'salutation' => $salutation,
-            'remark' => $remark,
-        ]);
+        else{
+            $student = Student::create([
+                'profile_file_path'=>"",
+                'number' => $number,
+                'class' => $class,
+                'name' => $name,
+                'address' => $address,
+                'phone' => $phone,
+                'nationality' => $nationality,
+                'guardian' => $guardian,
+                'salutation' => $salutation,
+                'remark' => $remark,
+            ]);
+        }
+        
         // 新增學生資料時順便建立帳號
         $password = Hash::make($number);
         $user = User::create([
