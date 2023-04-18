@@ -92,6 +92,26 @@
                             <td>{{ $late->company }}</td>
                             <td align="center" valign="center">{{ $late->back_time }}</td>
                             <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->bedcode}}</a></td>
+                            @if ($late->floorhead_check === 1)
+                            <td><font color=green>{{ $late->floorhead_check = "V" }}</font></td>
+                            @else
+                            <td><font color=red>{{ $late->floorhead_check = "X" }}</font></td>
+                            @endif
+                            @if ($late->chief_check === 1)
+                            <td><font color=green>{{ $late->chief_check = "V" }}</font></td>
+                            @else
+                            <td><font color=red>{{ $late->chief_check = "X" }}</font></td>
+                            @endif
+                            @if ($late->housemaster_check === 1)
+                            <td><font color=green>{{ $late->housemaster_check = "V" }}</font></td>
+                            @else
+                            <td><font color=red>{{ $late->housemaster_check = "X" }}</font></td>
+                            @endif
+                            @if ($late->admin_check === 1)
+                            <td><font color=green>{{ $late->admin_check = "V" }}</font></td>
+                            @else
+                            <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
+                            @endif
                             <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
                             <!-- <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核</a></font></td> -->
                             <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
@@ -260,7 +280,7 @@
                                 <td>{{ $late->reason }}</td>
                                 <td>{{ $late->company }}</td>
                                 <td align="center" valign="center">{{ $late->back_time }}</td>
-                                <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->bedcode}}</a><td>
+                                <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->bedcode}}</a></td>
                                 @if ($late->floorhead_check === 1)
                                 <td><font color=green>{{ $late->floorhead_check = "V" }}</font></td>
                                 @else
@@ -294,7 +314,7 @@
                                     <td>{{ $late->reason }}</td>
                                     <td>{{ $late->company }}</td>
                                     <td align="center" valign="center">{{ $late->back_time }}</td>
-                                    <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->sbrecord->bed->bedcode}}</a></td>
+                                    <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->bedcode}}</a></td>
                                     @if ($late->floorhead_check === 1)
                                     <td><font color=green>{{ $late->floorhead_check = "V" }}</font></td>
                                     @else

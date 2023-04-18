@@ -31,7 +31,7 @@ class CreateLateRequest extends FormRequest
             'company' => 'required|string|max:191',
             'contact' => 'required|string|max:191',
             'address' => 'required|string|max:191',
-            'back_time' => 'required|date_format:H:i|after:23:00|before:23:59',
+            'back_time' => 'required|date_format:H:i|after:23:29|before:tomorrow',
             'filename_path' => 'required',
         ];
     }
@@ -47,7 +47,8 @@ class CreateLateRequest extends FormRequest
             "company.required" => "單位名稱 為必填",
             "contact.required" => "單位聯絡電話 為必填",
             "address.required" => "單位聯絡地址 為必填",
-            "back_time.after"=> "晚歸申請時段只可介於23:00~00:00之間",
+            "back_time.after"=> "晚歸申請時段只可於23:30開始",
+            "back_time.before"=> "晚歸申請時段不得超過00:00",
             "back_time.required" => "預計每日返回宿舍時間 為必填",
             "filename_path.required" => "佐證圖檔 為必填",
         ];

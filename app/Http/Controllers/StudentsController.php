@@ -126,7 +126,6 @@ class StudentsController extends Controller
 
     public function show($id){
         $student = Student::findOrFail($id);
-
         return view('students.show', ['student' => $student]);
     }
 
@@ -258,8 +257,6 @@ class StudentsController extends Controller
     }
     public function update($id,CreateStudentRequest $request){
         $student = Student::findOrFail($id);
-
-        $file = $request->file('profile');
         $student->number = $request->input('number');
         $student->class = $request->input('class');
         $student->name = $request->input('name');
@@ -270,12 +267,11 @@ class StudentsController extends Controller
         $student->salutation = $request->input('salutation');
         $student->remark = $request->input('remark');
 
-        if($file != null){
+        if($request->hasFile('profile')){
+            $file = $request->file('profile');
             $destinationPath = 'storage/uploads/profiles/'.$student->name;
             $file->move($destinationPath,"$student->name.".$file->getClientOriginalExtension());
-
             $student->profile_file_path = $destinationPath."/$student->name.".$file->getClientOriginalExtension();
-
         }
         
         $student->save();

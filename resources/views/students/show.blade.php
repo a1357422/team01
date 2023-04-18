@@ -7,6 +7,13 @@
 @section('dormitorysystem_contents')
         @canany(['superadmin','admin'])
                 學生編號：{{$student->id}}<br/>
+                @if($student->profile_file_path != NULL)
+                        @if(file_exists(public_path($student->profile_file_path)))
+                                <img src= "{{ asset($student->profile_file_path) }}"width="120" height="170"alt=""/><br/>
+                        @else
+                                <br/>
+                        @endif
+                @endif
                 學號：{{$student->number}}<br/>
                 班級：{{$student->class}}<br/>
                 姓名：{{$student->name}}<br/>

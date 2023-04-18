@@ -6,6 +6,13 @@
 
 @section('dormitorysystem_contents')
         @cannot('user')
+                @if($sbrecord->student->profile_file_path != NULL)
+                        @if(file_exists(public_path($sbrecord->student->profile_file_path)))
+                                <img src= "{{ asset($sbrecord->student->profile_file_path) }}"width="120" height="170"alt=""/><br/>
+                        @else
+                                <br/>
+                        @endif
+                @endif
                 學年：{{ $sbrecord->school_year }}
                 學期：{{ $sbrecord->semester }}<br>
                 學生姓名：{{ $sbrecord->student->name }}<br>

@@ -27,10 +27,12 @@
                 照片：
                 @foreach($roomcodes as $roomcode)
                     @if (strpos($rollcall->sbrecord->bed->bedcode, (string)$roomcode) === 0)
-                        @if(file_exists(public_path($photo_path)))
-                            <td><img src= "{{ asset($photo_path) }}"width="500" height="500"alt=""/></td>
-                        @else
-                            <td/>
+                        @if($photo_path != NULL)
+                            @if(file_exists(public_path($photo_path)))
+                                <td><img src= "{{ asset($photo_path) }}"width="500" height="500"alt=""/></td>
+                            @else
+                                <td/>
+                            @endif
                         @endif
                     @endif
                 @endforeach
