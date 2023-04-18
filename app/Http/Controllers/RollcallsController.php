@@ -203,11 +203,13 @@ class RollcallsController extends Controller
             $photos = Photo::get();
             $roomnumbers = [];
             foreach ($photos as $photo){
-                $sbrecord = Sbrecord::findOrFail($photo->sbid);
-                $bed = Bed::findOrFail($sbrecord->bid);
-                $bedcode = substr($bed->bedcode,0,5);
-                array_push($roomnumbers,$bedcode);
-                $roomnumbers = array_unique($roomnumbers);
+                if($photo->date == date("Y-m-d")){
+                    $sbrecord = Sbrecord::findOrFail($photo->sbid);
+                    $bed = Bed::findOrFail($sbrecord->bid);
+                    $bedcode = substr($bed->bedcode,0,5);
+                    array_push($roomnumbers,$bedcode);
+                    $roomnumbers = array_unique($roomnumbers);
+                }
             }
             foreach($bedcodes as $bedcode){
                 array_push($roomcodes,substr($bedcode->bedcode,0,5));
@@ -235,6 +237,17 @@ class RollcallsController extends Controller
         else{
             $roomcodes = [];
             $bedcodes = Bed::get();
+            $photos = Photo::get();
+            $roomnumbers = [];
+            foreach ($photos as $photo){
+                if($photo->date == date("Y-m-d")){
+                    $sbrecord = Sbrecord::findOrFail($photo->sbid);
+                    $bed = Bed::findOrFail($sbrecord->bid);
+                    $bedcode = substr($bed->bedcode,0,5);
+                    array_push($roomnumbers,$bedcode);
+                    $roomnumbers = array_unique($roomnumbers);
+                }
+            }
             foreach($bedcodes as $bedcode){
                 array_push($roomcodes,substr($bedcode->bedcode,0,5));
                 $roomcodes = array_unique($roomcodes);
@@ -256,6 +269,7 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
+        // dd($sbrecords);
         return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomnumbers'=>$roomnumbers,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md"),"photos"=>$photos]);
     }
 

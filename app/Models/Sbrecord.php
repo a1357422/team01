@@ -32,12 +32,11 @@ class Sbrecord extends Model
         ->where('students.name','=',"$user");
     }
 
-    public function scopeDormitory($query, $did,$floor=null)
+    public function scopeDormitory($query, $did,$floor)
     {
         $query->join('students','sbrecords.sid','=','students.id')
         ->join('beds','sbrecords.bid','=','beds.id')
-        // ->select('sbrecords.id','sbrecords.school_year','sbrecords.semester','students.name','beds.bedcode')
-        ->select('*')
+        ->select('sbrecords.*')
         ->where('beds.did','=',"$did")
         ->where('bedcode', 'LIKE', "__$floor%");
     }
