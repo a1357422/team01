@@ -22,7 +22,7 @@ class RollcallsController extends Controller
 {
     //
     public function index(){
-        $rollcalls = Rollcall::orderBy('id','ASC')->paginate(10);
+        $rollcalls = Rollcall::orderBy('id','ASC')->orderBy('date','DESC')->paginate(10);
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
         foreach ($dormitories as $dormitory)
