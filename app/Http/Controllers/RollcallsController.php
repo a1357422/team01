@@ -22,7 +22,26 @@ class RollcallsController extends Controller
 {
     //
     public function index(){
-        $rollcalls = Rollcall::orderBy('id','ASC')->orderBy('date','DESC')->paginate(10);
+        $rollcalls = Rollcall::Where('date',date("Y-m-d"))->orderBy('id','ASC')->paginate(10);
+        $dormitories = Bed::allDormitories()->get();
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1")
+                $tags["$dormitory->did"] = "女一宿";
+            else if($dormitory->did == "2")
+                $tags["$dormitory->did"] = "女二宿";
+            else if($dormitory->did == "3")
+                $tags["$dormitory->did"] = "男一宿";
+            else
+                $tags["$dormitory->did"] = "涵青館";
+        }
+
+        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1,'textbox'=>False]);
+    }
+
+    public function history(){
+        $rollcalls = Rollcall::orderBy('id','ASC')->paginate(10);
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
         foreach ($dormitories as $dormitory)
@@ -57,7 +76,7 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
-        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>True]);
+        return view("rollcalls.index",['display'=>3,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>True]);
     }
 
 

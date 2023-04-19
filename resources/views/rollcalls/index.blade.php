@@ -23,6 +23,7 @@
             <!-- @endif -->
             <a href="{{ route('rollcalls.create') }} ">新增點名資料</a>
             <a href="{{ route('rollcalls.presence') }} ">未到人員</a>
+            <a href="{{ route('rollcalls.history') }} ">點名歷史紀錄</a>
         </div>
         @if($textbox == True && $display==1)
             <div> 

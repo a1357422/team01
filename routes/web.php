@@ -73,6 +73,7 @@ Route::post('sbrecords/dormitory', [SbrecordsController::class,'dormitory'])->na
 
 Route::get('rollcalls',[RollcallsController::class,'index'])->name('rollcalls.index');
 Route::get('rollcalls/create',[RollcallsController::class,'create'])->name('rollcalls.create');
+Route::get('rollcalls/history',[RollcallsController::class,'history'])->name('rollcalls.history');
 Route::get('rollcalls/presence',[RollcallsController::class,'presence'])->name('rollcalls.presence');
 Route::get('rollcalls/{id}',[RollcallsController::class,'show'])->where("id","[0-9]+")->name('rollcalls.show');
 Route::delete('rollcalls/delete/{id}',[RollcallsController::class,'destroy'])->where("id","[0-9]+")->name('rollcalls.destroy');
