@@ -114,7 +114,6 @@
                     <th>樓長審核</th>
                     <th>宿舍輔導員審核</th>
                     <th>操作</th>
-                    <th>操作</th>
                 </tr>
                 @if ($display == 1)
                     @foreach($leaves as $leave)
@@ -135,7 +134,6 @@
                                 @else
                                 <td/>
                                 @endif
-                                <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
                                 <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
                             </tr>
                         @elseif(auth()->user()->role == "housemaster")
@@ -156,7 +154,6 @@
                                     @else
                                     <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
                                     @endif
-                                    <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
                                     <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
                                 </tr>
                             @endif
@@ -181,7 +178,6 @@
                                 @else
                                 <td/>
                                 @endif
-                                <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
                                 <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
                             </tr>
                         @elseif(auth()->user()->role == "housemaster")
@@ -202,20 +198,10 @@
                                     @else
                                     <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
                                     @endif
-                                    <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
                                     <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
                                 </tr>
                             @endif
                         @endif    
-                    <!-- <tr class='column_center'>
-                            <td>{{ $leave->id }}</td>
-                            <td>{{ $leave->bedcode }}</td>
-                            <td>{{ $leave->start }}</td>
-                            <td>{{ $leave->end }}</td>
-                            <td>{{ $leave->reason }}</td>
-                            <td><font color=blue><a href="{{ route('leaves.show',['id' => $leave->id]) }}">詳細資料</a></font></td>
-                            <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
-                        </tr> -->
                     @endforeach
                 @endif
             </table>

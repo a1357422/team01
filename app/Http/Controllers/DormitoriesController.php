@@ -16,55 +16,6 @@ class DormitoriesController extends Controller
         return view("dormitories.index",["dormitories"=>$dormitories]);
     }
 
-    public function api_dormitories()
-    {
-        return Dormitory::all();
-    }
-
-    public function api_update(Request $request)
-    {
-        $dormitory = Dormitory::find($request->input('id'));
-        if ($dormitory == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-        $dormitory->name = $request->input('name');
-        $dormitory->housemaster = $request->input('housemaster');
-        $dormitory->contact = $request->input('contact');
-
-        if ($dormitory->save())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function api_delete(Request $request)
-    {
-        $dormitory = Dormitory::find($request->input('id'));
-
-        if ($dormitory == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-
-        if ($dormitory->delete())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        }
-    }
-
     public function show($id){
         $dormitory = Dormitory::findOrFail($id);
         $beds = $dormitory->beds;

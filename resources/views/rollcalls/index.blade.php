@@ -12,27 +12,36 @@
             <h3>點名總資料管理</h3>
         </div>
         <div>
-            <!-- @if($display == 1) -->
-                <form action="{{ url('rollcalls/dormitory') }}" method='POST'>
-                    {!! Form::label('dormitory', '選取宿舍別：') !!}
-                    {!! Form::select('dormitory', $dormitories,$select) !!}
+            <form action="{{ url('rollcalls/dormitory') }}" method='POST'>
+                {!! Form::label('dormitory', '選取宿舍別：') !!}
+                {!! Form::select('dormitory', $dormitories,$select) !!}
+                @if($display == 1 || $display == 2)
                     <input type="hidden" name="表單查詢" value="表單查詢">
-                <input type="submit" value="查詢" />
-                @csrf
-                </form>
-            <!-- @endif -->
+                @elseif($display == 3 || $display == 4)
+                    <input type="hidden" name="未到人員查詢" value="未到人員查詢">
+                @elseif($display == 5 || $display == 6)
+                    {!! Form::label('date', '查詢點名日期：') !!}
+                    {!! Form::date('date', $date) !!}
+                    <input type="hidden" name="點名歷史紀錄查詢" value="點名歷史紀錄查詢">
+                @endif
+            <input type="submit" value="查詢" />
+            @csrf
+            </form>
+            @if($display == 1 || $display == 2)
             <a href="{{ route('rollcalls.create') }} ">新增點名資料</a>
             <a href="{{ route('rollcalls.presence') }} ">未到人員</a>
             <a href="{{ route('rollcalls.history') }} ">點名歷史紀錄</a>
+            @endif
         </div>
-        @if($textbox == True && $display==1)
+        <!-- 秀出所有rollcall名單中未到的人 -->
+        @if($textbox == True && $display==3) 
             <div> 
             未到名單：<br/>
                 @foreach($rollcalls as $rollcall)
                     {!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}
                 @endforeach
             </div>
-        @elseif($textbox == True && $display==2)
+        @elseif($textbox == True && $display==4)
             <div> 
             未到名單：<br/>
                 @foreach($rollcalls as $rollcall)
@@ -54,7 +63,8 @@
                     <th>操作</th>
                     <th>操作</th>
                 </tr>
-                @if ($display == 1)
+                <!-- index -->
+                @if ($display == 1 || $display == 3 || $display == 5) 
                     @foreach($rollcalls as $rollcall)
                     <tr class='column_center'>
                         <td>{{ $rollcall->id }}</td>
@@ -91,6 +101,7 @@
                         </td>
                     </tr>
                     @endforeach
+                <!-- dormitory -->
                 @else
                     @foreach($rollcalls as $rollcall)
                         <tr class='column_center'>

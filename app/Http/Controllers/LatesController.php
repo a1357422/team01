@@ -22,76 +22,17 @@ class LatesController extends Controller
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
-            if($dormitory->did == "1"){
+            if($dormitory->did == "1")
                 $tags["$dormitory->did"] = "女一宿";
-            }
-            else if($dormitory->did == "2"){
+            else if($dormitory->did == "2")
                 $tags["$dormitory->did"] = "女二宿";
-            }
-            else if($dormitory->did == "3"){
+            else if($dormitory->did == "3")
                 $tags["$dormitory->did"] = "男一宿";
-            }
-            else{
+            else
                 $tags["$dormitory->did"] = "涵青館";
-            }
         }
 
         return view("lates.index",['display'=>1,"lates"=>$lates,"all_lates"=>$all_lates,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
-    }
-
-    public function api_lates()
-    {
-        return Late::all();
-    }
-
-    public function api_update(Request $request)
-    {
-        $late = Late::find($request->input('id'));
-        if ($late == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-        
-        $late->start = $request->input('start');
-        $late->end = $request->input('end');
-        $late->reason = $request->input('reason');
-        $late->company = $request->input('company');
-        $late->contact = $request->input('contact');
-        $late->address = $request->input('address');
-        $late->back_time = $request->input('back_time');
-        $late->filename_path = $request->input('filename_path');
-
-        if ($late->save())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function api_delete(Request $request)
-    {
-        $late = Late::find($request->input('id'));
-
-        if ($late == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-
-        if ($late->delete())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        }
     }
 
     public function show($id){
@@ -105,18 +46,14 @@ class LatesController extends Controller
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
-            if($dormitory->did == "1"){
+            if($dormitory->did == "1")
                 $tags["$dormitory->did"] = "女一宿";
-            }
-            else if($dormitory->did == "2"){
+            else if($dormitory->did == "2")
                 $tags["$dormitory->did"] = "女二宿";
-            }
-            else if($dormitory->did == "3"){
+            else if($dormitory->did == "3")
                 $tags["$dormitory->did"] = "男一宿";
-            }
-            else{
+            else
                 $tags["$dormitory->did"] = "涵青館";
-            }
         }
         return view("lates.index",['display'=>2,"lates"=>$lates,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory')]);
     }

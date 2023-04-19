@@ -56,7 +56,7 @@ class RollcallsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
         }
 
-        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1,'textbox'=>False]);
+        return view("rollcalls.index",['display'=>5,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1,'textbox'=>False,'date'=>date("Y-m-d")]);
     }
 
     public function presence()
@@ -85,59 +85,6 @@ class RollcallsController extends Controller
         $sbrecords=Sbrecord::BedCode($bedcode)->get();
         return view('rollcalls.upload',["sbrecords"=>$sbrecords]);
     }
-
-    public function api_rollcalls()
-    {
-        return Rollcall::all();
-    }
-
-    public function api_update(Request $request)
-    {
-        $rollcall = Rollcall::find($request->input('id'));
-        if ($rollcall == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-        
-        $rollcall->date = $request->input('date');
-        $rollcall->sbid = $request->input('sbid');
-        $rollcall->presence = $request->input('presence');
-        $rollcall->leave = $request->input('leave');
-        $rollcall->late = $request->input('late');
-
-        if ($rollcall->save())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function api_delete(Request $request)
-    {
-        $rollcall = Rollcall::find($request->input('id'));
-
-        if ($rollcall == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-
-        if ($rollcall->delete())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        }
-    }
-
     public function show($id){
         $rollcall = Rollcall::findOrFail($id);
         $photo = Photo::Where('sbid',$rollcall->sbid)->first();
@@ -215,13 +162,16 @@ class RollcallsController extends Controller
                 $roomnumbers = array_unique($roomnumbers);
             }
         }
-        if(@$_POST[ '新增表單查詢' ] == '新增表單查詢'){
+        if(@$_POST[ '新增表單查詢' ] == '新增表單查詢')
             return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md"),'roomnumbers'=>$roomnumbers,"photos"=>$photos]);
-        } 
         else if (@$_POST[ '表單查詢' ] == '表單查詢')
             return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>False]);
-        else
-            return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True]);
+        else if (@$_POST[ '未到人員查詢' ] == '未到人員查詢')
+            return view("rollcalls.index",['display'=>4,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True]);
+        else{
+            $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->where('date',$request->input('date'))->paginate(10);
+            return view("rollcalls.index",['display'=>6,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True,'date' => $request->input('date')]);
+        }
     }
 
     public function create(){
@@ -301,7 +251,6 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
-        // dd($sbrecords);
         return view("rollcalls.create",['display'=>1,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomnumbers'=>$roomnumbers,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>1,"selectfloor"=>1,"MonthDay"=>date("md"),"photos"=>$photos]);
     }
 
@@ -613,7 +562,6 @@ class RollcallsController extends Controller
         }
         $rollcalls = Rollcall::get();
         $photos = Photo::get();
-        // dd($photos);
         for($i=1;$i<=count($rollcalls);$i++){
             foreach ($photos as $photo){
                 if($rollcalls[$i-1]->sbid==$photo->sbid){
@@ -707,12 +655,8 @@ class RollcallsController extends Controller
         }
         else{
             $rollcall->presence = 0;
-        // $rollcall->leave = $request->input('leave');
-        // $rollcall->late = $request->input('late');
         }
         $rollcall->rollcaller = Auth::user()->name;
-
-
         $rollcall->save();
         return redirect('rollcalls');
     }

@@ -21,76 +21,21 @@ class LeavesController extends Controller
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
-            if($dormitory->did == "1"){
+            if($dormitory->did == "1")
                 $tags["$dormitory->did"] = "女一宿";
-            }
-            else if($dormitory->did == "2"){
+            else if($dormitory->did == "2")
                 $tags["$dormitory->did"] = "女二宿";
-            }
-            else if($dormitory->did == "3"){
+            else if($dormitory->did == "3")
                 $tags["$dormitory->did"] = "男一宿";
-            }
-            else{
+            else
                 $tags["$dormitory->did"] = "涵青館";
-            }
         }
 
         return view("leaves.index",['display'=>1,"leaves"=>$leaves,'all_leaves'=>$all_leaves,'dormitories'=>$tags,"showPagination"=>True,'select'=>1]);
     }
 
-    public function api_leaves()
-    {
-        return Leave::all();
-    }
-
-    public function api_update(Request $request)
-    {
-        $leave = Leave::find($request->input('id'));
-        if ($leave == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-        
-        $leave->start = $request->input('start');
-        $leave->end = $request->input('end');
-        $leave->reason = $request->input('reason');
-
-        if ($leave->save())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function api_delete(Request $request)
-    {
-        $leave = Leave::find($request->input('id'));
-
-        if ($leave == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-
-        if ($leave->delete())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        }
-    }
-
     public function show($id){
         $leave = Leave::findOrFail($id);
-
         return view('leaves.show', ['leave' => $leave]);
     }
 
@@ -101,18 +46,14 @@ class LeavesController extends Controller
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
-            if($dormitory->did == "1"){
+            if($dormitory->did == "1")
                 $tags["$dormitory->did"] = "女一宿";
-            }
-            else if($dormitory->did == "2"){
+            else if($dormitory->did == "2")
                 $tags["$dormitory->did"] = "女二宿";
-            }
-            else if($dormitory->did == "3"){
+            else if($dormitory->did == "3")
                 $tags["$dormitory->did"] = "男一宿";
-            }
-            else{
+            else
                 $tags["$dormitory->did"] = "涵青館";
-            }
         }
         return view("leaves.index",['display'=>2,"leaves"=>$leaves,'dormitories'=>$tags,"showPagination"=>false,'select'=>$request->input('dormitory')]);
     }

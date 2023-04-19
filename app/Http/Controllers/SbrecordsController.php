@@ -15,13 +15,6 @@ class SbrecordsController extends Controller
 {
     //
     public function index(){
-        // $sbrecords = Sbrecord::senior()->get();
-        // $users = User::get();
-        // foreach($sbrecords as $sbrecord){
-        //     if($sbrecord->floor_head){
-                
-        //     }
-        // }
         $sbrecords = Sbrecord::paginate(10);
         $dormitories = Bed::allDormitories()->get();
         
@@ -44,59 +37,6 @@ class SbrecordsController extends Controller
         return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,'select' => 1]);
     }
 
-    public function api_sbrecords()
-    {
-        return Sbrecord::all();
-    }
-
-    public function api_update(Request $request)
-    {
-        $sbrecord = Sbrecord::find($request->input('id'));
-        if ($sbrecord == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-        
-        $sbrecord->school_year = $request->input('school_year');
-        $sbrecord->semester = $request->input('semester');
-        $sbrecord->sid = $request->input('sid');
-        $sbrecord->bid = $request->input('bid');
-        $sbrecord->floor_head = $request->input('floor_head');
-        $sbrecord->responsible_floor = $request->input('responsible_floor');
-
-        if ($sbrecord->save())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-    }
-
-    public function api_delete(Request $request)
-    {
-        $sbrecord = Sbrecord::find($request->input('id'));
-
-        if ($sbrecord == null)
-        {
-            return response()->json([
-                'status' => 0,
-            ]);
-        }
-
-        if ($sbrecord->delete())
-        {
-            return response()->json([
-                'status' => 1,
-            ]);
-        }
-    }
-
     public function senior(){
         $sbrecords = Sbrecord::senior()->get();
         $dormitories = Bed::allDormitories()->get();
@@ -104,18 +44,14 @@ class SbrecordsController extends Controller
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
-            if($dormitory->did == "1"){
+            if($dormitory->did == "1")
                 $tags["$dormitory->did"] = "女一宿";
-            }
-            else if($dormitory->did == "2"){
+            else if($dormitory->did == "2")
                 $tags["$dormitory->did"] = "女二宿";
-            }
-            else if($dormitory->did == "3"){
+            else if($dormitory->did == "3")
                 $tags["$dormitory->did"] = "男一宿";
-            }
-            else{
+            else
                 $tags["$dormitory->did"] = "涵青館";
-            }
         }
 
         return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>False,'select' => 1]);
