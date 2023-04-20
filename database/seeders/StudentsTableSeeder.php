@@ -88,8 +88,8 @@ class StudentsTableSeeder extends Seeder
     public function run()
     {
         //
-        for ($i=0;$i<144;$i++){
-            if($i == 8){
+        for ($i=0;$i<1252;$i++){
+            if($i == 972){
                 DB::table('students')->insert([
                     'number' => "D1094162012",
                     'class' => "資網三B",
@@ -102,14 +102,14 @@ class StudentsTableSeeder extends Seeder
                     'remark' => ""
                 ]);
                 DB::table('users')->insert([
-                    'sid' => 9,
+                    'sid' => 973,
                     'name' =>"簡至昊",
                     'email' => "D1094162012@gm.lhu.edu.tw",
                     'password' => Hash::make("D1094162012")
                 ]);
                 $i+=1;
             }
-            if($i == 11){
+            if($i == 975){
                 DB::table('students')->insert([
                     'number' => "D1094182042",
                     'class' => "資網三B",
@@ -122,7 +122,7 @@ class StudentsTableSeeder extends Seeder
                     'remark' => ""
                 ]); 
                 DB::table('users')->insert([
-                    'sid' => 12,
+                    'sid' => 976,
                     'name' =>"羅銘麒",
                     'email' => "D1094182042@gm.lhu.edu.tw",
                     'password' => Hash::make("D1094182042")

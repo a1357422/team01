@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Sbrecord;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -75,11 +76,19 @@ class UsersController extends Controller
         return view('users.edit',['user'=>$user,'roles'=>$tags]);
     }
     public function update($id,Request $request){
-        $users = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-        $users->role = $request->input('role');
-
-        $users->save();
+        $user->role = $request->input('role');
+        $user->save();
+        $sbrecord = Sbrecord::Where('sid',$user->sid)->first();
+        if($user->role == "floorhead")
+            $sbrecord->floor_head = 1;
+        else{
+            if($sbrecord->responsible_floor != null)
+                $sbrecord->responsible_floor = null;
+            $sbrecord->floor_head = 0;
+        }
+        $sbrecord->save();
         return redirect('users');
     }
 }

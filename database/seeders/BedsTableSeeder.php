@@ -120,45 +120,259 @@ class BedsTableSeeder extends Seeder
 
     public function run()
     {
-        
-        for($i = 0; $i<37; $i++){
-            if($i<10){
-                if($i+1 == 2)
-                    continue;
+        //女一
+        for($time=0;$time<6;$time++){
+            for($i=1; $i<10; $i++){
                 for($j=1;$j<=4;$j++){
-                    $bedcode1 = "8340".$i+1 ."-".$j;
+                    if($time == 0){
+                        $bedcode1 = "8110".$i ."-".$j;
+                        $floor = "1F";
+                    }
+                    elseif($time == 1){
+                        $bedcode1 = "8120".$i ."-".$j;
+                        $floor = "2F";
+                    }
+                    elseif($time == 2){
+                        $bedcode1 = "8130".$i ."-".$j;
+                        $floor = "3F";
+                    }
+                    elseif($time == 3){
+                        $bedcode1 = "8150".$i ."-".$j;
+                        $floor = "5F";
+                    }
+                    elseif($time == 4){
+                        $bedcode1 = "8160".$i ."-".$j;
+                        $floor = "6F";
+                    }
+                    else{
+                        $bedcode1 = "8170".$i ."-".$j;
+                        $floor = "7F";
+                    }
                     DB::table('beds')->insert([
                         'bedcode' => $bedcode1,
-                        'did' => 4,
-                        'floor' => "4F",
+                        'did' => 1,
+                        'floor' => $floor,
                         'roomtype' => "四人房"
                     ]);
                 }
             }
-            else{
-                for($j=1;$j<=4;$j++){
-                    $bedcode1 = "834".$i+1 . "-" . $j;
-                    DB::table('beds')->insert([
-                        'bedcode' => $bedcode1,
-                        'did' => 4,
-                        'floor' => "4F",
-                        'roomtype' => "四人房"
-                    ]);
+        }
+        //女二1F
+        for($i = 13; $i<29;$i++){
+            for($j=1;$j<=3;$j++){
+                $bedcode1 = "821".$i ."-".$j;
+                DB::table('beds')->insert([
+                    'bedcode' => $bedcode1,
+                    'did' => 2,
+                    'floor' => "1F",
+                    'roomtype' => "三人房"
+                ]);
+            }
+        }
+        //女二2F
+        for($i = 15; $i<33;$i++){
+            for($j=1;$j<=3;$j++){
+                $bedcode1 = "822".$i ."-".$j;
+                DB::table('beds')->insert([
+                    'bedcode' => $bedcode1,
+                    'did' => 2,
+                    'floor' => "2F",
+                    'roomtype' => "三人房"
+                ]);
+            }
+        }
+
+        //男一宿1F
+        for($i = 4; $i<12;$i++){
+            for($j=1;$j<=3;$j++){
+                if($i<=10)
+                    $bedcode1 = "8210".$i ."-".$j;
+                else
+                    $bedcode1 = "821".$i ."-".$j;
+                DB::table('beds')->insert([
+                    'bedcode' => $bedcode1,
+                    'did' => 3,
+                    'floor' => "1F",
+                    'roomtype' => "三人房"
+                ]);
+            }
+        }
+
+        //男一宿2F
+        for($i = 1; $i<15;$i++){
+            for($j=1;$j<=3;$j++){
+                if($i<=10)
+                    $bedcode1 = "8220".$i ."-".$j;
+                else
+                    $bedcode1 = "822".$i ."-".$j;
+                DB::table('beds')->insert([
+                    'bedcode' => $bedcode1,
+                    'did' => 3,
+                    'floor' => "2F",
+                    'roomtype' => "三人房"
+                ]);
+            }
+        }
+
+        //男一宿3.4.5F
+        for($time = 0;$time<3;$time++){
+            for($i = 1; $i<33;$i++){
+                for($j=1;$j<=3;$j++){
+                    if($time == 0){
+                        if($i<=10){
+                            $bedcode1 = "8230".$i ."-".$j;
+                        }
+                        else{
+                            $bedcode1 = "823".$i ."-".$j;
+                        }
+                        $floor = "3F";
+                        DB::table('beds')->insert([
+                            'bedcode' => $bedcode1,
+                            'did' => 3,
+                            'floor' => $floor,
+                            'roomtype' => "三人房"
+                        ]);
+                    }
+                    elseif($time == 1){
+                        if($i<=10)
+                            $bedcode1 = "8240".$i ."-".$j;
+                        else
+                            $bedcode1 = "824".$i ."-".$j;
+                        $floor = "4F";
+                        DB::table('beds')->insert([
+                            'bedcode' => $bedcode1,
+                            'did' => 3,
+                            'floor' => $floor,
+                            'roomtype' => "三人房"
+                        ]);
+                    }
+                    else{
+                        if($i<=10)
+                            $bedcode1 = "8250".$i ."-".$j;
+                        else
+                            $bedcode1 = "825".$i ."-".$j;
+                        $floor = "5F";
+                        DB::table('beds')->insert([
+                            'bedcode' => $bedcode1,
+                            'did' => 3,
+                            'floor' => $floor,
+                            'roomtype' => "三人房"
+                        ]);
+                    }
                 }
             }
+        }
         
-        // for($i=0;$i<30;$i++){
-        //     $bedcode = $this->generateRandomBedcode();
-        //     $did = $this->generateRandomDid();
-        //     $floor = $this->generateRandomFloor();
-        //     $roomtype = $this->generateRandomRoomtype();
+        //涵青3、6F
+        for($time = 0;$time<2;$time++){
+            for($i = 3; $i<40; $i++){
+                if($i<10){
+                    if($time == 0){
+                        if($i == 4 && $i == 6)
+                            continue;
+                        for($j=1;$j<=4;$j++){
+                            $bedcode1 = "8330".$i ."-".$j;
+                            DB::table('beds')->insert([
+                                'bedcode' => $bedcode1,
+                                'did' => 4,
+                                'floor' => "3F",
+                                'roomtype' => "四人房"
+                            ]);
+                        }
+                    }
+                    else{
+                        if($i == 4)
+                            continue;
+                        for($j=1;$j<=4;$j++){
+                            $bedcode1 = "8360".$i ."-".$j;
+                            DB::table('beds')->insert([
+                                'bedcode' => $bedcode1,
+                                'did' => 4,
+                                'floor' => "6F",
+                                'roomtype' => "四人房"
+                            ]);
+                        }
+                    }
+                }
+                else{
+                    for($j=1;$j<=4;$j++){
+                        if($time == 0){
+                            $bedcode1 = "833".$i . "-" . $j;
+                            DB::table('beds')->insert([
+                                'bedcode' => $bedcode1,
+                                'did' => 4,
+                                'floor' => "3F",
+                                'roomtype' => "四人房"
+                            ]);
+                        }
+                        else{
+                            $bedcode1 = "836".$i . "-" . $j;
+                            DB::table('beds')->insert([
+                                'bedcode' => $bedcode1,
+                                'did' => 4,
+                                'floor' => "6F",
+                                'roomtype' => "四人房"
+                            ]);
+                        }
+                    }
+                }
+            }
+        }
         
-        //     DB::table('beds')->insert([
-        //         'bedcode' => $bedcode,
-        //         'did' => $did,
-        //         'floor' => $floor,
-        //         'roomtype' => $roomtype
-        //     ]);
+        //涵青4、5F
+        for($time = 0;$time<2;$time++){
+            for($i = 0; $i<37; $i++){
+                if($i<10){
+                    if($i+1 == 2)
+                        continue;
+                    if($time == 0){
+                        for($j=1;$j<=4;$j++){
+                            $bedcode1 = "8340".$i+1 ."-".$j;
+                            DB::table('beds')->insert([
+                                'bedcode' => $bedcode1,
+                                'did' => 4,
+                                'floor' => "4F",
+                                'roomtype' => "四人房"
+                            ]);
+                        }
+                    }
+                    else{
+                        for($j=1;$j<=4;$j++){
+                            $bedcode1 = "8350".$i+1 ."-".$j;
+                            DB::table('beds')->insert([
+                                'bedcode' => $bedcode1,
+                                'did' => 4,
+                                'floor' => "5F",
+                                'roomtype' => "四人房"
+                            ]);
+                        }
+                    }
+                }
+                else{
+                    if($time == 0){
+                        for($j=1;$j<=4;$j++){
+                            $bedcode1 = "834".$i+1 . "-" . $j;
+                            DB::table('beds')->insert([
+                                'bedcode' => $bedcode1,
+                                'did' => 4,
+                                'floor' => "4F",
+                                'roomtype' => "四人房"
+                            ]);
+                        }
+                    }
+                    else{
+                        for($j=1;$j<=4;$j++){
+                            $bedcode1 = "835".$i+1 . "-" . $j;
+                            DB::table('beds')->insert([
+                                'bedcode' => $bedcode1,
+                                'did' => 4,
+                                'floor' => "4F",
+                                'roomtype' => "四人房"
+                            ]);
+                        }
+                    }
+                }
+            }
         }
     }
 }
