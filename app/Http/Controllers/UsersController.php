@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Sbrecord;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Symfony\Component\Console\Input\Input;
 
 class UsersController extends Controller
 {
@@ -75,6 +78,10 @@ class UsersController extends Controller
         }
         return view('users.edit',['user'=>$user,'roles'=>$tags]);
     }
+    public function change_pw($id){
+        $user = User::findOrFail($id);
+        return view('users.pw_form',['user'=>$user]);
+    }
     public function update($id,Request $request){
         $user = User::findOrFail($id);
 
@@ -89,6 +96,17 @@ class UsersController extends Controller
             $sbrecord->floor_head = 0;
         }
         $sbrecord->save();
+        return redirect('users');
+    }
+    public function pw_update($id,Request $request){
+        $user = User::findOrFail($id);
+        if(Auth::user()->role != "superadmin"){
+            if(Hash::check($request->input('old_password'),$user->password))
+                $user->password = Hash::make($request->input('new_password'));
+        }
+        else
+            $user->password = Hash::make($request->input('new_password'));
+        $user->save();
         return redirect('users');
     }
 }

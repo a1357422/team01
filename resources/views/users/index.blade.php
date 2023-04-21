@@ -27,6 +27,7 @@
                 <th>使用者身分</th>
                 <th>使用者信箱</th>
                 <th>操作</th>
+                <th>操作</th>
             </tr>
             @foreach($users as $user)
                 <tr class='column_center'>
@@ -47,6 +48,7 @@
                     @endif
                     <td align="center" valign="center">{{ $user->email }}</td>
                     <td><font color=blue><a href="{{ route('users.edit',['id'=>$user->id]) }}">修改資料</a></font></td>
+                    <td><font color=blue><a href="{{ route('users.change_pw',['id'=>$user->id]) }}">修改密碼</a></font></td>
                 </tr>
             @endforeach
         </table>

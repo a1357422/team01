@@ -113,7 +113,9 @@ Route::post('leaves/dormitory', [LeavesController::class,'dormitory'])->name('le
 
 Route::get('users',[UsersController::class,'index'])->name('users.index');
 Route::get('users/{id}/edit',[UsersController::class,'edit'])->where("id","[0-9]+")->name('users.edit');
+Route::get('users/{id}/change_pw',[UsersController::class,'change_pw'])->where("id","[0-9]+")->name('users.change_pw');
 Route::patch('users/update/{id}',[UsersController::class,'update'])->where("id","[0-9]+")->name('users.update');
+Route::patch('users/pw_update/{id}',[UsersController::class,'pw_update'])->where("id","[0-9]+")->name('users.pw_update');
 Route::post('users/role', [UsersController::class, 'role'])->name('users.role');
 
 Auth::routes();
