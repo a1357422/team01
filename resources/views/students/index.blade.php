@@ -18,8 +18,30 @@
                 <input type="submit" value="查詢" />
                 @csrf
             </form>
-            <a href="{{ route('students.create') }} ">新增學生資料</a>
         </div>
+        <div>
+            <form action="{{ url('students/name') }}" method='POST'>
+                {!! Form::label('name', '學生姓名：') !!}
+                {!! Form::text('name', null) !!}
+                <input type="submit" value="查詢學生" />
+                @csrf
+            </form>
+        </div>
+        <div>
+            <form action="{{ url('students/studentID') }}" method='POST'>
+                {!! Form::label('studentID', '學號：') !!}
+                {!! Form::text('studentID', null) !!}
+                <input type="submit" value="查詢學號" />
+                @csrf
+            </form>
+        </div>
+        <div>
+            <form action="{{ url('students') }}" method='GET'>
+                <input type="submit" value="清除" /></nobr>
+            @csrf
+            </form>
+        </div>
+        <a href="{{ route('students.create') }} ">新增學生資料</a>
     </div>
         <table class="table">
             <tr class='column_center'>

@@ -18,6 +18,36 @@
             <input type="submit" value="查詢" />
             @csrf
             </form>
+            <div>
+            <form action="{{ url('sbrecords/name') }}" method='POST'>
+                {!! Form::label('name', '學生姓名：') !!}
+                {!! Form::text('name', null) !!}
+                <input type="submit" value="查詢學生" />
+                @csrf
+            </form>
+            </div>
+            <div>
+                <form action="{{ url('sbrecords/studentID') }}" method='POST'>
+                    {!! Form::label('studentID', '學號：') !!}
+                    {!! Form::text('studentID', null) !!}
+                    <input type="submit" value="查詢學號" />
+                    @csrf
+                </form>
+            </div>
+            <div>
+                <form action="{{ url('sbrecords/bedcode') }}" method='POST'>
+                    {!! Form::label('bedcode', '床位：') !!}
+                    {!! Form::select('bedcode',$roomtags, $selectroomtags=null) !!}
+                    <input type="submit" value="查詢床位" />
+                    @csrf
+                </form>
+            </div>
+            <div>
+                <form action="{{ url('sbrecords') }}" method='GET'>
+                    <input type="submit" value="清除" /></nobr>
+                @csrf
+                </form>
+            </div>
             @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
                 <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
             @endif

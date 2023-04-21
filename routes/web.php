@@ -43,6 +43,8 @@ Route::get('students/{id}/edit',[StudentsController::class,'edit'])->where("id",
 Route::patch('students/update/{id}',[StudentsController::class,'update'])->where("id","[0-9]+")->name('students.update');
 //顯示下拉式選單所選系別的學生資料
 Route::post('students/class', [StudentsController::class,'class'])->name('students.class');
+Route::post('students/name', [StudentsController::class,'name'])->name('students.name');
+Route::post('students/studentID', [StudentsController::class,'studentID'])->name('students.studentID');
 
 Route::get('dormitories',[DormitoriesController::class,'index'])->name('dormitories.index');
 Route::get('dormitories/create',[DormitoriesController::class,'create'])->name('dormitories.create');
@@ -70,6 +72,9 @@ Route::post('sbrecords/store',[SbrecordsController::class,'store'])->name('sbrec
 Route::get('sbrecords/{id}/edit',[SbrecordsController::class,'edit'])->where("id","[0-9]+")->name('sbrecords.edit');
 Route::patch('sbrecords/update/{id}',[SbrecordsController::class,'update'])->where("id","[0-9]+")->name('sbrecords.update');
 Route::post('sbrecords/dormitory', [SbrecordsController::class,'dormitory'])->name('sbrecords.dormitory');
+Route::post('sbrecords/name', [SbrecordsController::class,'name'])->name('sbrecords.name');
+Route::post('sbrecords/studentID', [SbrecordsController::class,'studentID'])->name('sbrecords.studentID');
+Route::post('sbrecords/bedcode', [SbrecordsController::class,'bedcode'])->name('sbrecords.bedcode');
 
 Route::get('rollcalls',[RollcallsController::class,'index'])->name('rollcalls.index');
 Route::get('rollcalls/create',[RollcallsController::class,'create'])->name('rollcalls.create');

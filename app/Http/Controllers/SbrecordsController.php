@@ -17,7 +17,13 @@ class SbrecordsController extends Controller
     public function index(){
         $sbrecords = Sbrecord::paginate(10);
         $dormitories = Bed::allDormitories()->get();
-        
+        $bedcodes = Bed::get();
+        $roomtags = [];
+        $tags = [];
+        foreach($bedcodes as $bedcode){
+            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            $roomtags = array_unique($roomtags);
+        }
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
@@ -34,13 +40,19 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,'select' => 1]);
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,'select' => 1,'roomtags'=>$roomtags]);
     }
 
     public function senior(){
         $sbrecords = Sbrecord::senior()->get();
         $dormitories = Bed::allDormitories()->get();
-        
+        $bedcodes = Bed::get();
+        $roomtags = [];
+        $tags = [];
+        foreach($bedcodes as $bedcode){
+            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            $roomtags = array_unique($roomtags);
+        }
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
@@ -54,7 +66,7 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
         }
 
-        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>False,'select' => 1]);
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>False,'select' => 1,'roomtags'=>$roomtags]);
     }
 
     public function show($id){
@@ -76,6 +88,13 @@ class SbrecordsController extends Controller
     {
         $sbrecords = Sbrecord::Dormitory($request->input('dormitory'))->get();
         $dormitories = Bed::allDormitories()->get();
+        $bedcodes = Bed::get();
+        $roomtags = [];
+        $tags = [];
+        foreach($bedcodes as $bedcode){
+            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            $roomtags = array_unique($roomtags);
+        }
         $tags = [];
         foreach ($dormitories as $dormitory)
         {
@@ -92,8 +111,95 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("sbrecords.index",['display'=>2,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>false,'select' => $request->input('dormitory')]);
+        return view("sbrecords.index",['display'=>2,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>false,'select' => $request->input('dormitory'),'roomtags'=>$roomtags]);
     }
+
+    public function name(Request $request){
+        $dormitories = Bed::allDormitories()->get();
+        $bedcodes = Bed::get();
+        $roomtags = [];
+        $tags = [];
+        foreach($bedcodes as $bedcode){
+            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            $roomtags = array_unique($roomtags);
+        }
+        $tags = [];
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+        $students = Sbrecord::User($request->input('name'))->get();
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags]);
+    }
+
+    public function studentID(Request $request){
+        $dormitories = Bed::allDormitories()->get();
+        $bedcodes = Bed::get();
+        $roomtags = [];
+        $tags = [];
+        foreach($bedcodes as $bedcode){
+            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            $roomtags = array_unique($roomtags);
+        }
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+        $students = Sbrecord::StudentID($request->input('studentID'))->get();
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags]);
+    }
+
+    public function bedcode(Request $request){
+        $dormitories = Bed::allDormitories()->get();
+        $bedcodes = Bed::get();
+        $roomtags = [];
+        $tags = [];
+        foreach($bedcodes as $bedcode){
+            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            $roomtags = array_unique($roomtags);
+        }
+        foreach ($dormitories as $dormitory)
+        {
+            if($dormitory->did == "1"){
+                $tags["$dormitory->did"] = "女一宿";
+            }
+            else if($dormitory->did == "2"){
+                $tags["$dormitory->did"] = "女二宿";
+            }
+            else if($dormitory->did == "3"){
+                $tags["$dormitory->did"] = "男一宿";
+            }
+            else{
+                $tags["$dormitory->did"] = "涵青館";
+            }
+        }
+        $selectroomtags = $request->input('bedcode');
+        $students = Sbrecord::BedCode($roomtags[$request->input('bedcode')])->get();
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags,'selectroomtags'=>$selectroomtags]);
+    }
+
 
     public function create(){
         $students = Student::orderBy('students.id', 'asc')->pluck('students.name', 'students.id');

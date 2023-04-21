@@ -65,6 +65,86 @@ class StudentsController extends Controller
         return redirect('students');
     }
 
+    public function name(Request $request){
+        $students = Student::Where('name',$request->input('name'))->get();
+        $classes = Student::allClasses()->get();
+        $tags = [];
+        foreach ($classes as $class)
+        {
+            $kv = mb_substr($class->class, 0, 2);
+            $tags[$kv] = $kv;
+            if($tags[$kv] == "電子")
+                $tags[$kv] = "電子工程系";
+            else if($tags[$kv] == "電機")
+                $tags[$kv] = "電機工程系";
+            else if($tags[$kv] == "化材")
+                $tags[$kv] = "化工與材料工程系";
+            else if($tags[$kv] == "機械")
+                $tags[$kv] = "機械工程系";
+            else if($tags[$kv] == "企管")
+                $tags[$kv] = "企業管理系";
+            else if($tags[$kv] == "資管")
+                $tags[$kv] = "資訊管理系";
+            else if($tags[$kv] == "國企")
+                $tags[$kv] = "國際企業系";
+            else if($tags[$kv] == "財金")
+                $tags[$kv] = "財務金融系";
+            else if($tags[$kv] == "工管")
+                $tags[$kv] = "工業管理系";
+            else if($tags[$kv] == "應外")
+                $tags[$kv] = "應用外語系";
+            else if($tags[$kv] == "遊戲")
+                $tags[$kv] = "多媒體與遊戲發展科學系";
+            else if($tags[$kv] == "觀光")
+                $tags[$kv] = "觀光休閒系";
+            else if($tags[$kv] == "文創")
+                $tags[$kv] = "文化創意與數位媒體設計系";
+            else
+                $tags[$kv] = "資訊網路工程系";
+        }
+        return view("students.index",['classes'=>$tags,"students"=>$students,"showPagination"=>false,'select'=>1]);
+    }
+
+    public function studentID(Request $request){
+        $students = Student::Where('number',$request->input('studentID'))->get();
+        $classes = Student::allClasses()->get();
+        $tags = [];
+        foreach ($classes as $class)
+        {
+            $kv = mb_substr($class->class, 0, 2);
+            $tags[$kv] = $kv;
+            if($tags[$kv] == "電子")
+                $tags[$kv] = "電子工程系";
+            else if($tags[$kv] == "電機")
+                $tags[$kv] = "電機工程系";
+            else if($tags[$kv] == "化材")
+                $tags[$kv] = "化工與材料工程系";
+            else if($tags[$kv] == "機械")
+                $tags[$kv] = "機械工程系";
+            else if($tags[$kv] == "企管")
+                $tags[$kv] = "企業管理系";
+            else if($tags[$kv] == "資管")
+                $tags[$kv] = "資訊管理系";
+            else if($tags[$kv] == "國企")
+                $tags[$kv] = "國際企業系";
+            else if($tags[$kv] == "財金")
+                $tags[$kv] = "財務金融系";
+            else if($tags[$kv] == "工管")
+                $tags[$kv] = "工業管理系";
+            else if($tags[$kv] == "應外")
+                $tags[$kv] = "應用外語系";
+            else if($tags[$kv] == "遊戲")
+                $tags[$kv] = "多媒體與遊戲發展科學系";
+            else if($tags[$kv] == "觀光")
+                $tags[$kv] = "觀光休閒系";
+            else if($tags[$kv] == "文創")
+                $tags[$kv] = "文化創意與數位媒體設計系";
+            else
+                $tags[$kv] = "資訊網路工程系";
+        }
+        return view("students.index",['classes'=>$tags,"students"=>$students,"showPagination"=>false,'select'=>1]);
+    }
+
     public function class(Request $request)
     {
         $students = Student::class($request->input('class'))->get();

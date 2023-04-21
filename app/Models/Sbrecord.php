@@ -32,6 +32,14 @@ class Sbrecord extends Model
         ->where('students.name','=',"$user");
     }
 
+    public function scopeStudentID($query, $studentID)
+    {
+        $query->join('students','sbrecords.sid','=','students.id')
+        ->join('users','users.sid','=','students.id')
+        ->select('*')
+        ->where('students.number','=',"$studentID");
+    }
+
     public function scopeDormitory($query, $did,$floor=null)
     {
         $query->join('students','sbrecords.sid','=','students.id')
@@ -40,15 +48,6 @@ class Sbrecord extends Model
         ->where('beds.did','=',"$did")
         ->where('bedcode', 'LIKE', "__$floor%");
     }
-
-    // public function scopeRollcallCreate($query, $did,$floor)
-    // {
-    //     $query->join('students','sbrecords.sid','=','students.id')
-    //     ->join('beds','sbrecords.bid','=','beds.id')
-    //     ->select('sbrecords.*')
-    //     ->where('beds.did','=',"$did")
-    //     ->where('bedcode', 'LIKE', "__$floor%");
-    // }
 
     public function scopeBedCode($query, $bedcode)
     {
