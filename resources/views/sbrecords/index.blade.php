@@ -35,10 +35,10 @@
                 </form>
             </div>
             <div>
-                <form action="{{ url('sbrecords/bedcode') }}" method='POST'>
-                    {!! Form::label('bedcode', '床位：') !!}
-                    {!! Form::select('bedcode',$roomtags, $selectroomtags=null) !!}
-                    <input type="submit" value="查詢床位" />
+                <form action="{{ url('sbrecords/roomcode') }}" method='POST'>
+                    {!! Form::label('roomcode', '房號：') !!}
+                    {!! Form::select('roomcode',$roomtags, $selectroomtags=null) !!}
+                    <input type="submit" value="查詢房號" />
                     @csrf
                 </form>
             </div>

@@ -74,7 +74,7 @@ Route::patch('sbrecords/update/{id}',[SbrecordsController::class,'update'])->whe
 Route::post('sbrecords/dormitory', [SbrecordsController::class,'dormitory'])->name('sbrecords.dormitory');
 Route::post('sbrecords/name', [SbrecordsController::class,'name'])->name('sbrecords.name');
 Route::post('sbrecords/studentID', [SbrecordsController::class,'studentID'])->name('sbrecords.studentID');
-Route::post('sbrecords/bedcode', [SbrecordsController::class,'bedcode'])->name('sbrecords.bedcode');
+Route::post('sbrecords/roomcode', [SbrecordsController::class,'roomcode'])->name('sbrecords.roomcode');
 
 Route::get('rollcalls',[RollcallsController::class,'index'])->name('rollcalls.index');
 Route::get('rollcalls/create',[RollcallsController::class,'create'])->name('rollcalls.create');

@@ -36,14 +36,14 @@
         <!-- 秀出所有rollcall名單中未到的人 -->
         @if($textbox == True && $display==3) 
             <div> 
-            未到名單：<br/>
+            {{$date}}未到名單：<br/>
                 @foreach($rollcalls as $rollcall)
                     {!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}
                 @endforeach
             </div>
         @elseif($textbox == True && $display==4)
             <div> 
-            未到名單：<br/>
+            {{$date}}未到名單：<br/>
                 @foreach($rollcalls as $rollcall)
                     {!! nl2br($rollcall->bedcode."   ".$rollcall->name."\n") !!}
                 @endforeach

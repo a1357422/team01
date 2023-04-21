@@ -32,10 +32,16 @@ class Sbrecord extends Model
         ->where('students.name','=',"$user");
     }
 
+    public function scopeName($query, $name)
+    {
+        $query->join('students','sbrecords.sid','=','students.id')
+        ->select('*')
+        ->where('students.name','=',"$name");
+    }
+
     public function scopeStudentID($query, $studentID)
     {
         $query->join('students','sbrecords.sid','=','students.id')
-        ->join('users','users.sid','=','students.id')
         ->select('*')
         ->where('students.number','=',"$studentID");
     }
@@ -49,12 +55,12 @@ class Sbrecord extends Model
         ->where('bedcode', 'LIKE', "__$floor%");
     }
 
-    public function scopeBedCode($query, $bedcode)
+    public function scopeRoomCode($query, $roomcode)
     {
         $query->join('students','sbrecords.sid','=','students.id')
         ->join('beds','sbrecords.bid','=','beds.id')
         ->select('*')
-        ->where('bedcode', 'LIKE', "$bedcode%");
+        ->where('bedcode', 'LIKE', "$roomcode%");
     }
 
     public function scopeSchool_year($query, $school_year=111,$semester=2)

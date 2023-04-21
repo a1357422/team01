@@ -222,7 +222,6 @@ class StudentsController extends Controller
                 'remark' => $remark,
             ]);
         }
-        // dd($destinationPath);
         else{
             $student = Student::create([
                 'profile_file_path'=>"",

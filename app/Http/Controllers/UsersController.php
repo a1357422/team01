@@ -80,7 +80,7 @@ class UsersController extends Controller
     }
     public function change_pw($id){
         $user = User::findOrFail($id);
-        return view('users.pw_form',['user'=>$user]);
+        return view('users.pw_form',['user'=>$user,'id'=>$id]);
     }
     public function update($id,Request $request){
         $user = User::findOrFail($id);
@@ -102,20 +102,26 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         if(Auth::user()->role != "superadmin"){
             $rules = [
-                "old_password" => "required",
                 "new_password" => "required",
                 "check_password" => "required|same:new_password",
             ];
-            $validResult = $request->validate($rules);
-            if(Hash::check($request->input('old_password'),$user->password))
-                if($request->input('new_password')==$request->input('check_password'))
-                    $user->password = Hash::make($request->input('new_password'));
+            $message = [
+                "new_password.required" => "新密碼 為必填",
+                "check_password.required" => "確認的密碼 為必填",
+                "check_password.same" => "密碼不相符",
+            ];
+            $validResult = $request->validate($rules,$message);
+            if($request->input('new_password')==$request->input('check_password'))
+                $user->password = Hash::make($request->input('new_password'));
         }
         else{
             $rules = [
                 "new_password" => "required",
             ];
-            $validResult = $request->validate($rules);
+            $message = [
+                "new_password.required" => "新密碼 為必填",
+            ];
+            $validResult = $request->validate($rules,$message);
             $user->password = Hash::make($request->input('new_password'));
         }
         $user->save();

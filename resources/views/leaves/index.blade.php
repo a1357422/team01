@@ -5,7 +5,7 @@
 @section('dormitorysystem_theme','')
 
 @section('dormitorysystem_contents')
-    @canany(['superadmin','admin'])
+    @canany(['superadmin','admin','chief'])
         <div class="function">
             <div class="maintitle_btn">
                 <h3><a href = "/">回主頁</a></h3>
@@ -29,8 +29,10 @@
                 <th>外宿原因</th>
                 <th>樓長審核</th>
                 <th>宿舍輔導員審核</th>
+                @if(auth()->user()->role != "chief")
                 <th>操作</th>
                 <th>操作</th>
+                @endif
             </tr>
             @if ($display == 1)
                 @foreach($leaves as $leave)
@@ -50,6 +52,7 @@
                         @else
                         <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
                         @endif
+                        @if(auth()->user()->role != "chief")
                         <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
                         <td>
                             <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
@@ -58,6 +61,7 @@
                                 @csrf
                             </form>
                         </td>
+                        @endif
                     </tr>
                 @endforeach
             @else
@@ -78,6 +82,7 @@
                         @else
                         <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
                         @endif
+                        @if(auth()->user()->role != "chief")
                         <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
                         <td>
                             <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
@@ -86,6 +91,7 @@
                                 @csrf
                             </form>
                         </td>
+                        @endif
                     </tr>
                 @endforeach
             @endif
@@ -94,7 +100,7 @@
                 {{$leaves->links()}}
             @endif
 
-    @elsecanany(['floorhead','housemaster','chief'])
+    @elsecanany(['floorhead','housemaster'])
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
             <h3><a href = "/">回主頁</a></h3>
             <form action="{{ url('leaves/dormitory') }}" method='POST'>

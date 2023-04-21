@@ -139,7 +139,7 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        $students = Sbrecord::User($request->input('name'))->get();
+        $students = Sbrecord::Name($request->input('name'))->get();
         return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags]);
     }
 
@@ -171,7 +171,7 @@ class SbrecordsController extends Controller
         return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags]);
     }
 
-    public function bedcode(Request $request){
+    public function roomcode(Request $request){
         $dormitories = Bed::allDormitories()->get();
         $bedcodes = Bed::get();
         $roomtags = [];
@@ -195,8 +195,8 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        $selectroomtags = $request->input('bedcode');
-        $students = Sbrecord::BedCode($roomtags[$request->input('bedcode')])->get();
+        $selectroomtags = $request->input('roomcode');
+        $students = Sbrecord::RoomCode($roomtags[$request->input('roomcode')])->get();
         return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags,'selectroomtags'=>$selectroomtags]);
     }
 
@@ -256,7 +256,11 @@ class SbrecordsController extends Controller
                 'role'=> 'floorhead'
             ]);
         }
-
+        else{
+            $user = User::updateOrCreate(['sid'=>$sbrecord->sid],[
+                'role'=> 'user'
+            ]);
+        }
         $sbrecord->save();
         return redirect('sbrecords');
     }

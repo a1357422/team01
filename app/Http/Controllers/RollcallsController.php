@@ -55,7 +55,6 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
-
         return view("rollcalls.index",['display'=>5,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1,'textbox'=>False,'date'=>date("Y-m-d")]);
     }
 
@@ -76,7 +75,7 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
-        return view("rollcalls.index",['display'=>3,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>True]);
+        return view("rollcalls.index",['display'=>3,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>True,'date'=>date('m/d')]);
     }
 
 
@@ -166,11 +165,13 @@ class RollcallsController extends Controller
             return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md"),'roomnumbers'=>$roomnumbers,"photos"=>$photos]);
         else if (@$_POST[ '表單查詢' ] == '表單查詢')
             return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>False]);
-        else if (@$_POST[ '未到人員查詢' ] == '未到人員查詢')
-            return view("rollcalls.index",['display'=>4,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True]);
+        else if (@$_POST[ '未到人員查詢' ] == '未到人員查詢'){
+            $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->where('rollcalls.presence',0)->where('rollcalls.date',date("Y-m-d"))->get();
+            return view("rollcalls.index",['display'=>4,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True,"date"=>date("m/d")]);
+        }
         else{
-            $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->where('date',$request->input('date'))->paginate(10);
-            return view("rollcalls.index",['display'=>6,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True,'date' => $request->input('date')]);
+            $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->where('date',$request->input('date'))->get();
+            return view("rollcalls.index",['display'=>6,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True,'date' => $request->input('date')]);
         }
     }
 
