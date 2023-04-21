@@ -101,11 +101,23 @@ class UsersController extends Controller
     public function pw_update($id,Request $request){
         $user = User::findOrFail($id);
         if(Auth::user()->role != "superadmin"){
+            $rules = [
+                "old_password" => "required",
+                "new_password" => "required",
+                "check_password" => "required|same:new_password",
+            ];
+            $validResult = $request->validate($rules);
             if(Hash::check($request->input('old_password'),$user->password))
-                $user->password = Hash::make($request->input('new_password'));
+                if($request->input('new_password')==$request->input('check_password'))
+                    $user->password = Hash::make($request->input('new_password'));
         }
-        else
+        else{
+            $rules = [
+                "new_password" => "required",
+            ];
+            $validResult = $request->validate($rules);
             $user->password = Hash::make($request->input('new_password'));
+        }
         $user->save();
         return redirect('users');
     }
