@@ -12,7 +12,7 @@
             <h3>宿舍總資料管理</h3>
         </div>
         <div>
-            <a href="{{ route('dormitories.create') }} ">新增宿舍資料</a>
+            <!-- <a href="{{ route('dormitories.create') }} ">新增宿舍資料</a> -->
         </div>
     </div>
         <table class="table">

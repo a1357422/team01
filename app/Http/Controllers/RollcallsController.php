@@ -81,7 +81,7 @@ class RollcallsController extends Controller
 
     public function upload($bedcode)
     {
-        $sbrecords=Sbrecord::BedCode($bedcode)->get();
+        $sbrecords=Sbrecord::RoomCode($bedcode)->get();
         return view('rollcalls.upload',["sbrecords"=>$sbrecords]);
     }
     public function show($id){

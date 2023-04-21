@@ -26,7 +26,7 @@ class Rollcall extends Model
         $query->join('sbrecords','rollcalls.sbid','=','sbrecords.id')
         ->join('students','sbrecords.sid','=','students.id')
         ->join('beds','sbrecords.bid','=','beds.id')
-        ->select('rollcalls.id','rollcalls.date','sbrecords.semester','beds.bedcode','rollcalls.presence','rollcalls.leave','rollcalls.late','students.name')
+        ->select('rollcalls.id','rollcalls.date','sbrecords.semester','beds.bedcode','rollcalls.presence','rollcalls.leave','rollcalls.late','rollcalls.identify','students.name')
         ->where('beds.did','=',"$did");
     }
 
