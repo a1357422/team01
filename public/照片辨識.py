@@ -17,7 +17,6 @@ facerec = dlib.face_recognition_model_v1("dlib_face_recognition_resnet_model_v1.
 # 讀取兩張圖片
 img1 = cv_imread(sys.argv[1])
 img2 = cv_imread(sys.argv[2])
-
 # 使用dlib.get_frontal_face_detector()方法獲取檢測器，並檢測兩張圖片中的所有人臉
 face_detector = dlib.get_frontal_face_detector()
 faces1 = face_detector(img1, 1)
@@ -36,8 +35,7 @@ for face in faces2:
 # 比較相似度
 for feature in features1:
     distance = np.linalg.norm(feature - features2)
-    if distance < 0.4:
+    if distance < 0.5:
         print('success')
-        break
     else:
         print('not same')
