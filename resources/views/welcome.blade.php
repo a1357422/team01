@@ -35,6 +35,8 @@
                 <li><a href = "/beds">床位系統</a></li>
                 <li><a href = "/dormitories">宿舍系統</a></li>
                 <li><a href = "/sbrecords">學生床位系統</a></li>
+                <li><a href = "/lates">晚歸系統</a></li>
+                <li><a href = "/leaves">外宿系統</a></li>
                 <li><a href = "/users/{{Auth::user()->id}}/change_pw">修改密碼</a></li>
             </ui>
         @elsecan('admin') <!--宿舍行政-->

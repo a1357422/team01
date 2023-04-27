@@ -65,8 +65,8 @@
                 <th>操作</th>
                 @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
                     <th>操作</th>
+                    <th>操作</th>
                 @endif
-                <th>操作</th>
             </tr>
             @if($display == 1)
                 @foreach($sbrecords as $sbrecord)
@@ -85,14 +85,14 @@
                     <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->id]) }}">詳細資料</a></font></td>
                     @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
                         <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
+                        <td>
+                            <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
+                                <input class="btn btn-default" type="submit" value="刪除" />
+                                @method('delete')
+                                @csrf
+                            </form>
+                        </td>
                     @endif
-                    <td>
-                        <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
-                            <input class="btn btn-default" type="submit" value="刪除" />
-                            @method('delete')
-                            @csrf
-                        </form>
-                    </td>
                 </tr>
                 @endforeach
             @else
@@ -112,14 +112,14 @@
                     <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->id]) }}">詳細資料</a></font></td>
                     @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
                         <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
+                        <td>
+                            <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
+                                <input class="btn btn-default" type="submit" value="刪除" />
+                                @method('delete')
+                                @csrf
+                            </form>
+                        </td>
                     @endif
-                    <td>
-                        <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
-                            <input class="btn btn-default" type="submit" value="刪除" />
-                            @method('delete')
-                            @csrf
-                        </form>
-                    </td>
                 </tr>
                 @endforeach
             @endif
