@@ -20,6 +20,7 @@
                 </form>
             </div>
         </div>
+        <div class="table-responsive">
             <table class="table">
                 <tr class='column_center'>
                     <th>編號</th>
@@ -126,9 +127,12 @@
                     @endforeach
                 @endif
             </table>
+        </div>
+            <div class="pagination">
                 @if($showPagination)
                     {{$lates->links()}}
                 @endif
+            </div>
 
         @elsecanany(['housemaster','chief','floorhead'])
         <div class="function">
@@ -145,6 +149,7 @@
                 </form>
             </div>
         </div>
+        <div class="table-responsive">
             <table class="table">
                 <tr class='column_center'>
                     <th>編號</th>
@@ -378,15 +383,19 @@
                     @endforeach
                 @endif
             </table>
+        </div>
+            <div class="pagination">
                 @if($showPagination)
                     {{$lates->links()}}
                 @endif
+            </div>
 
     @elsecanany('user')
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
                 <h3><a href = "/">回主頁</a></h3>
                 <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
             </div>
+            <div class="table-responsive">
                 <table class="table">
                     <tr class='column_center'>
                         <th>編號</th>
@@ -423,6 +432,7 @@
                         @endforeach
                     @endif
                 </table>
+            </div>
     @else <!--若沒登入或是非系統後台管理者將導回主頁-->
         @php
             header("Location: " . URL::to('/'), true, 302);

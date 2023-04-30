@@ -20,6 +20,7 @@
             </form>
         </div>
     </div>
+    <div class="table-responsive">
         <table class="table">
             <tr class='column_center'>
                 <th>編號</th>
@@ -52,9 +53,12 @@
                 </tr>
             @endforeach
         </table>
+    </div>
+    <div class="pagination">
         @if($showPagination)
             {{$users->links()}}
         @endif
+    </div>
     @else <!--若沒登入或是非系統後台管理者將導回主頁-->
         @php
             header("Location: " . URL::to('/'), true, 302);

@@ -21,6 +21,7 @@
             <a href="{{ route('beds.create') }} ">新增床位資料</a>
         </div>
     </div>
+    <div class="table-responsive">
         <table class="table">
             <tr class='column_center'>
                 <th>編號</th>
@@ -49,6 +50,7 @@
                 </tr>
             @endforeach
         </table>
+    </div>
         @if($showPagination)
             {{$beds->links()}}
         @endif

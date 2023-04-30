@@ -15,6 +15,7 @@
             <!-- <a href="{{ route('dormitories.create') }} ">新增宿舍資料</a> -->
         </div>
     </div>
+    <div class="table-responsive">
         <table class="table">
             <tr class='column_center'>
                 <th>編號</th>
@@ -43,6 +44,7 @@
                 </tr>
             @endforeach
         </table>
+    </div>
         {{$dormitories->links()}}
     @else <!--若沒登入或是非系統後台管理者將導回主頁-->
         @php

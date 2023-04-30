@@ -53,6 +53,7 @@
             @endif
             <a href="{{ route('sbrecords.senior') }} ">樓長</a>
         </div>
+    <div class="table-responsive">
         <table  class="table">
             <tr class='column_center'>
                 <th>編號</th>
@@ -124,9 +125,12 @@
                 @endforeach
             @endif
         </table>
+    </div>
+    <div class="pagination">
         @if($showPagination)
             {{$sbrecords->links()}}
         @endif
+    </div>
     @else <!--若沒登入或是非系統後台管理者將導回主頁-->
         @php
             header("Location: " . URL::to('/'), true, 302);

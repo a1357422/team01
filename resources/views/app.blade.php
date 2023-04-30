@@ -79,6 +79,80 @@
         }
         .column_center{
             text-align: center;
+            overflow-x: auto;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        @media (max-width: 767.98px) {
+            .table-responsive {
+                width: 100%;
+                margin-bottom: 1rem;
+                overflow-y: hidden;
+                -ms-overflow-style: -ms-autohiding-scrollbar;
+                border-radius: .25rem;
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+            }
+            .table-responsive > .table {
+                margin-bottom: 0;
+            }
+            .table-responsive > .table > thead > tr,
+            .table-responsive > .table > tbody > tr,
+            .table-responsive > .table > tfoot > tr {
+                display: block;
+            }
+            .table-responsive > .table > tbody {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            .table-responsive > .table > tbody > tr {
+                border-bottom: 1px solid #dee2e6;
+            }
+            .table-responsive > .table > tbody > tr > td,
+            .table-responsive > .table > tbody > tr > th {
+                display: inline-block;
+                width: auto !important;
+                max-width: none !important;
+            }
+            .table-responsive > .table > thead > tr > th {
+                width: auto !important;
+                max-width: none !important;
+            }
+            .table-responsive > .table-bordered {
+                border: 0;
+            }
+            .table-responsive > .table-bordered > thead > tr > th:first-child,
+            .table-responsive > .table-bordered > tbody > tr > td:first-child {
+                border-left: 0;
+            }
+            .table-responsive > .table-bordered > thead > tr > th:last-child,
+            .table-responsive > .table-bordered > tbody > tr > td:last-child {
+                border-right: 0;
+            }
+            .table-responsive > .table-bordered > thead > tr:first-child > th,
+            .table-responsive > .table-bordered > tbody > tr:first-child > td {
+                border-top: 0;
+            }
+            .table-responsive > .table-bordered > tbody > tr:last-child > td {
+                border-bottom: 0;
+            }
+        }
+        @media (max-width: 640px) {
+            .pagination {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin: 1em 0;
+            }
+
+            .pagination .page-item {
+                margin: 0 .25em;
+            }
+
+            .pagination .page-link {
+                font-size: .8em;
+                padding: .5em .75em;
+            }
         }
     </style>
 </head>
