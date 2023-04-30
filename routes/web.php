@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BedsController;
 use App\Http\Controllers\DormitoriesController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\LatesController;
 use App\Http\Controllers\LeavesController;
 use App\Http\Controllers\RollcallsController;
@@ -117,6 +118,9 @@ Route::get('users/{id}/change_pw',[UsersController::class,'change_pw'])->where("
 Route::patch('users/update/{id}',[UsersController::class,'update'])->where("id","[0-9]+")->name('users.update');
 Route::patch('users/pw_update/{id}',[UsersController::class,'pw_update'])->where("id","[0-9]+")->name('users.pw_update');
 Route::post('users/role', [UsersController::class, 'role'])->name('users.role');
+
+Route::get('imports',[ImportController::class,'index'])->name('imports.index');
+Route::post('imports/upload',[ImportController::class,'uploadExcel'])->name('imports.upload');
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
