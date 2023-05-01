@@ -15,7 +15,7 @@ class SbrecordsController extends Controller
 {
     //
     public function index(){
-        $sbrecords = Sbrecord::paginate(10);
+        $sbrecords = Sbrecord::orderBy('sbrecords.bid', 'asc')->paginate(10);
         $dormitories = Bed::allDormitories()->get();
         $bedcodes = Bed::get();
         $roomtags = [];
@@ -70,7 +70,7 @@ class SbrecordsController extends Controller
     }
 
     public function show($id){
-        $sbrecord = Sbrecord::findOrFail($id);
+        $sbrecord = Sbrecord::where('sid',$id)->first();
         $rollcalls = $sbrecord->rollcalls;
         $leaves = $sbrecord->leaves;
         $lates = $sbrecord->lates;
@@ -86,7 +86,7 @@ class SbrecordsController extends Controller
 
     public function dormitory(Request $request)
     {
-        $sbrecords = Sbrecord::Dormitory($request->input('dormitory'))->get();
+        $sbrecords = Sbrecord::Dormitory($request->input('dormitory'))->orderBy('sbrecords.bid', 'asc')->get();
         $dormitories = Bed::allDormitories()->get();
         $bedcodes = Bed::get();
         $roomtags = [];
@@ -231,7 +231,8 @@ class SbrecordsController extends Controller
         return redirect("sbrecords");
     }
     public function edit($id){
-        $sbrecord = Sbrecord::findOrFail($id);
+        $sbrecord = Sbrecord::where('sid',$id)->first();
+        $sbrecord = Sbrecord::findOrFail($sbrecord->id);
         $students = Student::orderBy('students.id', 'asc')->pluck('students.name', 'students.id');
         $beds = Bed::orderBy('beds.id', 'asc')->pluck('beds.bedcode', 'beds.id');
         $selectSemester = $sbrecord->semester;

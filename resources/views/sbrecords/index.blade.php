@@ -99,7 +99,7 @@
             @else
                 @foreach($sbrecords as $sbrecord)
                 <tr class='column_center'>
-                    <td align="center" valign="center">{{ $sbrecord->id }}</td>
+                    <td align="center" valign="center">{{ $sbrecord->bid }}</td>
                     <td>{{ $sbrecord->school_year }}</td>
                     <td align="center" valign="center">{{ $sbrecord->semester }}</td>
                     <td>{{ $sbrecord->name }}</td>

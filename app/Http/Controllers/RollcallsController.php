@@ -119,7 +119,7 @@ class RollcallsController extends Controller
 
     public function dormitory(Request $request)
     {
-        $sbrecords = Sbrecord::Dormitory($request->input('dormitory'),$request->input('floor'))->get();
+        $sbrecords = Sbrecord::Dormitory($request->input('dormitory'),$request->input('floor'))->orderBy('sbrecords.bid', 'asc')->get();
         $sbrecordcount = count($sbrecords);
         $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->get();
         $dormitories = Bed::allDormitories()->get();
@@ -132,7 +132,7 @@ class RollcallsController extends Controller
             $dormitorycode = "83";
         $bedcode_prefix = $dormitorycode . $request->input('floor'); 
         $roomcodes = [];
-        $bedcodes = Bed::Bedcode($bedcode_prefix)->get();
+        $bedcodes = Sbrecord::RoomCode($bedcode_prefix)->orderBy('sbrecords.bid', 'asc')->get();
         foreach($bedcodes as $bedcode){
             array_push($roomcodes,substr($bedcode->bedcode,0,5));
             $roomcodes = array_unique($roomcodes);
@@ -182,7 +182,7 @@ class RollcallsController extends Controller
             $bed = Bed::findOrFail($floorhead->bid);
             $bedcode_prefix = substr($bed->bedcode,0,2) . $floor; 
             $roomcodes = [];
-            $bedcodes = Bed::Bedcode($bedcode_prefix)->get();
+            $bedcodes = Sbrecord::RoomCode($bedcode_prefix)->orderBy('sbrecords.bid', 'asc')->get();
             $photos = Photo::get();
             $roomnumbers = [];
             foreach ($photos as $photo){
@@ -215,11 +215,11 @@ class RollcallsController extends Controller
             }
             elseif(substr($bed->bedcode,0,2) == "83")
                 $dormitory = 4;
-            $sbrecords = Sbrecord::Dormitory($dormitory,$floor)->get();
+            $sbrecords = Sbrecord::Dormitory($dormitory,$floor)->orderBy('sbrecords.bid', 'asc')->get();
         }
         else{
             $roomcodes = [];
-            $bedcodes = Bed::get();
+            $bedcodes = Sbrecord::AllRoom()->orderBy('sbrecords.bid', 'asc')->get();
             $photos = Photo::get();
             $roomnumbers = [];
             foreach ($photos as $photo){
@@ -235,7 +235,7 @@ class RollcallsController extends Controller
                 array_push($roomcodes,substr($bedcode->bedcode,0,5));
                 $roomcodes = array_unique($roomcodes);
             }
-            $sbrecords = Sbrecord::get();
+            $sbrecords = Sbrecord::orderBy('sbrecords.bid', 'asc')->get();
         }
         $sbrecordcount = count($sbrecords);
         $dormitories = Bed::allDormitories()->get();

@@ -5,10 +5,11 @@
             <th>編號</th>
             <th>點名日期</th>
             <th>學生床位</th>
+            <th>學生姓名</th>
             <th>{!! Form::label('presence','在場與否')!!}</th>
-            <th>上傳照片</th>
+            <!-- <th>上傳照片</th>
             <th>拍攝照片</th>
-            <th></th>
+            <th></th> -->
         </tr>
         @if($sbrecordcount>0)
             @foreach($roomcodes as $roomcode)
@@ -16,9 +17,10 @@
                 <th></th>
                 <th><h5>房間編號: {{ $roomcode }}<h5></th>
                 <th></th>
-                <td>{{ Form::file('roomimage[]') }}</td>
+                <th></th>
+                <!-- <td>{{ Form::file('roomimage[]') }}</td> -->
                 {!! Form::hidden('roomcodes[]', $roomcode) !!}
-                <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td>
+                <!-- <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td> -->
                 @foreach($roomnumbers as $roomnumber)
                     @foreach($photos as $photo)
                         @if($roomnumber == $roomcode)
@@ -36,9 +38,10 @@
                 @foreach($sbrecords as $sbrecord)
                     @if (strpos($sbrecord->bed->bedcode, (string)$roomcode) === 0)
                         <tr>
-                            <td>{{ $sbrecord->id }}</td>
+                            <td>{{ $sbrecord->bid }}</td>
                             <td>{{ $date }}</td>
                             <td>{{ $sbrecord->bed->bedcode }}</td>
+                            <td>{{ $sbrecord->name }}</td>
                             <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
                             {!! Form::hidden('edition[]', $sbrecord->id) !!}
                         </tr>
@@ -69,10 +72,11 @@
             <th>編號</th>
             <th>點名日期</th>
             <th>學生床位</th>
+            <th>學生姓名</th>
             <th>{!! Form::label('presence','在場與否')!!}</th>
-            <th>上傳照片</th>
+            <!-- <th>上傳照片</th>
             <th>拍攝照片</th>
-            <th></th>
+            <th></th> -->
         </tr>
             @if($sbrecordcount>0)
                 @foreach($roomcodes as $roomcode)
@@ -80,9 +84,10 @@
                     <th></th>
                     <th><h5>房間編號: {{ $roomcode }}<h5></th>
                     <th></th>
-                    <td>{{ Form::file('roomimage[]') }}</td>
+                    <th></th>
+                    <!-- <td>{{ Form::file('roomimage[]') }}</td> -->
                     {!! Form::hidden('roomcodes[]', $roomcode) !!}
-                    <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td>
+                    <!-- <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td> -->
                     @foreach($roomnumbers as $roomnumber)
                         @foreach($photos as $photo)
                             @if($roomnumber == $roomcode)
@@ -100,9 +105,10 @@
                     @foreach($sbrecords as $sbrecord)
                         @if (strpos($sbrecord->bed->bedcode, (string)$roomcode) === 0)
                             <tr>
-                                <td>{{ $sbrecord->id }}</td>
+                                <td>{{ $sbrecord->bid }}</td>
                                 <td>{{ $date }}</td>
                                 <td>{{ $sbrecord->bedcode }}</td>
+                                <td>{{ $sbrecord->name }}</td>
                                 <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
                                 {!! Form::hidden('edition[]', $sbrecord->id) !!}
                             </tr>
