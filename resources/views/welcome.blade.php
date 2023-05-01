@@ -38,6 +38,7 @@
                 <li><a href = "/rollcalls">點名系統</a></li>
                 <li><a href = "/lates">晚歸系統</a></li>
                 <li><a href = "/leaves">外宿系統</a></li>
+                <li><a href = "/imports">導入學生資料</a></li>
                 <li><a href = "/users/{{Auth::user()->id}}/change_pw">修改密碼</a></li>
             </ui>
         @elsecan('admin') <!--宿舍行政-->

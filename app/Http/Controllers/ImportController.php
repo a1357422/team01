@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\StudentsImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -16,25 +17,8 @@ class ImportController extends Controller
 
     public function uploadExcel(Request $request)
     {
-        if ($request->hasFile('file')) {
-            $path = $request->file('file')->getRealPath();
-            $data = Excel::load($path)->get();
-
-            if ($data->count()) {
-                foreach ($data as $key => $value) {
-                    $insert[] = [
-                        'column1' => $value->column1,
-                        'column2' => $value->column2,
-                        // ...
-                    ];
-                }
-
-                if (!empty($insert)) {
-                    return redirect()->back()->with('success', '資料已成功匯入！');
-                }
-            }
-        }
-
-        return redirect()->back()->with('error', '檔案匯入失敗，請再試一次。');
+        $path = $request->file('file')->getRealPath();
+        Excel::import(new StudentsImport,$path);
+        return redirect()->back()->with('success', '檔案匯入成功。');
     }
 }
