@@ -12,6 +12,9 @@
                 <h3>外宿總資料管理</h3>
             </div>
             <div>
+                <a href="{{ route('leaves.create') }} ">新增外宿資料</a>
+        </div>
+            <div>
                 <form action="{{ url('leaves/dormitory') }}" method='POST'>
                     {!! Form::label('dormitory', '選取宿舍別：') !!}
                     {!! Form::select('dormitory', $dormitories,$select) !!}
@@ -141,9 +144,9 @@
                                     <td><font color=red>{{ $leave->floorhead_check = "X" }}</font></td>
                                     @endif
                                     @if ($leave->housemaster_check === 1)
-                                    <td/>
+                                    <td><font color=green>{{ $leave->housemaster_check = "V" }}</font></td>
                                     @else
-                                    <td/>
+                                    <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
                                     @endif
                                     <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
                                 </tr>

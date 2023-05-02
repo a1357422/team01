@@ -75,17 +75,25 @@
                     <td align="center" valign="center">{{ $sbrecord->id }}</td>
                     <td>{{ $sbrecord->school_year }}</td>
                     <td align="center" valign="center">{{ $sbrecord->semester }}</td>
-                    <td>{{ $sbrecord->student->name }}</td>
-                    <td>{{ $sbrecord->bed->bedcode }}</td>
+                    @if($sbrecord->name == NULL)
+                        <td>{{ $sbrecord->student->name }}</td>
+                    @else
+                        <td>{{ $sbrecord->name }}</td>
+                    @endif
+                    @if($sbrecord->bedcode == NULL)
+                        <td>{{ $sbrecord->bed->bedcode }}</td>
+                    @else
+                        <td>{{ $sbrecord->bedcode }}</td>
+                    @endif
                     @if ($sbrecord->floor_head === 1)
                     <td align="center" valign="center"><font color=green>{{ $sbrecord->floor_head = "V" }}</font></div></td>
                     @else 
                     <td align="center" valign="center"><font color=red>{{ $sbrecord->floor_head = "X" }} </font></td>
                     @endif
                     <td align="center" valign="center">{{ $sbrecord->responsible_floor }}</td>
-                    <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->id]) }}">詳細資料</a></font></td>
+                    <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->sid]) }}">詳細資料</a></font></td>
                     @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
-                        <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
+                        <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->sid]) }}">修改資料</a></font></td>
                         <td>
                             <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
                                 <input class="btn btn-default" type="submit" value="刪除" />
@@ -99,7 +107,7 @@
             @else
                 @foreach($sbrecords as $sbrecord)
                 <tr class='column_center'>
-                    <td align="center" valign="center">{{ $sbrecord->bid }}</td>
+                    <td align="center" valign="center">{{ $sbrecord->id }}</td>
                     <td>{{ $sbrecord->school_year }}</td>
                     <td align="center" valign="center">{{ $sbrecord->semester }}</td>
                     <td>{{ $sbrecord->name }}</td>
@@ -110,9 +118,9 @@
                     <td align="center" valign="center"><font color=red>{{ $sbrecord->floor_head = "X" }} </font></td>
                     @endif
                     <td align="center" valign="center">{{ $sbrecord->responsible_floor }}</td>
-                    <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->id]) }}">詳細資料</a></font></td>
+                    <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->sid]) }}">詳細資料</a></font></td>
                     @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
-                        <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->id]) }}">修改資料</a></font></td>
+                        <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->sid]) }}">修改資料</a></font></td>
                         <td>
                             <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
                                 <input class="btn btn-default" type="submit" value="刪除" />

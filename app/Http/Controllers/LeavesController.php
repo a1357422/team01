@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Sbrecord;
 use App\Models\Bed;
 use App\Http\Requests\CreateLeaveRequest;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -70,24 +71,49 @@ class LeavesController extends Controller
         return redirect('leaves');
     }
     public function create(){
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   //隨sbrecord之id
-        return view("leaves.create",["sbrecords"=>$sbrecords]);
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');
+        $students = Student::orderBy('students.id','asc')->get();
+        $tags = [];
+        foreach($students as $student){
+            array_push($tags,$student->name);
+        }
+        $tags = array_unique($tags);
+        return view("leaves.create",["sbrecords"=>$sbrecords,"tags"=>$tags]);
     }
     public function store(CreateLeaveRequest $request){
-        $user_sbids = Sbrecord::User(Auth::user()->name)->get();
-        foreach($user_sbids as $user_sbid){
-            $sbid = $user_sbid->id;
+        if(Sbrecord::User(Auth::user()->name)->first() != null){
+            $user_sbids = Sbrecord::User(Auth::user()->name)->get();
+            foreach($user_sbids as $user_sbid){
+                $sbid = $user_sbid->id;
+            }
+            $start = $request->input('start');
+            $end = $request->input('end');
+            $reason = $request->input('reason');
+            
+            $leave = Leave::create([
+                'sbid' => $sbid,
+                'start' => $start,
+                'end' => $end,
+                'reason' => $reason,
+            ]);
         }
-        $start = $request->input('start');
-        $end = $request->input('end');
-        $reason = $request->input('reason');
-        
-        $leave = Leave::create([
-            'sbid' => $sbid,
-            'start' => $start,
-            'end' => $end,
-            'reason' => $reason,
-        ]);
+        else{
+            $student = Student::findOrFail($request->input('name')+1);
+            $user_sbids = Sbrecord::Where('sid',$student->id)->get();
+            foreach($user_sbids as $user_sbid){
+                $sbid = $user_sbid->id;
+            }
+            $start = $request->input('start');
+            $end = $request->input('end');
+            $reason = $request->input('reason');
+            
+            $leave = Leave::create([
+                'sbid' => $sbid,
+                'start' => $start,
+                'end' => $end,
+                'reason' => $reason,
+            ]);
+        }
         return redirect("leaves");
     }
     public function edit($id){

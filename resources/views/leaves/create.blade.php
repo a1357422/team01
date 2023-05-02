@@ -7,9 +7,11 @@
 @section('dormitorysystem_contents')
     @cannot('')
         @include('message.list')
+        @if(Auth::user()->role != "superadmin")
         <div>
             學生姓名：{{Auth::user()->name}}
         </div>
+        @endif
         {!! Form::open(['url'=>'leaves/store'])!!}
         @include('leaves.form1',['submitButtonText'=>"新增外宿資料"])
         {!! Form::close()!!}

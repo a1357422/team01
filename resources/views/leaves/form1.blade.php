@@ -1,3 +1,9 @@
+@if(Auth::user()->role == "superadmin")
+<div>
+    {!! Form::label('name','學生：')!!}
+    {!! Form::select('name',$tags)!!}
+</div>
+@endif
 <div>
     {!! Form::label('start','外宿日起：')!!}
     {!! Form::date('start',null)!!}

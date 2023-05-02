@@ -15,7 +15,7 @@ class SbrecordsController extends Controller
 {
     //
     public function index(){
-        $sbrecords = Sbrecord::orderBy('sbrecords.bid', 'asc')->paginate(10);
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->paginate(10);
         $dormitories = Bed::allDormitories()->get();
         $bedcodes = Bed::get();
         $roomtags = [];
@@ -47,7 +47,7 @@ class SbrecordsController extends Controller
     }
 
     public function senior(){
-        $sbrecords = Sbrecord::senior()->orderBy('sbrecords.bid', 'asc')->get();
+        $sbrecords = Sbrecord::senior()->orderBy('sbrecords.id', 'asc')->get();
         $dormitories = Bed::allDormitories()->get();
         $bedcodes = Bed::get();
         $roomtags = [];
@@ -92,7 +92,7 @@ class SbrecordsController extends Controller
 
     public function dormitory(Request $request)
     {
-        $sbrecords = Sbrecord::Dormitory($request->input('dormitory'))->orderBy('sbrecords.bid', 'asc')->get();
+        $sbrecords = Sbrecord::Dormitory($request->input('dormitory'))->orderBy('sbrecords.id', 'asc')->get();
         $dormitories = Bed::allDormitories()->get();
         $bedcodes = Bed::get();
         $roomtags = [];

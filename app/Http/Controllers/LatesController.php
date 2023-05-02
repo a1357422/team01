@@ -68,8 +68,14 @@ class LatesController extends Controller
         return redirect('lates');
     }
     public function create(){
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');   
-        return view("lates.create",['sbrecords'=>$sbrecords]);
+        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');
+        $students = Student::orderBy('students.id','asc')->get();
+        $tags = [];
+        foreach($students as $student){
+            array_push($tags,$student->name);
+        }
+        $tags = array_unique($tags);
+        return view("lates.create",['sbrecords'=>$sbrecords,"tags"=>$tags]);
     }
 
     public function download($id){
@@ -78,9 +84,18 @@ class LatesController extends Controller
     }
 
     public function store(CreateLateRequest $request){
+        if(Sbrecord::User(Auth::user()->name)->first() != null){
         $user_sbids = Sbrecord::User(Auth::user()->name)->get();
-        foreach($user_sbids as $user_sbid){
-            $sbid = $user_sbid->id;
+            foreach($user_sbids as $user_sbid){
+                $sbid = $user_sbid->id;
+            }
+        }
+        else{
+            $student = Student::findOrFail($request->input('name')+1);
+            $user_sbids = Sbrecord::Where('sid',$student->id)->get();
+            foreach($user_sbids as $user_sbid){
+                $sbid = $user_sbid->id;
+            }
         }
         $sbrecord = Sbrecord::FindOrFail($sbid);
         $bed = Bed::FindOrFail($sbrecord->bid);

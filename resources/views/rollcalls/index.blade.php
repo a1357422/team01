@@ -36,12 +36,36 @@
         <!-- 秀出所有rollcall名單中未到的人 -->
         @if($textbox == True && $display==3) 
             <div> 
+            {{$date}}外宿名單： {{count($leaves)}}外<br/>
+                @foreach($leaves as $leave)
+                    {!! nl2br($leave->sbrecord->bed->bedcode."   ".$leave->sbrecord->student->name."\n") !!}
+                @endforeach
+            </div>
+            <div> 
+            {{$date}}晚歸名單：{{count($lates)}}晚歸<br/>
+                @foreach($lates as $late)
+                    {!! nl2br($late->sbrecord->bed->bedcode."   ".$late->sbrecord->student->name."\n") !!}
+                @endforeach
+            </div>
+            <div> 
             {{$date}}未到名單：<br/>
                 @foreach($rollcalls as $rollcall)
                     {!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}
                 @endforeach
             </div>
         @elseif($textbox == True && $display==4)
+            <div> 
+                {{$date}}外宿名單：{{count($leaves)}}外<br/>
+                @foreach($leaves as $leave)
+                    {!! nl2br($leave->sbrecord->bed->bedcode."   ".$leave->sbrecord->student->name."\n") !!}
+                @endforeach
+            </div>
+            <div> 
+            {{$date}}晚歸名單：{{count($lates)}}晚歸<br/>
+                @foreach($lates as $late)
+                    {!! nl2br($late->sbrecord->bed->bedcode."   ".$late->sbrecord->student->name."\n") !!}
+                @endforeach
+            </div>
             <div> 
             {{$date}}未到名單：<br/>
                 @foreach($rollcalls as $rollcall)

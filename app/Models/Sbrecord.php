@@ -35,14 +35,16 @@ class Sbrecord extends Model
     public function scopeName($query, $name)
     {
         $query->join('students','sbrecords.sid','=','students.id')
-        ->select('*')
+        ->join('beds','sbrecords.bid','=','beds.id')
+        ->select('sbrecords.id','sbrecords.sid','sbrecords.semester','sbrecords.school_year','sbrecords.floor_head','sbrecords.responsible_floor','beds.bedcode','students.name')
         ->where('students.name','=',"$name");
     }
 
     public function scopeStudentID($query, $studentID)
     {
         $query->join('students','sbrecords.sid','=','students.id')
-        ->select('*')
+        ->join('beds','sbrecords.bid','=','beds.id')
+        ->select('sbrecords.id','sbrecords.sid','sbrecords.semester','sbrecords.school_year','beds.bedcode','students.name','sbrecords.floor_head','sbrecords.responsible_floor')
         ->where('students.number','=',"$studentID");
     }
 
@@ -73,14 +75,14 @@ class Sbrecord extends Model
         if($did != null){
             $query->join('students','sbrecords.sid','=','students.id')
             ->join('beds','sbrecords.bid','=','beds.id')
-            ->select('*')
+            ->select('sbrecords.id','sbrecords.sid','sbrecords.semester','sbrecords.school_year','beds.bedcode','students.name','sbrecords.floor_head','sbrecords.responsible_floor')
             ->where('beds.did','=',"$did")
             ->where('bedcode', 'LIKE', "$roomcode%");
         }
         else{
             $query->join('students','sbrecords.sid','=','students.id')
             ->join('beds','sbrecords.bid','=','beds.id')
-            ->select('*')
+            ->select('sbrecords.id','sbrecords.sid','sbrecords.semester','sbrecords.school_year','beds.bedcode','students.name','sbrecords.floor_head','sbrecords.responsible_floor')
             ->where('bedcode', 'LIKE', "$roomcode%");
         }
     }

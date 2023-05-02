@@ -32,7 +32,17 @@ class Rollcall extends Model
 
     public function scopePresence($query)
     {
-        $query->select('*')->where('rollcalls.presence','=',0);
+        $query->select('*')->where('rollcalls.presence','=',0)->where('rollcalls.leave','=',0);
+    }
+
+    public function scopeLeave($query)
+    {
+        $query->select('*')->where('rollcalls.leave','=',1);
+    }
+
+    public function scopeLate($query)
+    {
+        $query->select('*')->where('rollcalls.late','=',1);
     }
 
     public function sbrecord(){

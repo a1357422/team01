@@ -12,6 +12,9 @@
                 <h3>晚歸總資料管理</h3>
             </div>
             <div>
+                <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
+            </div>
+            <div>
                 <form action="{{ url('lates/dormitory') }}" method='POST'>
                     {!! Form::label('dormitory', '選取宿舍別：') !!}
                     {!! Form::select('dormitory', $dormitories,$select) !!}
