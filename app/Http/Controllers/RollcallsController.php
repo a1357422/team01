@@ -188,7 +188,7 @@ class RollcallsController extends Controller
             $bed = Bed::findOrFail($floorhead->bid);
             $bedcode_prefix = substr($bed->bedcode,0,2) . $floor; 
             $roomcodes = [];
-            $bedcodes = Sbrecord::RoomCode($bedcode_prefix)->orderBy('sbrecords.bid', 'asc')->get();
+            $bedcodes = Sbrecord::RoomCode(null,$bedcode_prefix)->orderBy('sbrecords.bid', 'asc')->get();
             $photos = Photo::get();
             $roomnumbers = [];
             foreach ($photos as $photo){
