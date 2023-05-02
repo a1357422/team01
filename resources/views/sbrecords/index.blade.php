@@ -37,7 +37,7 @@
             <div>
                 <form action="{{ url('sbrecords/roomcode') }}" method='POST'>
                     {!! Form::label('roomcode', '房號：') !!}
-                    {!! Form::select('roomcode',$roomtags, $selectroomtags=null) !!}
+                    {!! Form::select('roomcode',$roomtags, $selectroomtags) !!}
                     <input type="submit" value="查詢房號" />
                     @csrf
                 </form>

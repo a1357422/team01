@@ -5,8 +5,10 @@ namespace App\Imports;
 use App\Models\Bed;
 use App\Models\Sbrecord;
 use App\Models\Student;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Facades\Validator;
@@ -27,7 +29,7 @@ class StudentsImport implements ToCollection ,WithHeadingRow
             else{
                 $count = Student::where('number',$row['學號'])->count();
                 if($count > 0 || $row['學號']==null)
-                continue;
+                    continue;
                 else{
                     if(strlen(strval($row['手機']))==9)
                         $row['手機']="0".strval($row['手機']);
@@ -53,6 +55,7 @@ class StudentsImport implements ToCollection ,WithHeadingRow
                         $salutation = "無";
                     else
                         $salutation = $row['關係'];
+                    $row['學號'] = ucfirst($row['學號']);
                     $student = Student::create([
                         'number' => $row['學號'],
                         'class' => $class, 
@@ -63,6 +66,13 @@ class StudentsImport implements ToCollection ,WithHeadingRow
                         'guardian' => $guardian,
                         'salutation' => $salutation,
                         'remark' => $row['備註'],
+                    ]);
+                    $password = Hash::make($row['學號']);
+                    $user = User::create([
+                        'sid' => $student->id,
+                        'name' => $name,
+                        'email' => $row['學號']."@gm.lhu.edu.tw",
+                        'password' => $password
                     ]);
                     $sid = $student->id;
                     if($row['81 - 房號']!=null){

@@ -41,7 +41,7 @@
                             <td>{{ $sbrecord->bid }}</td>
                             <td>{{ $date }}</td>
                             <td>{{ $sbrecord->bed->bedcode }}</td>
-                            <td>{{ $sbrecord->name }}</td>
+                            <td>{{ $sbrecord->student->name }}</td>
                             <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
                             {!! Form::hidden('edition[]', $sbrecord->id) !!}
                         </tr>

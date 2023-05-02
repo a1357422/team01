@@ -21,7 +21,10 @@ class SbrecordsController extends Controller
         $roomtags = [];
         $tags = [];
         foreach($bedcodes as $bedcode){
-            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            if(stripos($bedcode->bedcode,"MB"))
+                array_push($roomtags,substr($bedcode->bedcode,0,6));
+            else
+                array_push($roomtags,substr($bedcode->bedcode,0,5));
             $roomtags = array_unique($roomtags);
         }
         $tags = [];
@@ -40,17 +43,20 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,'select' => 1,'roomtags'=>$roomtags]);
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>True,'select' => 1,'roomtags'=>$roomtags,'selectroomtags'=>null]);
     }
 
     public function senior(){
-        $sbrecords = Sbrecord::senior()->get();
+        $sbrecords = Sbrecord::senior()->orderBy('sbrecords.bid', 'asc')->get();
         $dormitories = Bed::allDormitories()->get();
         $bedcodes = Bed::get();
         $roomtags = [];
         $tags = [];
         foreach($bedcodes as $bedcode){
-            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            if(stripos($bedcode->bedcode,"MB"))
+                array_push($roomtags,substr($bedcode->bedcode,0,6));
+            else
+                array_push($roomtags,substr($bedcode->bedcode,0,5));
             $roomtags = array_unique($roomtags);
         }
         $tags = [];
@@ -66,7 +72,7 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
         }
 
-        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>False,'select' => 1,'roomtags'=>$roomtags]);
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>False,'select' => 1,'roomtags'=>$roomtags,'selectroomtags'=>null]);
     }
 
     public function show($id){
@@ -92,7 +98,10 @@ class SbrecordsController extends Controller
         $roomtags = [];
         $tags = [];
         foreach($bedcodes as $bedcode){
-            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            if(stripos($bedcode->bedcode,"MB"))
+                array_push($roomtags,substr($bedcode->bedcode,0,6));
+            else
+                array_push($roomtags,substr($bedcode->bedcode,0,5));
             $roomtags = array_unique($roomtags);
         }
         $tags = [];
@@ -111,7 +120,7 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
-        return view("sbrecords.index",['display'=>2,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>false,'select' => $request->input('dormitory'),'roomtags'=>$roomtags]);
+        return view("sbrecords.index",['display'=>2,"sbrecords"=>$sbrecords,'dormitories'=>$tags,"showPagination"=>false,'select' => $request->input('dormitory'),'roomtags'=>$roomtags,'selectroomtags'=>null]);
     }
 
     public function name(Request $request){
@@ -120,7 +129,10 @@ class SbrecordsController extends Controller
         $roomtags = [];
         $tags = [];
         foreach($bedcodes as $bedcode){
-            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            if(stripos($bedcode->bedcode,"MB"))
+                array_push($roomtags,substr($bedcode->bedcode,0,6));
+            else
+                array_push($roomtags,substr($bedcode->bedcode,0,5));
             $roomtags = array_unique($roomtags);
         }
         $tags = [];
@@ -140,7 +152,7 @@ class SbrecordsController extends Controller
             }
         }
         $students = Sbrecord::Name($request->input('name'))->get();
-        return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags]);
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags,'selectroomtags'=>null]);
     }
 
     public function studentID(Request $request){
@@ -149,7 +161,10 @@ class SbrecordsController extends Controller
         $roomtags = [];
         $tags = [];
         foreach($bedcodes as $bedcode){
-            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            if(stripos($bedcode->bedcode,"MB"))
+                array_push($roomtags,substr($bedcode->bedcode,0,6));
+            else
+                array_push($roomtags,substr($bedcode->bedcode,0,5));
             $roomtags = array_unique($roomtags);
         }
         foreach ($dormitories as $dormitory)
@@ -168,7 +183,7 @@ class SbrecordsController extends Controller
             }
         }
         $students = Sbrecord::StudentID($request->input('studentID'))->get();
-        return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags]);
+        return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags,'selectroomtags'=>null]);
     }
 
     public function roomcode(Request $request){
@@ -177,7 +192,10 @@ class SbrecordsController extends Controller
         $roomtags = [];
         $tags = [];
         foreach($bedcodes as $bedcode){
-            array_push($roomtags,substr($bedcode->bedcode,0,5));
+            if(stripos($bedcode->bedcode,"MB"))
+                array_push($roomtags,substr($bedcode->bedcode,0,6));
+            else
+                array_push($roomtags,substr($bedcode->bedcode,0,5));
             $roomtags = array_unique($roomtags);
         }
         foreach ($dormitories as $dormitory)
@@ -195,8 +213,9 @@ class SbrecordsController extends Controller
                 $tags["$dormitory->did"] = "涵青館";
             }
         }
+        $did = null;
         $selectroomtags = $request->input('roomcode');
-        $students = Sbrecord::RoomCode($roomtags[$request->input('roomcode')])->get();
+        $students = Sbrecord::RoomCode($did,$roomtags[$request->input('roomcode')])->orderBy('sbrecords.bid', 'asc')->get();
         return view("sbrecords.index",['display'=>1,"sbrecords"=>$students,'dormitories'=>$tags,"showPagination"=>false,'select'=>1,'roomtags'=>$roomtags,'selectroomtags'=>$selectroomtags]);
     }
 

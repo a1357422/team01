@@ -132,7 +132,7 @@ class RollcallsController extends Controller
             $dormitorycode = "83";
         $bedcode_prefix = $dormitorycode . $request->input('floor'); 
         $roomcodes = [];
-        $bedcodes = Sbrecord::RoomCode($bedcode_prefix)->orderBy('sbrecords.bid', 'asc')->get();
+        $bedcodes = Sbrecord::RoomCode($request->input('dormitory'),$bedcode_prefix)->orderBy('sbrecords.bid', 'asc')->get();
         foreach($bedcodes as $bedcode){
             array_push($roomcodes,substr($bedcode->bedcode,0,5));
             $roomcodes = array_unique($roomcodes);

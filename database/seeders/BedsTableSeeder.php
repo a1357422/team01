@@ -182,6 +182,22 @@ class BedsTableSeeder extends Seeder
             }
         }
 
+        //男一宿MB
+        for($i = 1; $i<16;$i++){
+            for($j=1;$j<=3;$j++){
+                if($i<10)
+                    $bedcode1 = "82MB0".$i ."-".$j;
+                else
+                    $bedcode1 = "82MB".$i ."-".$j;
+                DB::table('beds')->insert([
+                    'bedcode' => $bedcode1,
+                    'did' => 3,
+                    'floor' => "0F",
+                    'roomtype' => "三人房"
+                ]);
+            }
+        }
+
         //男一宿1F
         for($i = 4; $i<12;$i++){
             for($j=1;$j<=3;$j++){

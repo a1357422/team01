@@ -20,7 +20,7 @@
 </div>
 <div>
     {!! Form::label('responsible_floor','負責的樓層：')!!}
-    {!! Form::select('responsible_floor',array(''=>'','1F' => '1樓', '2F' => '2樓', '3F' => '3樓', '4F' => '4樓', '5F' => '5樓', '6F' => '6樓', '7F' => '7樓'),$selectResponsible_floor)!!}
+    {!! Form::select('responsible_floor',array(''=>'','0F'=>'MB','1F' => '1樓', '2F' => '2樓', '3F' => '3樓', '4F' => '4樓', '5F' => '5樓', '6F' => '6樓', '7F' => '7樓'),$selectResponsible_floor)!!}
 </div>    
 <div>
     {!! Form::submit($submitButtonText)!!}

@@ -48,19 +48,39 @@ class Sbrecord extends Model
 
     public function scopeDormitory($query, $did,$floor=null)
     {
-        $query->join('students','sbrecords.sid','=','students.id')
-        ->join('beds','sbrecords.bid','=','beds.id')
-        ->select('sbrecords.id','sbrecords.bid','beds.bedcode','students.name')
-        ->where('beds.did','=',"$did")
-        ->where('bedcode', 'LIKE', "__$floor%");
+        if($floor != null){
+            if($floor == 0)
+                $floor = "MB";
+            $query->join('students','sbrecords.sid','=','students.id')
+            ->join('beds','sbrecords.bid','=','beds.id')
+            ->select('sbrecords.*','beds.bedcode','students.name')
+            ->where('beds.did','=',"$did")
+            ->where('bedcode', 'LIKE', "__$floor%");
+        }
+        else{
+            $query->join('students','sbrecords.sid','=','students.id')
+            ->join('beds','sbrecords.bid','=','beds.id')
+            ->select('sbrecords.*','beds.bedcode','students.name')
+            ->where('beds.did','=',"$did");
+        }
+
     }
 
-    public function scopeRoomCode($query, $roomcode)
+    public function scopeRoomCode($query, $did=null, $roomcode)
     {
-        $query->join('students','sbrecords.sid','=','students.id')
-        ->join('beds','sbrecords.bid','=','beds.id')
-        ->select('*')
-        ->where('bedcode', 'LIKE', "$roomcode%");
+        if($did != null){
+            $query->join('students','sbrecords.sid','=','students.id')
+            ->join('beds','sbrecords.bid','=','beds.id')
+            ->select('*')
+            ->where('beds.did','=',"$did")
+            ->where('bedcode', 'LIKE', "$roomcode%");
+        }
+        else{
+            $query->join('students','sbrecords.sid','=','students.id')
+            ->join('beds','sbrecords.bid','=','beds.id')
+            ->select('*')
+            ->where('bedcode', 'LIKE', "$roomcode%");
+        }
     }
     public function scopeAllRoom($query)
     {

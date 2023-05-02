@@ -12,7 +12,7 @@
                 {!! Form::label('dormitory', '選取宿舍別：') !!}
                 {!! Form::select('dormitory', $dormitories,$select) !!}
                 {!! Form::label('floor', '選取樓層：') !!}
-                {!! Form::select('floor', array('1' => '1樓', '2' => '2樓', '3' => '3樓', '4' => '4樓', '5' => '5樓', '6' => '6樓', '7' => '7樓'),$selectfloor) !!}
+                {!! Form::select('floor', array('0' => 'MB','1' => '1樓', '2' => '2樓', '3' => '3樓', '4' => '4樓', '5' => '5樓', '6' => '6樓', '7' => '7樓'),$selectfloor) !!}
 
                 <input type="hidden" name="新增表單查詢" value="新增表單查詢">
                 <input type="submit" value="查詢" />
