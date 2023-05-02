@@ -184,7 +184,7 @@ class BedsTableSeeder extends Seeder
 
         //男一宿MB
         for($i = 1; $i<16;$i++){
-            for($j=1;$j<=3;$j++){
+            for($j=1;$j<=4;$j++){
                 if($i<10)
                     $bedcode1 = "82MB0".$i ."-".$j;
                 else
@@ -193,7 +193,7 @@ class BedsTableSeeder extends Seeder
                     'bedcode' => $bedcode1,
                     'did' => 3,
                     'floor' => "0F",
-                    'roomtype' => "三人房"
+                    'roomtype' => "四人房"
                 ]);
             }
         }
@@ -201,7 +201,7 @@ class BedsTableSeeder extends Seeder
         //男一宿1F
         for($i = 4; $i<12;$i++){
             for($j=1;$j<=3;$j++){
-                if($i<=10)
+                if($i<10)
                     $bedcode1 = "8210".$i ."-".$j;
                 else
                     $bedcode1 = "821".$i ."-".$j;
@@ -217,7 +217,7 @@ class BedsTableSeeder extends Seeder
         //男一宿2F
         for($i = 1; $i<15;$i++){
             for($j=1;$j<=3;$j++){
-                if($i<=10)
+                if($i<10)
                     $bedcode1 = "8220".$i ."-".$j;
                 else
                     $bedcode1 = "822".$i ."-".$j;
@@ -235,7 +235,7 @@ class BedsTableSeeder extends Seeder
             for($i = 1; $i<33;$i++){
                 for($j=1;$j<=3;$j++){
                     if($time == 0){
-                        if($i<=10){
+                        if($i<10){
                             $bedcode1 = "8230".$i ."-".$j;
                         }
                         else{
@@ -250,7 +250,7 @@ class BedsTableSeeder extends Seeder
                         ]);
                     }
                     elseif($time == 1){
-                        if($i<=10)
+                        if($i<10)
                             $bedcode1 = "8240".$i ."-".$j;
                         else
                             $bedcode1 = "824".$i ."-".$j;
@@ -263,7 +263,7 @@ class BedsTableSeeder extends Seeder
                         ]);
                     }
                     else{
-                        if($i<=10)
+                        if($i<10)
                             $bedcode1 = "8250".$i ."-".$j;
                         else
                             $bedcode1 = "825".$i ."-".$j;

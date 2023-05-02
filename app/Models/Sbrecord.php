@@ -68,6 +68,8 @@ class Sbrecord extends Model
 
     public function scopeRoomCode($query, $did=null, $roomcode)
     {
+        if ($roomcode == "820")
+            $roomcode = "82MB";
         if($did != null){
             $query->join('students','sbrecords.sid','=','students.id')
             ->join('beds','sbrecords.bid','=','beds.id')

@@ -105,7 +105,10 @@ class RollcallsController extends Controller
         $roomcodes = [];
         $bedcodes = Bed::get();
         foreach($bedcodes as $bedcode){
-            array_push($roomcodes,substr($bedcode->bedcode,0,5));
+            if(stripos($bedcode->bedcode,"MB"))
+                array_push($roomcodes,substr($bedcode->bedcode,0,6));
+            else
+                array_push($roomcodes,substr($bedcode->bedcode,0,5));
             $roomcodes = array_unique($roomcodes);
         }
         return view("rollcalls.show",["rollcall"=>$rollcall,"roomcodes"=>$roomcodes,"MonthDay"=>$date,"photo_path"=>$photo_path,"profile_path"=>$profile_path]);
@@ -134,7 +137,10 @@ class RollcallsController extends Controller
         $roomcodes = [];
         $bedcodes = Sbrecord::RoomCode($request->input('dormitory'),$bedcode_prefix)->orderBy('sbrecords.bid', 'asc')->get();
         foreach($bedcodes as $bedcode){
-            array_push($roomcodes,substr($bedcode->bedcode,0,5));
+            if(stripos($bedcode->bedcode,"MB"))
+                array_push($roomcodes,substr($bedcode->bedcode,0,6));
+            else
+                array_push($roomcodes,substr($bedcode->bedcode,0,5));
             $roomcodes = array_unique($roomcodes);
         }
         $tags = [];
@@ -195,7 +201,10 @@ class RollcallsController extends Controller
                 }
             }
             foreach($bedcodes as $bedcode){
-                array_push($roomcodes,substr($bedcode->bedcode,0,5));
+                if(stripos($bedcode->bedcode,"MB"))
+                    array_push($roomcodes,substr($bedcode->bedcode,0,6));
+                else
+                    array_push($roomcodes,substr($bedcode->bedcode,0,5));
                 $roomcodes = array_unique($roomcodes);
             }
             if(substr($bed->bedcode,0,2) == "81")
@@ -232,7 +241,10 @@ class RollcallsController extends Controller
                 }
             }
             foreach($bedcodes as $bedcode){
-                array_push($roomcodes,substr($bedcode->bedcode,0,5));
+                if(stripos($bedcode->bedcode,"MB"))
+                    array_push($roomcodes,substr($bedcode->bedcode,0,6));
+                else
+                    array_push($roomcodes,substr($bedcode->bedcode,0,5));
                 $roomcodes = array_unique($roomcodes);
             }
             $sbrecords = Sbrecord::orderBy('sbrecords.bid', 'asc')->get();

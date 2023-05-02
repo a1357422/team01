@@ -1,11 +1,14 @@
 @extends('app')
 
-@section('title', '床位總資料管理')
+@section('title', '上傳Excel資料')
 
 @section('dormitorysystem_theme', '')
 
 @section('dormitorysystem_contents')
-    <h1>上傳 Excel 檔案</h1>
+    <div class="maintitle_btn">
+            <h3><a href = "/">回主頁</a></h3>
+            <h1>上傳 Excel 檔案</h1>
+    </div>
     
     @if(count($errors) > 0)
         <div class="alert alert-danger">
