@@ -103,10 +103,11 @@
                         <th>編號</th>
                         <th>點名日期</th>
                         <th>學生床位</th>
+                        <th>學生姓名</th>
                         <th>在場與否</th>
                         <th>外宿</th>
                         <th>晚歸</th>
-                        <th>照片辨識結果</th>
+                        <!-- <th>照片辨識結果</th> -->
                         <th>操作</th> 
                         <th>操作</th>
                         <th>操作</th>
@@ -118,6 +119,7 @@
                             <td>{{ $rollcall->id }}</td>
                             <td>{{ $rollcall->date }}</td>
                             <td>{{ $rollcall->sbrecord->bed->bedcode }}</td>
+                            <td>{{ $rollcall->sbrecord->student->name }}</td>
                             @if ($rollcall->presence === 1)
                             <td align="center" valign="center"><font color=green>{{ $rollcall->presence = "V" }}</font></td>
                             @else 
@@ -133,11 +135,11 @@
                             @else 
                             <td align="center" valign="center"><font color=red>{{ $rollcall->late = "X" }} </font></td>
                             @endif
-                            @if ($rollcall->identify === 1)
+                            <!-- @if ($rollcall->identify === 1)
                             <td align="center" valign="center"><font color=green>{{ $rollcall->identify = "V" }}</font></td>
                             @else 
                             <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
-                            @endif
+                            @endif -->
                             <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
                             @if ($rollcall->presence == "V")
                                 <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}">未到</a></font></td>
@@ -160,6 +162,7 @@
                                 <td>{{ $rollcall->id }}</td>
                                 <td>{{ $rollcall->date }}</td>
                                 <td>{{ $rollcall->bedcode }}</td>
+                                <td>{{ $rollcall->name }}</td>
                                 @if ($rollcall->presence === 1)
                                 <td align="center" valign="center"><font color=green>{{ $rollcall->presence = "V" }}</font></td>
                                 @else 
@@ -175,11 +178,11 @@
                                 @else 
                                 <td align="center" valign="center"><font color=red>{{ $rollcall->late = "X" }} </font></td>
                                 @endif
-                                @if ($rollcall->identify === 1)
+                                <!-- @if ($rollcall->identify === 1)
                                 <td align="center" valign="center"><font color=green>{{ $rollcall->identify = "V" }}</font></td>
                                 @else 
                                 <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
-                                @endif
+                                @endif -->
                                 <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
                                 @if ($rollcall->presence == "V")
                                     <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}">未到</a></font></td>
