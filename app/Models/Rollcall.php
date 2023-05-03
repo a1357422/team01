@@ -35,14 +35,34 @@ class Rollcall extends Model
         $query->select('*')->where('rollcalls.presence','=',0)->where('rollcalls.leave','=',0);
     }
 
-    public function scopeLeave($query)
+    public function scopeLeave($query,$did=null)
     {
-        $query->select('*')->where('rollcalls.leave','=',1);
+        if($did != null){
+            $query->join('sbrecords','rollcalls.sbid','=','sbrecords.id')
+            ->join('beds','sbrecords.bid','=','beds.id')
+            ->select('*')
+            ->where('beds.did','=',$did)
+            ->where('rollcalls.leave','=',1);
+        }
+        else{
+            $query->select('*')
+            ->where('rollcalls.leave','=',1);
+        }
     }
 
-    public function scopeLate($query)
+    public function scopeLate($query,$did=null)
     {
-        $query->select('*')->where('rollcalls.late','=',1);
+        if($did != null){
+            $query->join('sbrecords','rollcalls.sbid','=','sbrecords.id')
+            ->join('beds','sbrecords.bid','=','beds.id')
+            ->select('*')
+            ->where('beds.did','=',$did)
+            ->where('rollcalls.late','=',1);
+        }
+        else{
+            $query->select('*')
+            ->where('rollcalls.late','=',1);
+        }
     }
 
     public function sbrecord(){

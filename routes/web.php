@@ -81,11 +81,12 @@ Route::get('rollcalls',[RollcallsController::class,'index'])->name('rollcalls.in
 Route::get('rollcalls/create',[RollcallsController::class,'create'])->name('rollcalls.create');
 Route::get('rollcalls/history',[RollcallsController::class,'history'])->name('rollcalls.history');
 Route::get('rollcalls/presence',[RollcallsController::class,'presence'])->name('rollcalls.presence');
+Route::get('rollcalls/presence/{rollcaller}',[RollcallsController::class,'presence'])->name('rollcalls.presence.rollcaller');
 Route::get('rollcalls/{id}',[RollcallsController::class,'show'])->where("id","[0-9]+")->name('rollcalls.show');
 Route::delete('rollcalls/delete/{id}',[RollcallsController::class,'destroy'])->where("id","[0-9]+")->name('rollcalls.destroy');
 Route::post('rollcalls/store',[RollcallsController::class,'store'])->name('rollcalls.store');
-Route::get('rollcalls/{id}/edit',[RollcallsController::class,'edit'])->where("id","[0-9]+")->name('rollcalls.edit');
-Route::patch('rollcalls/update/{id}',[RollcallsController::class,'update'])->where("id","[0-9]+")->name('rollcalls.update');
+Route::get('rollcalls/{id}/{presence}/edit/',[RollcallsController::class,'edit'])->where("id","[0-9]+")->name('rollcalls.edit');
+// Route::patch('rollcalls/update/{id}',[RollcallsController::class,'update'])->where("id","[0-9]+")->name('rollcalls.update');
 Route::post('rollcalls/dormitory', [RollcallsController::class,'dormitory'])->name('rollcalls.dormitory');
 Route::get('rollcalls/{bedcode}/upload', [RollcallsController::class, 'upload'])->where("bedcode","[0-9]+")->name(('rollcalls.upload'));
 Route::post('rollcalls/capture', [RollcallsController::class, 'storeimage'])->name('rollcalls.capture');

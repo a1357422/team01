@@ -53,13 +53,17 @@ class Late extends Model
         $query->join('sbrecords','lates.sbid','=','sbrecords.id')
         ->select('sbrecords.id','lates.sbid','lates.start','lates.end')
         ->where("lates.start","<=","$date")
-        ->where("lates.end",">=","$date")
+        ->where("lates.end",">","$date")
         ->orderBy('lates.sbid','asc');
     }
 
     public function scopeFindLateSbid($query,$sbid)
     {
-        $query->select('lates.sbid','lates.floorhead_check','lates.chief_check','lates.housemaster_check','lates.admin_check')->where('lates.sbid','=',"$sbid");
+        $date = Carbon::now()->toDateString();
+        $query->select('lates.sbid','lates.floorhead_check','lates.chief_check','lates.housemaster_check','lates.admin_check')
+        ->where("lates.start","<=","$date")
+        ->where("lates.end",">","$date")
+        ->where('lates.sbid','=',"$sbid");
     }
 
     public function sbrecord(){

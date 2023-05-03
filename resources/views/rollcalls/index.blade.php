@@ -35,43 +35,66 @@
         </div>
         <!-- 秀出所有rollcall名單中未到的人 -->
         @if($textbox == True && $display==3) 
-            <div> 
-            {{$date}}外宿名單： {{count($leaves)}}外<br/>
+        <div class="table-responsive">
+            <table class="table">
+                <tr class='column_center'>
+                    <th>{{$date}}外宿名單： {{count($leaves)}}外</th>
+                </tr>
                 @foreach($leaves as $leave)
-                    {!! nl2br($leave->sbrecord->bed->bedcode."   ".$leave->sbrecord->student->name."\n") !!}
+                <tr class='column_center'>
+                    <td>{!! nl2br($leave->sbrecord->bed->bedcode."   ".$leave->sbrecord->student->name."\n") !!}</td>
+                </tr>
                 @endforeach
-            </div>
-            <div> 
-            {{$date}}晚歸名單：{{count($lates)}}晚歸<br/>
+                <tr class='column_center'>
+                    <th>{{$date}}晚歸名單：{{count($lates)}}晚歸</th>
+                </tr>
                 @foreach($lates as $late)
-                    {!! nl2br($late->sbrecord->bed->bedcode."   ".$late->sbrecord->student->name."\n") !!}
+                <tr class='column_center'>
+                    <td>{!! nl2br($late->sbrecord->bed->bedcode."   ".$late->sbrecord->student->name."\n") !!}</td>
+                </tr>
                 @endforeach
-            </div>
-            <div> 
-            {{$date}}未到名單：<br/>
+                </tr>
+                <tr class='column_center'>
+                    <th>{{$date}}未到名單：</th>
+                </tr>
                 @foreach($rollcalls as $rollcall)
-                    {!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}
+                <tr class='column_center'>
+                    <td>{!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}</td>
+                </tr>
                 @endforeach
-            </div>
+                </tr>
+            </table>
         @elseif($textbox == True && $display==4)
-            <div> 
-                {{$date}}外宿名單：{{count($leaves)}}外<br/>
+        <div class="table-responsive">
+            <table class="table">
+                <tr class='column_center'>
+                    <th>{{$date}}外宿名單：{{count($leaves)}}外</th>
+                </tr>
                 @foreach($leaves as $leave)
-                    {!! nl2br($leave->sbrecord->bed->bedcode."   ".$leave->sbrecord->student->name."\n") !!}
+                <tr class='column_center'>
+                    <td>{!! nl2br($leave->sbrecord->bed->bedcode."   ".$leave->sbrecord->student->name."\n") !!}</td>
+                </tr>
                 @endforeach
-            </div>
-            <div> 
-            {{$date}}晚歸名單：{{count($lates)}}晚歸<br/>
+                </tr>
+                <tr class='column_center'>
+                    <th>{{$date}}晚歸名單：{{count($lates)}}晚歸</th>
+                </tr>
                 @foreach($lates as $late)
-                    {!! nl2br($late->sbrecord->bed->bedcode."   ".$late->sbrecord->student->name."\n") !!}
+                <tr class='column_center'>
+                    <td>{!! nl2br($late->sbrecord->bed->bedcode."   ".$late->sbrecord->student->name."\n") !!}</td>
+                </tr>
                 @endforeach
-            </div>
-            <div> 
-            {{$date}}未到名單：<br/>
+                </tr>
+                <tr class='column_center'>
+                    <th>{{$date}}未到名單：</th>
+                </tr>
                 @foreach($rollcalls as $rollcall)
-                    {!! nl2br($rollcall->bedcode."   ".$rollcall->name."\n") !!}
+                <tr class='column_center'>
+                    <td>{!! nl2br($rollcall->bedcode."   ".$rollcall->name."\n") !!}</td>
+                </tr>
                 @endforeach
-            </div>
+                </tr>
+            </table>
         @else
             </div>
             <div class="table-responsive">
@@ -116,7 +139,11 @@
                             <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
                             @endif
                             <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
-                            <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id]) }}">修改資料</a></font></td>
+                            @if ($rollcall->presence == "V")
+                                <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}">未到</a></font></td>
+                            @else
+                                <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>1]) }}">補點</a></font></td>
+                            @endif
                             <td>
                                 <form action="{{ url('/rollcalls/delete', ['id' => $rollcall->id]) }}" method="post">
                                     <input class="btn btn-default" type="submit" value="刪除" />
@@ -154,7 +181,11 @@
                                 <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
                                 @endif
                                 <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
-                                <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id]) }}">修改資料</a></font></td>
+                                @if ($rollcall->presence == "V")
+                                    <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}">未到</a></font></td>
+                                @else
+                                    <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>1]) }}">補點</a></font></td>
+                                @endif
                                 <td>
                                     <form action="{{ url('/rollcalls/delete', ['id' => $rollcall->id]) }}" method="post">
                                         <input class="btn btn-default" type="submit" value="刪除" />

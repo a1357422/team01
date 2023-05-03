@@ -22,7 +22,7 @@ class RollcallsController extends Controller
 {
     //
     public function index(){
-        $rollcalls = Rollcall::Where('date',date("Y-m-d"))->orderBy('id','ASC')->paginate(10);
+        $rollcalls = Rollcall::Where('date',date("Y-m-d"))->orderBy('id','ASC')->get();
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
         foreach ($dormitories as $dormitory)
@@ -36,8 +36,7 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
-
-        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1,'textbox'=>False]);
+        return view("rollcalls.index",['display'=>1,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>False]);
     }
 
     public function history(){
@@ -58,12 +57,20 @@ class RollcallsController extends Controller
         return view("rollcalls.index",['display'=>5,"rollcalls"=>$rollcalls,'dormitories'=>$tags,"showPagination"=>True,'select'=>1,'textbox'=>False,'date'=>date("Y-m-d")]);
     }
 
-    public function presence()
+    public function presence($rollcaller = null)
     {
+        if($rollcaller != null){
+            $rollcalls = Rollcall::Presence()->where('rollcaller',$rollcaller)->get();
+            $dormitories = Bed::allDormitories()->get();
+            $leaves = Rollcall::where('rollcaller',$rollcaller)->where('leave',1)->get();
+            $lates = Rollcall::where('rollcaller',$rollcaller)->where('late',1)->get();
+        }
+        else{
         $rollcalls = Rollcall::Presence()->get();
         $dormitories = Bed::allDormitories()->get();
         $leaves = Rollcall::Leave()->get();
         $lates = Rollcall::Late()->get();
+        }
         $tags = [];
 
         foreach ($dormitories as $dormitory)
@@ -169,8 +176,8 @@ class RollcallsController extends Controller
                 $roomnumbers = array_unique($roomnumbers);
             }
         }
-        $leaves = Rollcall::Leave()->get();
-        $lates = Rollcall::Late()->get();
+        $leaves = Rollcall::Leave($request->input('dormitory'))->get();
+        $lates = Rollcall::Late($request->input('dormitory'))->get();
         if(@$_POST[ '新增表單查詢' ] == '新增表單查詢')
             return view("rollcalls.create",['display'=>2,'sbrecords'=>$sbrecords,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>True,"date"=>$date,"select"=>$request->input('dormitory'),'selectfloor'=>$request->input('floor'),"MonthDay"=>date("md"),'roomnumbers'=>$roomnumbers,"photos"=>$photos]);
         else if (@$_POST[ '表單查詢' ] == '表單查詢')
@@ -577,29 +584,29 @@ class RollcallsController extends Controller
                 }
             }
         }
-        $rollcalls = Rollcall::get();
-        $photos = Photo::get();
-        for($i=1;$i<=count($rollcalls);$i++){
-            foreach ($photos as $photo){
-                if($rollcalls[$i-1]->sbid==$photo->sbid && $photo->date == date("Y-m-d")){
-                    $sbrecord = Sbrecord::findOrFail($rollcalls[$i-1]->sbid);
-                    $student = Student::findOrFail($sbrecord->sid);
-                    if ($photo->webcam_file_path != "")
-                        $imagepath = $photo->webcam_file_path." ". $student->profile_file_path;
-                    elseif($photo->upload_file_path != "")
-                        $imagepath = $photo->upload_file_path." ". $student->profile_file_path;
-                    else
-                        break;
-                    $result = exec("python 照片辨識.py 2>error.txt $imagepath");
-                    if($result == "success")
-                        $rollcalls[$i-1]->identify = 1;
-                    else
-                        $rollcalls[$i-1]->identify = 0;
-                    $rollcalls[$i-1]->save();
-                }
-            }
-        }
-        return redirect("rollcalls");
+        // $rollcalls = Rollcall::get();
+        // $photos = Photo::get();
+        // for($i=1;$i<=count($rollcalls);$i++){
+        //     foreach ($photos as $photo){
+        //         if($rollcalls[$i-1]->sbid==$photo->sbid && $photo->date == date("Y-m-d")){
+        //             $sbrecord = Sbrecord::findOrFail($rollcalls[$i-1]->sbid);
+        //             $student = Student::findOrFail($sbrecord->sid);
+        //             if ($photo->webcam_file_path != "")
+        //                 $imagepath = $photo->webcam_file_path." ". $student->profile_file_path;
+        //             elseif($photo->upload_file_path != "")
+        //                 $imagepath = $photo->upload_file_path." ". $student->profile_file_path;
+        //             else
+        //                 break;
+        //             $result = exec("python 照片辨識.py 2>error.txt $imagepath");
+        //             if($result == "success")
+        //                 $rollcalls[$i-1]->identify = 1;
+        //             else
+        //                 $rollcalls[$i-1]->identify = 0;
+        //             $rollcalls[$i-1]->save();
+        //         }
+        //     }
+        // }
+        return redirect("rollcalls/presence/".Auth::user()->name);
     }
 
     public function storeimage(Request $request)
@@ -658,23 +665,22 @@ class RollcallsController extends Controller
         return redirect("rollcalls/create");
     }
 
-    public function edit($id){
+    public function edit($id,$presence){
         $rollcall = Rollcall::findOrFail($id);
-        $sbrecords = Sbrecord::orderBy('sbrecords.id', 'asc')->pluck('sbrecords.id', 'sbrecords.id');  
-        $selectDate = $rollcall->date;
-        $selectPresence = $rollcall->presence;
-        return view('rollcalls.edit',['display'=>3,'rollcall'=>$rollcall,'sbrecords'=>$sbrecords,'selectDate'=>$selectDate,'selectPresence'=>$selectPresence,"MonthDay"=>date("md")]);
-    }
-    public function update($id,CreateRollcallRequest $request){
-        $rollcall = Rollcall::findOrFail($id);
-        if($request->input('presence') != null){
-            $rollcall->presence = 1;
-        }
-        else{
-            $rollcall->presence = 0;
-        }
-        $rollcall->rollcaller = Auth::user()->name;
+        $rollcall->presence = $presence;
         $rollcall->save();
         return redirect('rollcalls');
     }
+    // public function update($id,CreateRollcallRequest $request){
+    //     $rollcall = Rollcall::findOrFail($id);
+    //     if($request->input('presence') != null){
+    //         $rollcall->presence = 1;
+    //     }
+    //     else{
+    //         $rollcall->presence = 0;
+    //     }
+    //     $rollcall->rollcaller = Auth::user()->name;
+    //     $rollcall->save();
+    //     return redirect('rollcalls');
+    // }
 }
