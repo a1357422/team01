@@ -60,16 +60,16 @@ class RollcallsController extends Controller
     public function presence($rollcaller = null)
     {
         if($rollcaller != null){
-            $rollcalls = Rollcall::Presence()->where('rollcaller',$rollcaller)->get();
+            $rollcalls = Rollcall::Presence()->where('rollcaller',$rollcaller)->where('date',date("Y-m-d"))->get();
             $dormitories = Bed::allDormitories()->get();
             $leaves = Rollcall::where('rollcaller',$rollcaller)->where('leave',1)->get();
             $lates = Rollcall::where('rollcaller',$rollcaller)->where('late',1)->get();
         }
         else{
-        $rollcalls = Rollcall::Presence()->get();
+        $rollcalls = Rollcall::Presence()->where('date',date("Y-m-d"))->get();
         $dormitories = Bed::allDormitories()->get();
-        $leaves = Rollcall::Leave()->get();
-        $lates = Rollcall::Late()->get();
+        $leaves = Rollcall::Leave()->where('date',date("Y-m-d"))->get();
+        $lates = Rollcall::Late()->where('date',date("Y-m-d"))->get();
         }
         $tags = [];
 
