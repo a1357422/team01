@@ -31,7 +31,18 @@ class Student extends Model
 
     public function scopeClass($query, $class_prefix)
     {
-        $query->where('class', 'like', "$class_prefix%");
+        if($class_prefix == "電")
+            $query->where('class', 'like', "%$class_prefix%")->where('class','not like',"%電子%");
+        else if($class_prefix == "機")
+            $query->where('class', 'like', "%$class_prefix%")->where('class','not like',"%電機%");
+        else if($class_prefix == "管")
+            $query->where('class', 'like', "%$class_prefix%")->where('class','not like',"%資管%")->where('class','not like',"%企管%");
+        else if($class_prefix == "網")
+            $query->where('class', 'like', "%$class_prefix%")->where('class','not like',"%專班%");
+        else if($class_prefix == "新南向")
+            $query->where('class', 'like', "%$class_prefix%")->orWhere('class','=',"1+4");
+        else
+            $query->where('class', 'like', "%$class_prefix%");
     }
 
     public function sbrecords(){
