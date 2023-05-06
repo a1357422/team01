@@ -60,6 +60,11 @@
                 @foreach($identifies as $identify)
                 <tr class='column_center'>
                     <td>{!! nl2br($identify->sbrecord->bed->bedcode."   ".$identify->sbrecord->student->name."\n") !!}
+                    @if ($identify->presence == 1)
+                        <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">未到</a></font>
+                    @else
+                        <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">補點</a></font>
+                    @endif
                     @foreach($photos as $photo)
                         @if($identify->sbid == $photo->sbid)
                             @if(file_exists(public_path($photo->upload_file_path)))

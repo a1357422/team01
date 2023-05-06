@@ -673,9 +673,21 @@ class RollcallsController extends Controller
 
     public function edit($id,$presence){
         $rollcall = Rollcall::findOrFail($id);
-        $rollcall->presence = $presence;
-        $rollcall->save();
-        return redirect('rollcalls');
+        if($presence == '9' && Sbrecord::User(Auth::user()->name)->first() != null){
+            $rollcall->presence = !$rollcall->presence;
+            $rollcall->save();
+            return redirect('rollcalls/presence/'.Auth::user()->name);
+        }
+        else if($presence == '9' && Sbrecord::User(Auth::user()->name)->first() == null){
+            $rollcall->presence = !$rollcall->presence;
+            $rollcall->save();
+            return redirect('rollcalls/presence');
+        }
+        else{
+            $rollcall->presence = $presence;
+            $rollcall->save();
+            return redirect('rollcalls');
+        }
     }
     // public function update($id,CreateRollcallRequest $request){
     //     $rollcall = Rollcall::findOrFail($id);
