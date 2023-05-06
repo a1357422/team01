@@ -64,7 +64,7 @@ class RollcallsController extends Controller
             $dormitories = Bed::allDormitories()->get();
             $leaves = Rollcall::where('rollcaller',$rollcaller)->where('leave',1)->where('date',date("Y-m-d"))->get();
             $lates = Rollcall::where('rollcaller',$rollcaller)->where('late',1)->where('date',date("Y-m-d"))->get();
-            $identifies = Rollcall::where('rollcaller',$rollcaller)->where('identify',1)->where('date',date("Y-m-d"))->get();
+            $identifies = Rollcall::where('rollcaller',$rollcaller)->where('identify','!=',null)->where('date',date("Y-m-d"))->get();
             $photos = Photo::get();
             $profile_paths = Student::get();
         }
@@ -676,18 +676,16 @@ class RollcallsController extends Controller
         if($presence == '9' && Sbrecord::User(Auth::user()->name)->first() != null){
             $rollcall->presence = !$rollcall->presence;
             $rollcall->save();
-            return redirect('rollcalls/presence/'.Auth::user()->name);
         }
         else if($presence == '9' && Sbrecord::User(Auth::user()->name)->first() == null){
             $rollcall->presence = !$rollcall->presence;
             $rollcall->save();
-            return redirect('rollcalls/presence');
         }
         else{
             $rollcall->presence = $presence;
             $rollcall->save();
-            return redirect('rollcalls');
         }
+        return redirect()->action('App\Http\Controllers\RollcallsController@presence',['rollcaller'=>Auth::user()->name]);
     }
     // public function update($id,CreateRollcallRequest $request){
     //     $rollcall = Rollcall::findOrFail($id);

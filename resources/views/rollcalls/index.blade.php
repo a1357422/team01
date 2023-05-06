@@ -94,7 +94,12 @@
                 </tr>
                 @foreach($rollcalls as $rollcall)
                 <tr class='column_center'>
-                    <td>{!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}</td>
+                    @if ($rollcall->presence == 1)
+                        <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>9]) }}">未到</a></font>
+                    @else
+                        <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>9]) }}">補點</a></font>
+                    @endif
+                    {!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}</td>
                 </tr>
                 @endforeach
                 </tr>
