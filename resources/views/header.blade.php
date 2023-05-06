@@ -1,47 +1,100 @@
-<div class="head">
-@canany(['chief','floorhead']) <!--總樓長、樓長-->
-            <ui class="dashboard">
-                <li><a href = "/sbrecords">學生床位系統</a></li>
-                <li><a href = "/rollcalls">點名系統</a></li>
-                <li><a href = "/lates">晚歸系統</a></li>
-                <li><a href = "/leaves">外宿系統</a></li>
-                <li><a href = "/users/{{Auth::user()->id}}/change_pw">修改密碼</a></li>
-            </ui>
-        @endcanany
-        @can('superadmin') <!--系統後台管理員-->
-            <ui class="dashboard">
-                <li><a href = "/users">後臺管理系統</a></li>
-                <li><a href = "/students">學生系統</a></li>
-                <li><a href = "/beds">床位系統</a></li>
-                <li><a href = "/dormitories">宿舍系統</a></li>
-                <li><a href = "/sbrecords">學生床位系統</a></li>
-                <li><a href = "/rollcalls">點名系統</a></li>
-                <li><a href = "/lates">晚歸系統</a></li>
-                <li><a href = "/leaves">外宿系統</a></li>
-                <li><a href = "/users/{{Auth::user()->id}}/change_pw">修改密碼</a></li>
-            </ui>
-        @elsecan('admin') <!--宿舍行政-->
-            <ui class="dashboard">
-                <li><a href = "/students">學生系統</a></li>
-                <li><a href = "/beds">床位系統</a></li>
-                <li><a href = "/dormitories">宿舍系統</a></li>
-                <li><a href = "/sbrecords">學生床位系統</a></li>
-                <li><a href = "/lates">晚歸系統</a></li>
-                <li><a href = "/leaves">外宿系統</a></li>
-                <li><a href = "/users/{{Auth::user()->id}}/change_pw">修改密碼</a></li>
-            </ui>
-        @elsecan('housemaster') <!--宿舍輔導員-->
-            <ui class="dashboard">
-                <li><a href = "/sbrecords">學生床位系統</a></li>
-                <li><a href = "/lates">晚歸系統</a></li>
-                <li><a href = "/leaves">外宿系統</a></li>
-                <li><a href = "/users/{{Auth::user()->id}}/change_pw">修改密碼</a></li>
-            </ui>
-        @elsecan('user') <!--住宿生-->
-            <ui class="dashboard">
-                <li><a href = "/lates">晚歸系統</a></li>
-                <li><a href = "/leaves">外宿系統</a></li>
-                <li><a href = "/users/{{Auth::user()->id}}/change_pw">修改密碼</a></li>
-            </ui>
-        @endcan
+<nav class="navbar navbar-expand-lg navbar-light bg-light dashboard">
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      @canany(['chief','floorhead'])
+      <li class="nav-item">
+        <a class="nav-link" href="/sbrecords">學生床位系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/rollcalls">點名系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/lates">晚歸系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/leaves">外宿系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users/{{Auth::user()->id}}/change_pw">修改密碼</a>
+      </li>
+      @endcanany
+      @can('superadmin')
+      <li class="nav-item">
+        <a class="nav-link" href="/users">後臺管理系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/students">學生系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/beds">床位系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/dormitories">宿舍系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/sbrecords">學生床位系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/rollcalls">點名系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/lates">晚歸系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/leaves">外宿系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users/{{Auth::user()->id}}/change_pw">修改密碼</a>
+      </li>
+      @elsecan('admin')
+      <li class="nav-item">
+        <a class="nav-link" href="/students">學生系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/beds">床位系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/dormitories">宿舍系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/sbrecords">學生床位系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/lates">晚歸系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/leaves">外宿系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users/{{Auth::user()->id}}/change_pw">修改密碼</a>
+      </li>
+      @elsecan('housemaster')
+      <li class="nav-item">
+        <a class="nav-link" href="/sbrecords">學生床位系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/lates">晚歸系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/leaves">外宿系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users/{{Auth::user()->id}}/change_pw">修改密碼</a>
+      </li>
+      @elsecan('user') <!--住宿生-->
+      <li class="nav-item">
+      <li class="nav-item">
+        <a class="nav-link" href="/lates">晚歸系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/leaves">外宿系統</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users/{{Auth::user()->id}}/change_pw">修改密碼</a>
+      </li>
+      @endcan
 </div>

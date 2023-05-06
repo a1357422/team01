@@ -59,47 +59,43 @@
             margin: 1.5em 5em;
         }
 
-        .maintitle {
-            position: relative;
-        }
+        .navbar {
+  border-radius: 20px 20px 20px 20px;
+  
+}
 
-        .dashboard {
+        /*.dashboard {
             list-style-type: none;
             margin: 0;
             margin-bottom: 0;
             padding: 0;
             overflow: hidden;
+
             background-color: #333;
-            position: fixed;
-            bottom: 0;
-            /* 將 top 改為 bottom */
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            z-index: 9999;
+            width: 150%
+                
+
+
+
+
+
         }
 
         .dashboard li {
-            display: inline-block;
-            margin-right: 20px;
+            margin-right: 10px;
         }
 
-        .dashboard li:last-child {
-            margin-right: 0;
-        }
 
         .dashboard li a {
-            display: block;
-            color: white;
-            text-align: center;
-            padding: 14px 16px;
             text-decoration: none;
         }
 
         .dashboard li a:hover {
             background-color: #111;
-        }
+        }*/
+
+
+
 
         .mt-8 {
             margin: 1em 3%;
