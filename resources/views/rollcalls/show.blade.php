@@ -36,10 +36,12 @@
                         @endif
                     @endif
                 @endforeach
-                @if(file_exists(public_path($profile_path)))
-                    <td><img src= "{{ asset($profile_path) }}"width="500" height="500"alt=""/></td>
-                @else
-                    <td/>
+                @if($profile_path != NULL)
+                    @if(file_exists(public_path($profile_path)))
+                        <td><img src= "{{ asset($profile_path) }}"width="500" height="500"alt=""/></td>
+                    @else
+                        <td/>
+                    @endif
                 @endif
         @else <!--若沒登入或是非系統後台管理者將導回主頁-->
                 @php

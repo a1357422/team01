@@ -5,7 +5,7 @@ import sys
 
 def cv_imread(file_path):
     cv_img = cv2.imdecode(np.fromfile(file_path,dtype=np.uint8),-1)
-    cv_img = cv2.cvtColor(cv_img, cv2.COLOR_RGB2BGR)
+    cv_img = cv2.cvtColor(cv_img, cv2.COLOR_BGR2RGB)
     return cv_img
 
 
@@ -13,6 +13,7 @@ def cv_imread(file_path):
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks_GTX.dat")
 facerec = dlib.face_recognition_model_v1("dlib_face_recognition_resnet_model_v1.dat")
+# facerec = dlib.cnn_face_detection_model_v1("mmod_human_face_detector.dat") #python 3.10 與 dlib 有衝突問題
 
 # 讀取兩張圖片
 img1 = cv_imread(sys.argv[1])
@@ -35,7 +36,7 @@ for face in faces2:
 # 比較相似度
 for feature in features1:
     distance = np.linalg.norm(feature - features2)
-    if distance < 0.5:
+    if distance < 0.4:
         print('success')
     else:
         print('not same')

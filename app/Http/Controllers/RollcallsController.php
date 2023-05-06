@@ -62,14 +62,20 @@ class RollcallsController extends Controller
         if($rollcaller != null){
             $rollcalls = Rollcall::Presence()->where('rollcaller',$rollcaller)->where('date',date("Y-m-d"))->get();
             $dormitories = Bed::allDormitories()->get();
-            $leaves = Rollcall::where('rollcaller',$rollcaller)->where('leave',1)->get();
-            $lates = Rollcall::where('rollcaller',$rollcaller)->where('late',1)->get();
+            $leaves = Rollcall::where('rollcaller',$rollcaller)->where('leave',1)->where('date',date("Y-m-d"))->get();
+            $lates = Rollcall::where('rollcaller',$rollcaller)->where('late',1)->where('date',date("Y-m-d"))->get();
+            $identifies = Rollcall::where('rollcaller',$rollcaller)->where('identify',1)->where('date',date("Y-m-d"))->get();
+            $photos = Photo::get();
+            $profile_paths = Student::get();
         }
         else{
         $rollcalls = Rollcall::Presence()->where('date',date("Y-m-d"))->get();
         $dormitories = Bed::allDormitories()->get();
         $leaves = Rollcall::Leave()->where('date',date("Y-m-d"))->get();
         $lates = Rollcall::Late()->where('date',date("Y-m-d"))->get();
+        $identifies = Rollcall::Identify()->where('date',date("Y-m-d"))->get();
+        $photos = Photo::get();
+        $profile_paths = Student::get();
         }
         $tags = [];
 
@@ -84,7 +90,7 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
-        return view("rollcalls.index",['display'=>3,"rollcalls"=>$rollcalls,'leaves'=>$leaves,'lates'=>$lates,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>True,'date'=>date('m/d')]);
+        return view("rollcalls.index",['display'=>3,"rollcalls"=>$rollcalls,"profile_paths"=>$profile_paths,"photos"=>$photos,'leaves'=>$leaves,'lates'=>$lates,'identifies'=>$identifies,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>True,'date'=>date('m/d')]);
     }
 
 
@@ -95,7 +101,7 @@ class RollcallsController extends Controller
     }
     public function show($id){
         $rollcall = Rollcall::findOrFail($id);
-        $photo = Photo::Where('sbid',$rollcall->sbid)->first();
+        $photo = Photo::Where('sbid',$rollcall->sbid)->Where('date',date('Y-m-d'))->first();
         $sbrecord = Sbrecord::findOrFail($rollcall->sbid);
         $student = Student::findOrFail($sbrecord->sid);
         if($photo != null){
@@ -289,7 +295,7 @@ class RollcallsController extends Controller
             if($roomphotos != null){
                 for($j=1;$j<=count($request->input("roomcodes"));$j++){
                     if(in_array($j-1,array_keys($roomphotos))){
-                        $sbrecords = Sbrecord::RoomCode($request->input("roomcodes")[$j-1])->get();
+                        $sbrecords = Sbrecord::RoomCode(null,$request->input("roomcodes")[$j-1])->get();
                         $destinationPath = 'storage/uploads/'.date("md")."/".$request->input("roomcodes")[$j-1];
                         $roomphotos[$j-1]->move($destinationPath,$request->input("roomcodes")[$j-1].".".$roomphotos[$j-1]->getClientOriginalExtension());
                         foreach($sbrecords as $sbrecord){
