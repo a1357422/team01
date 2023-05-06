@@ -25,7 +25,7 @@
                 @foreach($sbrecords as $sbrecord)
                     {!! Form::hidden('sbids[]', $sbrecord->id) !!}
                     {!! Form::hidden('names[]', $sbrecord->student->name) !!}
-                    {!! Form::hidden('bedcodes[]', $sbrecord->bed->bedcode) !!}
+                    {!! Form::hidden('bedcodes[]', $sbrecord->bedcode) !!}
                 @endforeach
             </div>
             <div class="col-md-6">

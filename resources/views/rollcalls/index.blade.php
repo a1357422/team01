@@ -55,7 +55,7 @@
                 @endforeach
                 </tr>
                 <tr class='column_center'>
-                    <th>{{$date}}未到名單：</th>
+                    <th>{{$date}}未到名單：{{count($rollcalls)}}人</th>
                 </tr>
                 @foreach($rollcalls as $rollcall)
                 <tr class='column_center'>
@@ -86,7 +86,7 @@
                 @endforeach
                 </tr>
                 <tr class='column_center'>
-                    <th>{{$date}}未到名單：</th>
+                    <th>{{$date}}未到名單：{{count($rollcalls)}}人</th>
                 </tr>
                 @foreach($rollcalls as $rollcall)
                 <tr class='column_center'>
@@ -135,11 +135,11 @@
                             @else 
                             <td align="center" valign="center"><font color=red>{{ $rollcall->late = "X" }} </font></td>
                             @endif
-                            <!-- @if ($rollcall->identify === 1)
+                            @if ($rollcall->identify === 1)
                             <td align="center" valign="center"><font color=green>{{ $rollcall->identify = "V" }}</font></td>
                             @else 
                             <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
-                            @endif -->
+                            @endif
                             <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
                             @if ($rollcall->presence == "V")
                                 <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}">未到</a></font></td>
@@ -178,11 +178,11 @@
                                 @else 
                                 <td align="center" valign="center"><font color=red>{{ $rollcall->late = "X" }} </font></td>
                                 @endif
-                                <!-- @if ($rollcall->identify === 1)
+                                @if ($rollcall->identify === 1)
                                 <td align="center" valign="center"><font color=green>{{ $rollcall->identify = "V" }}</font></td>
                                 @else 
                                 <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
-                                @endif -->
+                                @endif
                                 <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
                                 @if ($rollcall->presence == "V")
                                     <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}">未到</a></font></td>

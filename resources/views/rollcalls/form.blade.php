@@ -7,9 +7,9 @@
             <th>學生床位</th>
             <th>學生姓名</th>
             <th>{!! Form::label('presence','在場與否')!!}</th>
-            <!-- <th>上傳照片</th>
+            <th>上傳照片</th>
             <th>拍攝照片</th>
-            <th></th> -->
+            <th></th>
         </tr>
         @if($sbrecordcount>0)
             @foreach($roomcodes as $roomcode)
@@ -18,9 +18,9 @@
                 <th><h5>房間編號: {{ $roomcode }}<h5></th>
                 <th></th>
                 <th></th>
-                <!-- <td>{{ Form::file('roomimage[]') }}</td> -->
+                <td>{{ Form::file('roomimage[]') }}</td>
                 {!! Form::hidden('roomcodes[]', $roomcode) !!}
-                <!-- <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td> -->
+                <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td>
                 @foreach($roomnumbers as $roomnumber)
                     @foreach($photos as $photo)
                         @if($roomnumber == $roomcode)
@@ -74,9 +74,9 @@
             <th>學生床位</th>
             <th>學生姓名</th>
             <th>{!! Form::label('presence','在場與否')!!}</th>
-            <!-- <th>上傳照片</th>
+            <th>上傳照片</th>
             <th>拍攝照片</th>
-            <th></th> -->
+            <th></th>
         </tr>
             @if($sbrecordcount>0)
                 @foreach($roomcodes as $roomcode)
@@ -85,9 +85,9 @@
                     <th><h5>房間編號: {{ $roomcode }}<h5></th>
                     <th></th>
                     <th></th>
-                    <!-- <td>{{ Form::file('roomimage[]') }}</td> -->
+                    <td>{{ Form::file('roomimage[]') }}</td>
                     {!! Form::hidden('roomcodes[]', $roomcode) !!}
-                    <!-- <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td> -->
+                    <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td>
                     @foreach($roomnumbers as $roomnumber)
                         @foreach($photos as $photo)
                             @if($roomnumber == $roomcode)

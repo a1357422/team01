@@ -90,7 +90,7 @@ class RollcallsController extends Controller
 
     public function upload($bedcode)
     {
-        $sbrecords=Sbrecord::RoomCode($bedcode)->get();
+        $sbrecords=Sbrecord::RoomCode(null,$bedcode)->get();
         return view('rollcalls.upload',["sbrecords"=>$sbrecords]);
     }
     public function show($id){
@@ -584,28 +584,28 @@ class RollcallsController extends Controller
                 }
             }
         }
-        // $rollcalls = Rollcall::get();
-        // $photos = Photo::get();
-        // for($i=1;$i<=count($rollcalls);$i++){
-        //     foreach ($photos as $photo){
-        //         if($rollcalls[$i-1]->sbid==$photo->sbid && $photo->date == date("Y-m-d")){
-        //             $sbrecord = Sbrecord::findOrFail($rollcalls[$i-1]->sbid);
-        //             $student = Student::findOrFail($sbrecord->sid);
-        //             if ($photo->webcam_file_path != "")
-        //                 $imagepath = $photo->webcam_file_path." ". $student->profile_file_path;
-        //             elseif($photo->upload_file_path != "")
-        //                 $imagepath = $photo->upload_file_path." ". $student->profile_file_path;
-        //             else
-        //                 break;
-        //             $result = exec("python 照片辨識.py 2>error.txt $imagepath");
-        //             if($result == "success")
-        //                 $rollcalls[$i-1]->identify = 1;
-        //             else
-        //                 $rollcalls[$i-1]->identify = 0;
-        //             $rollcalls[$i-1]->save();
-        //         }
-        //     }
-        // }
+        $rollcalls = Rollcall::get();
+        $photos = Photo::get();
+        for($i=1;$i<=count($rollcalls);$i++){
+            foreach ($photos as $photo){
+                if($rollcalls[$i-1]->sbid==$photo->sbid && $photo->date == date("Y-m-d")){
+                    $sbrecord = Sbrecord::findOrFail($rollcalls[$i-1]->sbid);
+                    $student = Student::findOrFail($sbrecord->sid);
+                    if ($photo->webcam_file_path != "")
+                        $imagepath = $photo->webcam_file_path." ". $student->profile_file_path;
+                    elseif($photo->upload_file_path != "")
+                        $imagepath = $photo->upload_file_path." ". $student->profile_file_path;
+                    else
+                        break;
+                    $result = exec("python 照片辨識.py 2>error.txt $imagepath");
+                    if($result == "success")
+                        $rollcalls[$i-1]->identify = 1;
+                    else
+                        $rollcalls[$i-1]->identify = 0;
+                    $rollcalls[$i-1]->save();
+                }
+            }
+        }
         return redirect("rollcalls/presence/".Auth::user()->name);
     }
 
