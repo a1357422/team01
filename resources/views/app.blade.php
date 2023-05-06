@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,71 +20,131 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            margin: 0;
-            padding: 0;
-            list-style: none;
+        .image-link {
+            display: flex;
+            justify-content: center;
+
+            margin-top: 1em;
         }
-        .maintitle{
+
+        .image-link img {
+            margin: 1em;
+            width: 25%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+
+            background-color: #bdbbbb;
+            /*背景顏色*/
+            font-family: "標楷體", sans-serif;
+            margin: 0 auto;
+            padding: 0;
+            max-width: 1200px;
+            list-style: none;
+            font-size: 18px;
+
+        }
+
+        .maintitle {
             margin: 1em 5em;
             display: flex;
             justify-content: center;
         }
-        .maincontent{
+
+        .maincontent {
             margin: 1.5em 5em;
         }
+
+        .maintitle {
+            position: relative;
+        }
+
         .dashboard {
+            list-style-type: none;
+            margin: 0;
+            margin-bottom: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+            position: fixed;
+            bottom: 0;
+            /* 將 top 改為 bottom */
+            left: 0;
+            width: 100%;
             display: flex;
             justify-content: center;
-            align-items: center;
-            margin-top: 2%;
-            margin-bottom: 3%;
-            flex-wrap: wrap;
+            z-index: 9999;
         }
-        .dashboard li{
-            margin: 2% 3em;
-            padding: 0px 0px;
+
+        .dashboard li {
+            display: inline-block;
+            margin-right: 20px;
         }
-        .dashboard li a{
-            font-size: 16px;
+
+        .dashboard li:last-child {
+            margin-right: 0;
+        }
+
+        .dashboard li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
             text-decoration: none;
-            background-color: #3C4048;
-            color: #ddd;
-            padding: .5em 1em;
-            border-radius: 10px;  
         }
-        .dashboard li a:hover{
-            color:#000;
-            background-color: #ddd;
-            border: #000 1px solid;
+
+        .dashboard li a:hover {
+            background-color: #111;
         }
-        .mt-8{
+
+        .mt-8 {
             margin: 1em 3%;
             border-radius: 15px;
             border: .5px solid #EAEAEA;
             min-width: 500px;
         }
-        h6{
-        display: flex;
-        justify-content: center;
-        align-items: center;
+
+        h6 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .table{
-            justify-content: left;
+
+
+        .table {
+
+            font-size: 17px;
+
+            color: #333;
         }
-        .maintitle_btn{
+
+        .maintitle_btn {
+            color: red;
             display: flex;
             justify-content: space-between;
             width: 55%;
         }
-        .column_center{
+
+        .column_center {
             text-align: center;
-            overflow-x: auto;
+
         }
+
+        .maintitle h1 {
+            /*龍華宿舍管理系統單獨放大字體*/
+            font-size: 3em;
+            color: #FFFFFF;
+            /* 將字體顏色設為白色 */
+        }
+
         .table-responsive {
             overflow-x: auto;
         }
+
         @media (max-width: 767.98px) {
             .table-responsive {
                 width: 100%;
@@ -93,50 +154,62 @@
                 border-radius: .25rem;
                 box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
             }
-            .table-responsive > .table {
+
+            .table-responsive>.table {
                 margin-bottom: 0;
             }
-            .table-responsive > .table > thead > tr,
-            .table-responsive > .table > tbody > tr,
-            .table-responsive > .table > tfoot > tr {
+
+            .table-responsive>.table>thead>tr,
+            .table-responsive>.table>tbody>tr,
+            .table-responsive>.table>tfoot>tr {
                 display: block;
             }
-            .table-responsive > .table > tbody {
+
+            .table-responsive>.table>tbody {
                 overflow-x: auto;
                 white-space: nowrap;
             }
-            .table-responsive > .table > tbody > tr {
+
+            .table-responsive>.table>tbody>tr {
                 border-bottom: 1px solid #dee2e6;
             }
-            .table-responsive > .table > tbody > tr > td,
-            .table-responsive > .table > tbody > tr > th {
+
+            .table-responsive>.table>tbody>tr>td,
+            .table-responsive>.table>tbody>tr>th {
                 display: inline-block;
                 width: auto !important;
                 max-width: none !important;
             }
-            .table-responsive > .table > thead > tr > th {
+
+            .table-responsive>.table>thead>tr>th {
                 width: auto !important;
                 max-width: none !important;
             }
-            .table-responsive > .table-bordered {
+
+            .table-responsive>.table-bordered {
                 border: 0;
             }
-            .table-responsive > .table-bordered > thead > tr > th:first-child,
-            .table-responsive > .table-bordered > tbody > tr > td:first-child {
+
+            .table-responsive>.table-bordered>thead>tr>th:first-child,
+            .table-responsive>.table-bordered>tbody>tr>td:first-child {
                 border-left: 0;
             }
-            .table-responsive > .table-bordered > thead > tr > th:last-child,
-            .table-responsive > .table-bordered > tbody > tr > td:last-child {
+
+            .table-responsive>.table-bordered>thead>tr>th:last-child,
+            .table-responsive>.table-bordered>tbody>tr>td:last-child {
                 border-right: 0;
             }
-            .table-responsive > .table-bordered > thead > tr:first-child > th,
-            .table-responsive > .table-bordered > tbody > tr:first-child > td {
+
+            .table-responsive>.table-bordered>thead>tr:first-child>th,
+            .table-responsive>.table-bordered>tbody>tr:first-child>td {
                 border-top: 0;
             }
-            .table-responsive > .table-bordered > tbody > tr:last-child > td {
+
+            .table-responsive>.table-bordered>tbody>tr:last-child>td {
                 border-bottom: 0;
             }
         }
+
         @media (max-width: 640px) {
             .pagination {
                 display: flex;
@@ -156,13 +229,16 @@
         }
     </style>
 </head>
+
 <body class="antialiased">
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src={{ URL::asset('https://www.lhu.edu.tw/images/in/LOGO.gif') }} width="60%" height="40%"/> <!-- header img -->
+                    <!-- <img src={{ URL::asset('https://www.lhu.edu.tw/images/in/LOGO.gif') }} width="90%" height="50%" /> header img -->
+                    <img src="{{asset('未命名.png')}}" width="90%" height="50%" /> <!-- header img -->
                 </a>
+                <img src="https://imgcdn.cna.com.tw/www/postwrite/2018/20180910/00240473.201809100752M.jpg" width="50%"><!--右上照片 -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -176,51 +252,56 @@
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         @guest
-                            @if (Route::has('login'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="./">{{ __('登入') }}</a>
-                                </li>
-                            @endif
-                            <!-- @if (Route::has('register'))
+                        @if (Route::has('login'))
+                        <!--<li class="nav-item">
+                            <a class="nav-link" href="./">{{ __('登入00000') }}</a>
+                        </li>-->
+                        @endif
+                        <!-- @if (Route::has('register'))
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('註冊') }}</a>
                                 </li>
                             @endif -->
                         @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }}
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('登出') }}
-                                    </a>
+                                    {{ __('登出') }}
+                                </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
                         @endguest
                     </ul>
                 </div>
             </div>
         </nav>
-        
+
     </div>
-<div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-    <div class="maintitle">
-        <h1>龍華宿舍管理系統</h1>
-    </div>
-    <div class="mt-8 bg-white overflow-hidden shadow sm:rounded-lg">
-        <div class="maincontent">
+    <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+        <div class="maintitle">
+
             @include('header')
-            <h4><u>@yield('dormitorysystem_theme')</u></h4>
-            @yield('dormitorysystem_contents')
         </div>
-    </div class="flooter">
+        <div class="mt-8 bg-white overflow-hidden shadow sm:rounded-lg">
+            <div class="maincontent">
+                <h4><u>@yield('dormitorysystem_theme')</u></h4>
+                @yield('dormitorysystem_contents')
+            </div>
+        </div>
+        <div class="image-link">
+            <img src="https://www.lhu.edu.tw/sch_show/lhu/slides/p_0019.jpg" width="25%" height="25%">
+            <img src="https://www.lhu.edu.tw/school_news/2018/pic/20180910_1_4.jpg" width="25%" height="25%">
+            <img src="https://tse3.mm.bing.net/th?id=OIP.Gncv2DjvyafQExcO3UZ5EAHaFj&pid=Api&P=0" width="25%" height="20%">
+            <img src="https://www.lhu.edu.tw/post/new-std2/pic/live-house/g3-1.JPG" width="26%" height="28%">
+        </div class="flooter">
         <h5>@include('footer')</h5>
     </div>
 </body>

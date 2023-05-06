@@ -41,7 +41,7 @@
             @csrf
             </form>
         </div>
-        <a href="{{ route('students.create') }} ">新增學生資料</a>
+        <a href="{{ route('students.create') }} " class="btn btn-primary">新增學生資料</a>
     </div>
         <table class="table">
             <tr class='column_center'>
@@ -61,11 +61,11 @@
                     <td align="center" valign="center">{{ $student->class }}</td>
                     <td align="center" valign="center">{{ $student->name }}</td>
                     <td align="center" valign="center">{{ $student->remark }}</td>
-                    <td align="center" valign="center"><font color= blue><a href="{{ route('students.show',['id'=>$student->id]) }}">詳細資料</a></font></td>
-                    <td><font color=blue><a href="{{ route('students.edit',['id'=>$student->id]) }}">修改資料</a></font></td>
+                    <td align="center" valign="center"><font color= blue><a href="{{ route('students.show',['id'=>$student->id]) }}" class="btn btn-primary">詳細資料</a></font></td>
+                    <td><font color=blue><a href="{{ route('students.edit',['id'=>$student->id]) }}" class="btn btn-secondary">修改資料</a></font></td>
                     <td>
                         <form action="{{ url('/students/delete', ['id' => $student->id]) }}" method="post">
-                            <input class="btn btn-default" type="submit" value="刪除" />
+                            <button type="submit" class="btn btn-danger">刪除</button><!---->
                             @method('delete')
                             @csrf
                         </form>

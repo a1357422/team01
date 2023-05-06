@@ -32,11 +32,11 @@
                     <td>{{ $dormitory->name }}</td>
                     <td>{{ $dormitory->housemaster }}</td>
                     <td>{{ $dormitory->contact }}</td>
-                    <td><font color=blue><a href="{{ route('dormitories.show',['id'=>$dormitory->id]) }}">詳細資料</a></font></td>
-                    <td><font color=blue><a href="{{ route('dormitories.edit',['id'=>$dormitory->id]) }}">修改資料</a></font></td>
+                    <td><a href="{{ route('dormitories.show',['id'=>$dormitory->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                    <td><a href="{{ route('dormitories.edit',['id'=>$dormitory->id]) }}"class="btn btn-secondary">修改資料</a></td><!---->
                     <td>
                         <form action="{{ url('/dormitories/delete', ['id' => $dormitory->id]) }}" method="post">
-                            <input class="btn btn-default" type="submit" value="刪除" />
+                            <button type="submit"  class="btn btn-danger">刪除</button><!---->
                             @method('delete')
                             @csrf
                         </form>

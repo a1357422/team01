@@ -12,7 +12,7 @@
                 <h3>外宿總資料管理</h3>
             </div>
             <div>
-                <a href="{{ route('leaves.create') }} ">新增外宿資料</a>
+            <a href="{{ route('leaves.create') }} "class="btn btn-primary">新增外宿資料</a><!---->
         </div>
             <div>
                 <form action="{{ url('leaves/dormitory') }}" method='POST'>
@@ -57,10 +57,10 @@
                             <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
                             @endif
                             @if(auth()->user()->role != "chief")
-                            <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
+                            <td><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}" class="btn btn-primary">修改審核資料</a></td><!---->
                             <td>
                                 <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
-                                    <input class="btn btn-default" type="submit" value="刪除" />
+                                    <button type="submit"  class="btn btn-danger">刪除</button><!---->
                                     @method('delete')
                                     @csrf
                                 </form>
@@ -90,7 +90,7 @@
                             <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
                             <td>
                                 <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
-                                    <input class="btn btn-default" type="submit" value="刪除" />
+                                <button type="submit"  class="btn btn-danger">刪除</button><!---->
                                     @method('delete')
                                     @csrf
                                 </form>
@@ -229,7 +229,7 @@
     @elsecanany('user')
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
             <h3><a href = "/">回主頁</a></h3>
-            <a href="{{ route('leaves.create') }} ">新增外宿資料</a>
+            <a href="{{ route('leaves.create') }} "class="btn btn-primary">新增外宿資料</a><!---->
         </div>
             <div class="table-responsive">
                 <table class="table">

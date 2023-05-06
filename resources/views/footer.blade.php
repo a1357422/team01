@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <hr>
-<h6>龍華科技大學 宿舍管理系統</h6>
+<h6>龍華科技大學 宿舍管理系統
+ Tel：(02)82093211　Fax：(02)82094650
+</h6>
 
 <!-- <div class = "links">
     <a href = "/students">學生系統</a>

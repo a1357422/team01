@@ -12,7 +12,7 @@
                 <h3>晚歸總資料管理</h3>
             </div>
             <div>
-                <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
+                <a href="{{ route('lates.create') }} "class="btn btn-primary">新增晚歸資料</a>
             </div>
             <div>
                 <form action="{{ url('lates/dormitory') }}" method='POST'>
@@ -73,12 +73,12 @@
                             @else
                             <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
                             @endif
-                            <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
+                            <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
                             <!-- <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核</a></font></td> -->
-                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                            <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}" class="btn btn-secondary">修改審核資料</a></td><!---->
                             <td>
                                 <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">
-                                    <input class="btn btn-default" type="submit" value="刪除" />
+                                <button type="submit" class="btn btn-danger">刪除</button><!---->
                                     @method('delete')
                                     @csrf
                                 </form>
@@ -116,12 +116,12 @@
                             @else
                             <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
                             @endif
-                            <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
+                            <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
                             <!-- <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核</a></font></td> -->
-                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                            <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                             <td>
                                 <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">
-                                    <input class="btn btn-default" type="submit" value="刪除" />
+                                <button type="submit" class="btn btn-danger">刪除</button><!---->
                                     @method('delete')
                                     @csrf
                                 </form>
@@ -202,8 +202,8 @@
                                 @else
                                 <td/>
                                 @endif
-                                <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                             </tr>
                         @elseif(auth()->user()->role == "chief")
                             @if($late->floorhead_check === 1)
@@ -236,8 +236,8 @@
                                     @else
                                     <td/>
                                     @endif
-                                    <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                    <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                    <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                    <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                                 </tr>
                             @endif
                         @elseif(auth()->user()->role == "housemaster")
@@ -271,8 +271,8 @@
                                     @else
                                     <td/>
                                     @endif
-                                    <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                    <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                    <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                    <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                                 </tr>
                             @endif
                         @endif
@@ -309,8 +309,8 @@
                                 @else
                                 <td/>
                                 @endif
-                                <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                             </tr>
                         @elseif(auth()->user()->role == "chief")
                             @if($late->floorhead_check === 1)
@@ -343,8 +343,8 @@
                                     @else
                                     <td/>
                                     @endif
-                                    <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                    <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                    <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                    <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                                 </tr>
                             @endif
                         @elseif(auth()->user()->role == "housemaster")
@@ -378,8 +378,8 @@
                                     @else
                                     <td/>
                                     @endif
-                                    <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                    <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                    <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                    <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                                 </tr>
                             @endif
                         @endif
@@ -396,7 +396,7 @@
     @elsecanany('user')
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
                 <h3><a href = "/">回主頁</a></h3>
-                <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
+                <a href="{{ route('lates.create') }}"class="btn btn-primary">新增晚歸資料</a><!---->
             </div>
             <div class="table-responsive">
                 <table class="table">

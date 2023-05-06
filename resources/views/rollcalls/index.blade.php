@@ -28,9 +28,9 @@
             @csrf
             </form>
             @if($display == 1 || $display == 2)
-            <a href="{{ route('rollcalls.create') }} ">新增點名資料</a>
-            <a href="{{ route('rollcalls.presence') }} ">未到人員</a>
-            <a href="{{ route('rollcalls.history') }} ">點名歷史紀錄</a>
+                <a href="{{ route('rollcalls.create') }}" class="btn btn-primary">新增點名資料</a><!---->
+                <a href="{{ route('rollcalls.presence') }}" class="btn btn-secondary">未到人員</a><!---->
+                <a href="{{ route('rollcalls.history') }}" class="btn btn-info">點名歷史紀錄</a><!---->
             @endif
         </div>
         <!-- 秀出所有rollcall名單中未到的人 -->
@@ -175,15 +175,15 @@
                             @else 
                             <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
                             @endif
-                            <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
+                            <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}" class="btn btn-primary">詳細資料</a></font></td>
                             @if ($rollcall->presence == "V")
-                                <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}">未到</a></font></td>
+                                <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}" class="btn btn-secondary">未到</a></font></td>
                             @else
-                                <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>1]) }}">補點</a></font></td>
+                                <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>1]) }}" class="btn btn-secondary">補點</a></font></td>
                             @endif
                             <td>
                                 <form action="{{ url('/rollcalls/delete', ['id' => $rollcall->id]) }}" method="post">
-                                    <input class="btn btn-default" type="submit" value="刪除" />
+                                <button type="submit" class="btn btn-danger">刪除</button><!---->
                                     @method('delete')
                                     @csrf
                                 </form>
@@ -218,15 +218,15 @@
                                 @else 
                                 <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
                                 @endif
-                                <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
+                                <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}" class="btn btn-primary">詳細資料</a></font></td>
                                 @if ($rollcall->presence == "V")
-                                    <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}">未到</a></font></td>
+                                    <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}" class="btn btn-secondary">未到</a></font></td>
                                 @else
-                                    <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>1]) }}">補點</a></font></td>
+                                    <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>1]) }}" class="btn btn-secondary">補點</a></font></td>
                                 @endif
                                 <td>
                                     <form action="{{ url('/rollcalls/delete', ['id' => $rollcall->id]) }}" method="post">
-                                        <input class="btn btn-default" type="submit" value="刪除" />
+                                        <button type="submit" class="btn btn-danger">刪除</button><!---->
                                         @method('delete')
                                         @csrf
                                     </form>

@@ -49,9 +49,9 @@
                 </form>
             </div>
             @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
-                <a href="{{ route('sbrecords.create') }} ">新增學生床位資料</a><br>
+                <a href="{{ route('sbrecords.create') }} " class="btn btn-primary">新增學生床位資料</a><br>
             @endif
-            <a href="{{ route('sbrecords.senior') }} ">樓長</a>
+            <a href="{{ route('sbrecords.senior') }} " class="btn btn-secondary">樓長</a>
         </div>
     <div class="table-responsive">
         <table  class="table">
@@ -91,12 +91,12 @@
                     <td align="center" valign="center"><font color=red>{{ $sbrecord->floor_head = "X" }} </font></td>
                     @endif
                     <td align="center" valign="center">{{ $sbrecord->responsible_floor }}</td>
-                    <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->sid]) }}">詳細資料</a></font></td>
+                    <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->sid]) }}" class="btn btn-primary">詳細資料</a></font></td>
                     @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
-                        <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->sid]) }}">修改資料</a></font></td>
+                        <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->sid]) }}" class="btn btn-secondary">修改資料</a></font></td>
                         <td>
                             <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
-                                <input class="btn btn-default" type="submit" value="刪除" />
+                                <button type="submit" class="btn btn-danger">刪除</button><!---->
                                 @method('delete')
                                 @csrf
                             </form>
@@ -118,12 +118,12 @@
                     <td align="center" valign="center"><font color=red>{{ $sbrecord->floor_head = "X" }} </font></td>
                     @endif
                     <td align="center" valign="center">{{ $sbrecord->responsible_floor }}</td>
-                    <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->sid]) }}">詳細資料</a></font></td>
+                    <td><font color=blue><a href="{{ route('sbrecords.show',['id'=>$sbrecord->sid]) }}" class="btn btn-primary">詳細資料</a></font></td>
                     @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
-                        <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->sid]) }}">修改資料</a></font></td>
+                        <td><font color=blue><a href="{{ route('sbrecords.edit',['id'=>$sbrecord->sid]) }}" class="btn btn-secondary">修改資料</a></font></td>
                         <td>
                             <form action="{{ url('/sbrecords/delete', ['id' => $sbrecord->id]) }}" method="post">
-                                <input class="btn btn-default" type="submit" value="刪除" />
+                                <button type="submit" class="btn btn-danger">刪除</button><!---->
                                 @method('delete')
                                 @csrf
                             </form>
