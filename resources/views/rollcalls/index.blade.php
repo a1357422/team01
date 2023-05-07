@@ -11,6 +11,7 @@
             <h3><a href = "/">回主頁</a></h3>
             <h3>點名總資料管理</h3>
         </div>
+        @if(!(Route::is('rollcalls.presence.rollcaller')))
         <div>
             <form action="{{ url('rollcalls/dormitory') }}" method='POST'>
                 {!! Form::label('dormitory', '選取宿舍別：') !!}
@@ -29,10 +30,11 @@
             </form>
             @if($display == 1 || $display == 2)
             <a href="{{ route('rollcalls.create') }} ">新增點名資料</a>
-            <a href="{{ route('rollcalls.presence') }} ">未到人員</a>
+            <a href="{{ route('rollcalls.presence') }} "><?php $time = date('m/d');?>{{$time}}未到人員</a>
             <a href="{{ route('rollcalls.history') }} ">點名歷史紀錄</a>
             @endif
         </div>
+        @endif
         <!-- 秀出所有rollcall名單中未到的人 -->
         @if($textbox == True && $display==3) 
         <div class="table-responsive">
@@ -59,18 +61,32 @@
                 </tr>
                 @foreach($identifies as $identify)
                 <tr class='column_center'>
-                    <td>{!! nl2br($identify->sbrecord->bed->bedcode."   ".$identify->sbrecord->student->name."\n") !!}
-                    @if ($identify->presence == 1)
-                        <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">未到</a></font>
+                    @if($identify->identify ==1 && $identify->presence == 1)
+                        <td><font color=green>{!! nl2br($identify->sbrecord->bed->bedcode."   ".$identify->sbrecord->student->name."\n") !!}</font>
                     @else
-                        <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">補點</a></font>
+                        <td><font color=red>{!! nl2br($identify->sbrecord->bed->bedcode."   ".$identify->sbrecord->student->name."\n") !!}</font>
+                    @endif
+                    @if(Route::is('rollcalls.presence.rollcaller'))
+                        @if ($identify->presence == 1)
+                            <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">未到</a></font>
+                        @else
+                            <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">補點</a></font>
+                        @endif
                     @endif
                     @foreach($photos as $photo)
                         @if($identify->sbid == $photo->sbid)
-                            @if(file_exists(public_path($photo->upload_file_path)))
-                                <img src= "{{ asset($photo->upload_file_path) }}"width="50" height="50"alt=""/>
-                            @else
-                                <td/>
+                            @if($photo->upload_file_path != NULL)
+                                @if(file_exists(public_path($photo->upload_file_path)))
+                                    <img src= "{{ asset($photo->upload_file_path) }}"width="50" height="50"alt=""/>
+                                @else
+                                    <td/>
+                                @endif
+                            @elseif($photo->webcam_file_path != NULL)
+                                @if(file_exists(public_path($photo->webcam_file_path)))
+                                    <img src= "{{ asset($photo->webcam_file_path) }}"width="50" height="50"alt=""/>
+                                @else
+                                    <td/>
+                                @endif
                             @endif
                         @endif
                     @endforeach
@@ -94,14 +110,25 @@
                 </tr>
                 @foreach($rollcalls as $rollcall)
                 <tr class='column_center'>
-                    @if ($rollcall->presence == 1)
-                        <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>9]) }}">未到</a></font>
+                    @if(Route::is('rollcalls.presence.rollcaller'))
+                        @if ($rollcall->presence == 1)
+                            <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>9]) }}">未到</a></font>
+                        @else
+                            <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>9]) }}">補點</a></font>
+                        @endif
+                        {!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}</td>
                     @else
-                        <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>9]) }}">補點</a></font>
+                        <td>{!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}</td>
                     @endif
-                    {!! nl2br($rollcall->sbrecord->bed->bedcode."   ".$rollcall->sbrecord->student->name."\n") !!}</td>
                 </tr>
                 @endforeach
+                <tr class='column_center'>
+                    <td>
+                        <form action="{{ route('rollcalls.index')}}" method="get">
+                            <input class="btn btn-default" type="submit" value="確定" />
+                            @csrf
+                        </form>
+                    </td>
                 </tr>
             </table>
         @elseif($textbox == True && $display==4)
@@ -129,16 +156,25 @@
                 </tr>
                 @foreach($identifies as $identify)
                 <tr class='column_center'>
-                    <td>{!! nl2br($identify->sbrecord->bed->bedcode."   ".$identify->sbrecord->student->name."\n") !!}
-                    @if ($identify->presence == 1)
-                        <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">未到</a></font>
+                    @if($identify->identify ==1)
+                        <td><font color=green>{!! nl2br($identify->sbrecord->bed->bedcode."   ".$identify->sbrecord->student->name."\n") !!}</font>
                     @else
-                        <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">補點</a></font>
+                        <td><font color=red>{!! nl2br($identify->sbrecord->bed->bedcode."   ".$identify->sbrecord->student->name."\n") !!}</font>
                     @endif
                     @foreach($photos as $photo)
                         @if($identify->sbid == $photo->sbid)
-                            @if(file_exists(public_path($photo->upload_file_path)))
-                                <img src= "{{ asset($photo->upload_file_path) }}"width="50" height="50"alt=""/>
+                            @if($photo->upload_file_path != NULL)
+                                @if(file_exists(public_path($photo->upload_file_path)))
+                                    <img src= "{{ asset($photo->upload_file_path) }}"width="50" height="50"alt=""/>
+                                    @break
+                                @else
+                                    <td/>
+                                @endif
+                            @endif
+                        @elseif($photo->webcam_file_path != NULL)
+                            @if(file_exists(public_path($photo->webcam_file_path)))
+                                <img src= "{{ asset($photo->webcam_file_path) }}"width="50" height="50"alt=""/>
+                                @break
                             @else
                                 <td/>
                             @endif
@@ -167,6 +203,13 @@
                     <td>{!! nl2br($rollcall->bedcode."   ".$rollcall->name."\n") !!}</td>
                 </tr>
                 @endforeach
+                <tr class='column_center'>
+                    <td>
+                        <form action="{{ route('rollcalls.index')}}" method="get">
+                            <input class="btn btn-default" type="submit" value="確定" />
+                            @csrf
+                        </form>
+                    </td>
                 </tr>
             </table>
         @else

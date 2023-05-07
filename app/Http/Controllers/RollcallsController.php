@@ -190,7 +190,7 @@ class RollcallsController extends Controller
             return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>False]);
         else if (@$_POST[ '未到人員查詢' ] == '未到人員查詢'){
             $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->where('rollcalls.presence',0)->where('rollcalls.leave',0)->where('rollcalls.date',date("Y-m-d"))->get();
-            $identifies = Rollcall::Identify()->where('date',date("Y-m-d"))->get();
+            $identifies = Rollcall::Identify($request->input('dormitory'))->where('date',date("Y-m-d"))->get();
             $photos = Photo::where('date',date("Y-m-d"))->get();
             $profile_paths = Student::get();
             return view("rollcalls.index",['display'=>4,"rollcalls"=>$rollcalls,'leaves'=>$leaves,'lates'=>$lates,'identifies'=>$identifies,'photos'=>$photos,'profile_paths'=>$profile_paths,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True,"date"=>date("m/d")]);
@@ -607,8 +607,10 @@ class RollcallsController extends Controller
                     else
                         break;
                     $result = exec("python 照片辨識.py 2>error.txt $imagepath");
-                    if($result == "success")
+                    if($result == "success"){
                         $rollcalls[$i-1]->identify = 1;
+                        $rollcalls[$i-1]->presence = 1;
+                    }
                     else
                         $rollcalls[$i-1]->identify = 0;
                     $rollcalls[$i-1]->save();
