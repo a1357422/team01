@@ -8,7 +8,7 @@
     @cannot('user')
     <div class="function">
         <div class="maintitle_btn">
-            <h3><a href = "/">回主頁</a></h3>
+            
             <h3>學生床位總資料管理</h3>   
         </div>
         <div>

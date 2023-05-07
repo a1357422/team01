@@ -8,7 +8,7 @@
     @can('superadmin')
     <div class="function">
         <div class="maintitle_btn">
-            <h3><a href = "/">回主頁</a></h3>
+            
             <h3>後台權限管理</h3>   
         </div>
         <div>

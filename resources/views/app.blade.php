@@ -60,9 +60,9 @@
         }
 
         .navbar {
-  border-radius: 20px 20px 20px 20px;
-  
-}
+            border-radius: 20px 20px 20px 20px;
+
+        }
 
         /*.dashboard {
             list-style-type: none;
@@ -94,6 +94,10 @@
             background-color: #111;
         }*/
 
+        .dashboard li a:hover {
+            background-color: #ccc;
+            border-radius: 20px 20px 20px 20px;
+        }
 
 
 
@@ -121,8 +125,9 @@
         .maintitle_btn {
             color: red;
             display: flex;
-            justify-content: space-between;
-            width: 55%;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
         }
 
         .column_center {
@@ -232,7 +237,7 @@
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     <!-- <img src={{ URL::asset('https://www.lhu.edu.tw/images/in/LOGO.gif') }} width="90%" height="50%" /> header img -->
-                    <img src="{{asset('未命名.png')}}" width="90%" height="50%" /> <!-- header img -->
+                    <img src="{{asset('lhu_1683482118455 (2).jpg')}}" width="90%" height="50%" /> <!-- header img -->
                 </a>
                 <img src="https://imgcdn.cna.com.tw/www/postwrite/2018/20180910/00240473.201809100752M.jpg" width="50%"><!--右上照片 -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -300,4 +305,6 @@
         </div class="flooter">
         <h5>@include('footer')</h5>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

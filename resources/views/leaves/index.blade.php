@@ -8,7 +8,7 @@
     @canany(['superadmin','admin','chief'])
         <div class="function">
             <div class="maintitle_btn">
-                <h3><a href = "/">回主頁</a></h3>
+               
                 <h3>外宿總資料管理</h3>
             </div>
             <div>
@@ -109,7 +109,7 @@
 
     @elsecanany(['floorhead','housemaster'])
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-            <h3><a href = "/">回主頁</a></h3>
+            
             <form action="{{ url('leaves/dormitory') }}" method='POST'>
                 {!! Form::label('dormitory', '選取宿舍別：') !!}
                 {!! Form::select('dormitory', $dormitories,$select) !!}
@@ -228,7 +228,7 @@
 
     @elsecanany('user')
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-            <h3><a href = "/">回主頁</a></h3>
+           
             <a href="{{ route('leaves.create') }} "class="btn btn-primary">新增外宿資料</a><!---->
         </div>
             <div class="table-responsive">

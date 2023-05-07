@@ -8,7 +8,7 @@
     @canany(['superadmin','admin'])
         <div class="function">
             <div class="maintitle_btn">
-                <h3><a href = "/">回主頁</a></h3>
+                
                 <h3>晚歸總資料管理</h3>
             </div>
             <div>
@@ -140,7 +140,7 @@
         @elsecanany(['housemaster','chief','floorhead'])
         <div class="function">
             <div class="maintitle_btn">
-                <h3><a href = "/">回主頁</a></h3>
+                
                 <h3>晚歸總資料管理</h3>
             </div>
             <div>
@@ -395,7 +395,7 @@
 
     @elsecanany('user')
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-                <h3><a href = "/">回主頁</a></h3>
+                
                 <a href="{{ route('lates.create') }}"class="btn btn-primary">新增晚歸資料</a><!---->
             </div>
             <div class="table-responsive">

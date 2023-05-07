@@ -8,7 +8,7 @@
     @canany(['superadmin','admin'])
     <div class="function">
         <div class="maintitle_btn">
-            <h3><a href = "/">回主頁</a></h3>
+            
             <h3>床位總資料管理</h3>
         </div>
         <div>
@@ -18,7 +18,7 @@
                 <input type="submit" value="查詢" />
                 @csrf
             </form>
-            <a href="{{ route('beds.create') }} ">新增床位資料</a>
+            <a href="{{ route('beds.create') }} "class="btn btn-primary">新增床位資料</a>
         </div>
     </div>
     <div class="table-responsive">
@@ -39,10 +39,10 @@
                     <td>{{ $bed->dormitory->name }}</td>
                     <td>{{ $bed->floor }}</td>
                     <td>{{ $bed->roomtype }}</td>
-                    <td><font color=blue><a href="{{ route('beds.edit',['id'=>$bed->id]) }}">修改資料</a></font></td>
+                    <td><a href="{{ route('beds.edit',['id'=>$bed->id]) }}"class="btn btn-primary">修改資料</td>
                     <td>
                         <form action="{{ url('/beds/delete', ['id' => $bed->id]) }}" method="post">
-                            <input class="btn btn-default" type="submit" value="刪除" />
+                        <button type="submit"  class="btn btn-danger">刪除</button><!---->
                             @method('delete')
                             @csrf
                         </form>
