@@ -65,7 +65,7 @@ class RollcallsController extends Controller
             $leaves = Rollcall::where('rollcaller',$rollcaller)->where('leave',1)->where('date',date("Y-m-d"))->get();
             $lates = Rollcall::where('rollcaller',$rollcaller)->where('late',1)->where('date',date("Y-m-d"))->get();
             $identifies = Rollcall::where('rollcaller',$rollcaller)->where('identify','!=',null)->where('date',date("Y-m-d"))->get();
-            $photos = Photo::get();
+            $photos = Photo::where('date',date("Y-m-d"))->get();
             $profile_paths = Student::get();
         }
         else{
@@ -74,7 +74,7 @@ class RollcallsController extends Controller
         $leaves = Rollcall::Leave()->where('date',date("Y-m-d"))->get();
         $lates = Rollcall::Late()->where('date',date("Y-m-d"))->get();
         $identifies = Rollcall::Identify()->where('date',date("Y-m-d"))->get();
-        $photos = Photo::get();
+        $photos = Photo::where('date',date("Y-m-d"))->get();
         $profile_paths = Student::get();
         }
         $tags = [];
@@ -190,7 +190,10 @@ class RollcallsController extends Controller
             return view("rollcalls.index",['display'=>2,"rollcalls"=>$rollcalls,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>False]);
         else if (@$_POST[ '未到人員查詢' ] == '未到人員查詢'){
             $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->where('rollcalls.presence',0)->where('rollcalls.leave',0)->where('rollcalls.date',date("Y-m-d"))->get();
-            return view("rollcalls.index",['display'=>4,"rollcalls"=>$rollcalls,'leaves'=>$leaves,'lates'=>$lates,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True,"date"=>date("m/d")]);
+            $identifies = Rollcall::Identify()->where('date',date("Y-m-d"))->get();
+            $photos = Photo::where('date',date("Y-m-d"))->get();
+            $profile_paths = Student::get();
+            return view("rollcalls.index",['display'=>4,"rollcalls"=>$rollcalls,'leaves'=>$leaves,'lates'=>$lates,'identifies'=>$identifies,'photos'=>$photos,'profile_paths'=>$profile_paths,'sbrecordcount'=>$sbrecordcount,'dormitories'=>$tags,'roomcodes'=>$roomcodes,"showPagination"=>false,'select'=>$request->input('dormitory'),"MonthDay"=>date("md"),'textbox'=>True,"date"=>date("m/d")]);
         }
         else{
             $rollcalls = Rollcall::Dormitory($request->input('dormitory'))->where('date',$request->input('date'))->get();
@@ -676,16 +679,18 @@ class RollcallsController extends Controller
         if($presence == '9' && Sbrecord::User(Auth::user()->name)->first() != null){
             $rollcall->presence = !$rollcall->presence;
             $rollcall->save();
+            return redirect()->action('App\Http\Controllers\RollcallsController@presence',['rollcaller'=>Auth::user()->name]);
         }
         else if($presence == '9' && Sbrecord::User(Auth::user()->name)->first() == null){
             $rollcall->presence = !$rollcall->presence;
             $rollcall->save();
+            return redirect()->action('App\Http\Controllers\RollcallsController@presence',['rollcaller'=>Auth::user()->name]);
         }
         else{
             $rollcall->presence = $presence;
             $rollcall->save();
+            return redirect()->back();
         }
-        return redirect()->action('App\Http\Controllers\RollcallsController@presence',['rollcaller'=>Auth::user()->name]);
     }
     // public function update($id,CreateRollcallRequest $request){
     //     $rollcall = Rollcall::findOrFail($id);

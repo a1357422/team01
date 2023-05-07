@@ -124,7 +124,41 @@
                     <td>{!! nl2br($late->sbrecord->bed->bedcode."   ".$late->sbrecord->student->name."\n") !!}</td>
                 </tr>
                 @endforeach
+                <tr class='column_center'>
+                    <th>{{$date}}人臉辨識名單： {{count($identifies)}}人</th>
                 </tr>
+                @foreach($identifies as $identify)
+                <tr class='column_center'>
+                    <td>{!! nl2br($identify->sbrecord->bed->bedcode."   ".$identify->sbrecord->student->name."\n") !!}
+                    @if ($identify->presence == 1)
+                        <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">未到</a></font>
+                    @else
+                        <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">補點</a></font>
+                    @endif
+                    @foreach($photos as $photo)
+                        @if($identify->sbid == $photo->sbid)
+                            @if(file_exists(public_path($photo->upload_file_path)))
+                                <img src= "{{ asset($photo->upload_file_path) }}"width="50" height="50"alt=""/>
+                            @else
+                                <td/>
+                            @endif
+                        @endif
+                    @endforeach
+                    @foreach($profile_paths as $profile_path)
+                        @if($identify->sbrecord->student->id == $profile_path->id)
+                            @if($profile_path->profile_file_path != NULL)
+                                @if(file_exists(public_path($profile_path->profile_file_path)))
+                                    <img src= "{{ asset($profile_path->profile_file_path) }}"width="50" height="50"alt=""/></td>
+                                @else
+                                    <td/>
+                                @endif
+                            @else
+                            <img src= "https://cdn2.ettoday.net/images/1457/1457773.jpg"width="50" height="50"alt=""/></td>
+                            @endif
+                        @endif
+                    @endforeach
+                </tr>
+                @endforeach
                 <tr class='column_center'>
                     <th>{{$date}}未到名單：{{count($rollcalls)}}人</th>
                 </tr>
@@ -149,11 +183,13 @@
                         <th>晚歸</th>
                         <th>照片辨識結果</th>
                         <th>操作</th> 
-                        <th>操作</th>
-                        <th>操作</th>
+                        @if ($display == 1 || $display == 3) 
+                            <th>操作</th>
+                            <th>操作</th>
+                        @endif
                     </tr>
                     <!-- index -->
-                    @if ($display == 1 || $display == 3 || $display == 5) 
+                    @if ($display == 1 || $display == 3) 
                         @foreach($rollcalls as $rollcall)
                         <tr class='column_center'>
                             <td>{{ $rollcall->id }}</td>
@@ -195,6 +231,36 @@
                             </td>
                         </tr>
                         @endforeach
+                    @elseif ($display == 5) 
+                        @foreach($rollcalls as $rollcall)
+                        <tr class='column_center'>
+                            <td>{{ $rollcall->id }}</td>
+                            <td>{{ $rollcall->date }}</td>
+                            <td>{{ $rollcall->sbrecord->bed->bedcode }}</td>
+                            <td>{{ $rollcall->sbrecord->student->name }}</td>
+                            @if ($rollcall->presence === 1)
+                            <td align="center" valign="center"><font color=green>{{ $rollcall->presence = "V" }}</font></td>
+                            @else 
+                            <td align="center" valign="center"><font color=red>{{ $rollcall->presence = "X" }} </font></td>
+                            @endif
+                            @if ($rollcall->leave === 1)
+                            <td align="center" valign="center"><font color=green>{{ $rollcall->leave = "V" }}</font></td>
+                            @else 
+                            <td align="center" valign="center"><font color=red>{{ $rollcall->leave = "X" }} </font></td>
+                            @endif
+                            @if ($rollcall->late === 1)
+                            <td align="center" valign="center"><font color=green>{{ $rollcall->late = "V" }}</font></td>
+                            @else 
+                            <td align="center" valign="center"><font color=red>{{ $rollcall->late = "X" }} </font></td>
+                            @endif
+                            @if ($rollcall->identify === 1)
+                            <td align="center" valign="center"><font color=green>{{ $rollcall->identify = "V" }}</font></td>
+                            @else 
+                            <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
+                            @endif
+                            <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
+                        </tr>
+                        @endforeach
                     <!-- dormitory -->
                     @else
                         @foreach($rollcalls as $rollcall)
@@ -224,18 +290,6 @@
                                 <td align="center" valign="center"><font color=red>{{ $rollcall->identify = "X" }} </font></td>
                                 @endif
                                 <td align="center" valign="center"><font color=blue><a href="{{ route('rollcalls.show',[ 'id'=>$rollcall->id ]) }}">詳細資料</a></font></td>
-                                @if ($rollcall->presence == "V")
-                                    <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>0]) }}">未到</a></font></td>
-                                @else
-                                    <td><font color=blue><a href="{{ route('rollcalls.edit',['id'=>$rollcall->id,'presence'=>1]) }}">補點</a></font></td>
-                                @endif
-                                <td>
-                                    <form action="{{ url('/rollcalls/delete', ['id' => $rollcall->id]) }}" method="post">
-                                        <input class="btn btn-default" type="submit" value="刪除" />
-                                        @method('delete')
-                                        @csrf
-                                    </form>
-                                </td>
                             </tr>
                         @endforeach
                     @endif
