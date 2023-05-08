@@ -32,7 +32,7 @@ class Rollcall extends Model
 
     public function scopePresence($query)
     {
-        $query->select('*')->where('rollcalls.presence','=',0)->where('rollcalls.leave','=',0)->where('rollcalls.identify','=',0)->orWhere('rollcalls.identify','=',null);
+        $query->select('*')->where('rollcalls.presence','=',0)->where('rollcalls.leave','=',0);
     }
 
     public function scopeLeave($query,$did=null)
@@ -62,21 +62,6 @@ class Rollcall extends Model
         else{
             $query->select('*')
             ->where('rollcalls.late','=',1);
-        }
-    }
-
-    public function scopeIdentify($query,$did=null)
-    {
-        if($did != null){
-            $query->join('sbrecords','rollcalls.sbid','=','sbrecords.id')
-            ->join('beds','sbrecords.bid','=','beds.id')
-            ->select('*')
-            ->where('beds.did','=',$did)
-            ->where('rollcalls.identify','<>',null);
-        }
-        else{
-            $query->select('*')
-            ->where('rollcalls.identify','<>',null);
         }
     }
 

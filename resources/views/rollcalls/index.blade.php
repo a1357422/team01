@@ -55,41 +55,6 @@
                 @endforeach
                 </tr>
                 <tr class='column_center'>
-                    <th>{{$date}}人臉辨識名單： {{count($identifies)}}人</th>
-                </tr>
-                @foreach($identifies as $identify)
-                <tr class='column_center'>
-                    <td>{!! nl2br($identify->sbrecord->bed->bedcode."   ".$identify->sbrecord->student->name."\n") !!}
-                    @if ($identify->presence == 1)
-                        <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">未到</a></font>
-                    @else
-                        <font color=blue><a href="{{ route('rollcalls.edit',['id'=>$identify->id,'presence'=>9]) }}">補點</a></font>
-                    @endif
-                    @foreach($photos as $photo)
-                        @if($identify->sbid == $photo->sbid)
-                            @if(file_exists(public_path($photo->upload_file_path)))
-                                <img src= "{{ asset($photo->upload_file_path) }}"width="50" height="50"alt=""/>
-                            @else
-                                <td/>
-                            @endif
-                        @endif
-                    @endforeach
-                    @foreach($profile_paths as $profile_path)
-                        @if($identify->sbrecord->student->id == $profile_path->id)
-                            @if($profile_path->profile_file_path != NULL)
-                                @if(file_exists(public_path($profile_path->profile_file_path)))
-                                    <img src= "{{ asset($profile_path->profile_file_path) }}"width="50" height="50"alt=""/></td>
-                                @else
-                                    <td/>
-                                @endif
-                            @else
-                            <img src= "https://cdn2.ettoday.net/images/1457/1457773.jpg"width="50" height="50"alt=""/></td>
-                            @endif
-                        @endif
-                    @endforeach
-                </tr>
-                @endforeach
-                <tr class='column_center'>
                     <th>{{$date}}未到名單：{{count($rollcalls)}}人</th>
                 </tr>
                 @foreach($rollcalls as $rollcall)
