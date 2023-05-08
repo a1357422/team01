@@ -1,9 +1,15 @@
 $(document).ready(function() {
+
+    var currentDate = new Date().toLocaleDateString();
     // 檢查 LocalStorage 是否存在已儲存的狀態
     if (localStorage.getItem('checkboxStatus')) {
         // 取得 LocalStorage 值
         var checkboxStatus = localStorage.getItem('checkboxStatus');
 
+        if (localStorage.getItem('savedDate') !== currentDate) {
+            localStorage.clear();
+            localStorage.setItem('savedDate',currentDate);
+        }
         // 根據 LocalStorage 值設定複選框的狀態
         $('.checkbox').each(function() {
             var checkboxId = $(this).val();
