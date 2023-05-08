@@ -42,7 +42,7 @@
                             <td>{{ $date }}</td>
                             <td>{{ $sbrecord->bed->bedcode }}</td>
                             <td>{{ $sbrecord->student->name }}</td>
-                            <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
+                            <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?1:0,['class'=>'checkbox'])!!}</font></td>
                             {!! Form::hidden('edition[]', $sbrecord->id) !!}
                         </tr>
                     @endif
@@ -109,7 +109,7 @@
                                 <td>{{ $date }}</td>
                                 <td>{{ $sbrecord->bedcode }}</td>
                                 <td>{{ $sbrecord->name }}</td>
-                                <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?:0)!!}</font></td>
+                                <td align="center" valign="center"><font color=blue>{!! Form::checkbox('presence[]',$sbrecord->id,isset($model->checkbox)?1:0,['class'=>'checkbox'])!!}</font></td>
                                 {!! Form::hidden('edition[]', $sbrecord->id) !!}
                             </tr>
                         @endif
