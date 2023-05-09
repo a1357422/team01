@@ -22,9 +22,9 @@
                 <th>宿舍名稱</th>
                 <th>舍監</th>
                 <th>聯絡資料</th>
-                <th>操作</th>
-                <th>操作</th>
-                <th>操作</th>
+                <th>詳細資料</th>
+                <th>修改資料</th>
+                <th>刪除</th>
             </tr>
             @foreach($dormitories as $dormitory)
                 <tr class='column_center'>

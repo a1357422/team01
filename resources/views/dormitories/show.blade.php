@@ -18,7 +18,7 @@
                 <br>
             </tr>
         @endforeach
-        <input type ="button" onclick="history.back()" value="回到上一頁"></input>
+        <input type ="button" onclick="history.back()" value="回到上一頁"class="btn btn-primary"></input>
     @else <!--若沒登入或是非系統後台管理者將導回主頁-->
         @php
             header("Location: " . URL::to('/'), true, 302);

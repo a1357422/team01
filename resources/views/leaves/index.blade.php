@@ -11,17 +11,18 @@
                
                 <h3>外宿總資料管理</h3>
             </div>
-            <div>
-            <a href="{{ route('leaves.create') }} "class="btn btn-primary">新增外宿資料</a><!---->
-        </div>
+           
             <div>
                 <form action="{{ url('leaves/dormitory') }}" method='POST'>
                     {!! Form::label('dormitory', '選取宿舍別：') !!}
                     {!! Form::select('dormitory', $dormitories,$select) !!}
-                <input type="submit" value="查詢" />
+                <input type="submit" value="查詢" class="btn btn-primary"/>
                 @csrf
                 </form>
             </div>
+            <div class="form-container">
+            <a href="{{ route('leaves.create') }} "class="btn btn-primary">新增外宿資料</a><!---->
+        </div>
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -34,8 +35,8 @@
                     <th>樓長審核</th>
                     <th>宿舍輔導員審核</th>
                     @if(auth()->user()->role != "chief")
-                    <th>操作</th>
-                    <th>操作</th>
+                    <th>修改審核資料</th>
+                    <th>刪除</th>
                     @endif
                 </tr>
                 @if ($display == 1)
@@ -113,7 +114,7 @@
             <form action="{{ url('leaves/dormitory') }}" method='POST'>
                 {!! Form::label('dormitory', '選取宿舍別：') !!}
                 {!! Form::select('dormitory', $dormitories,$select) !!}
-            <input type="submit" value="查詢" />
+            <input type="submit" value="查詢" class="btn btn-primary"/>
             @csrf
             </form>
         </div>
@@ -127,7 +128,7 @@
                         <th>外宿原因</th>
                         <th>樓長審核</th>
                         <th>宿舍輔導員審核</th>
-                        <th>操作</th>
+                        <th>編輯審核資料</th>
                     </tr>
                     @if ($display == 1)
                         @foreach($leaves as $leave)
@@ -239,7 +240,7 @@
                         <th>外宿日起</th>
                         <th>外宿日訖</th>
                         <th>外宿原因</th>
-                        <th>操作</th>
+                        <th>審核情形</th>
                         <th>審核是否通過</th>
                     </tr>
                     @if ($display == 1)

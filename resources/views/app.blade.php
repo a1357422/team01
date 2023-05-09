@@ -36,6 +36,15 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
         }
 
+      
+
+        .form-container {
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+
+       
+
         body {
 
             background-color: #bdbbbb;
@@ -50,12 +59,14 @@
         }
 
         .maintitle {
+
             margin: 1em 5em;
             display: flex;
             justify-content: center;
         }
 
         .maincontent {
+
             margin: 1.5em 5em;
         }
 

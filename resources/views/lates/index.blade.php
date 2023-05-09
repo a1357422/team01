@@ -11,16 +11,17 @@
                 
                 <h3>晚歸總資料管理</h3>
             </div>
-            <div>
-                <a href="{{ route('lates.create') }} "class="btn btn-primary">新增晚歸資料</a>
-            </div>
-            <div>
+            
+            <div class="form-container">
                 <form action="{{ url('lates/dormitory') }}" method='POST'>
                     {!! Form::label('dormitory', '選取宿舍別：') !!}
                     {!! Form::select('dormitory', $dormitories,$select) !!}
-                    <input type="submit" value="查詢" />
+                    <input type="submit" value="查詢" class="btn btn-primary"/>
                     @csrf
                 </form>
+            </div>
+            <div>
+                <a href="{{ route('lates.create') }} "class="btn btn-primary"style="margin-bottom: 1em;">新增晚歸資料</a>
             </div>
         </div>
         <div class="table-responsive">
@@ -38,9 +39,9 @@
                     <th>總樓長審核</th>
                     <th>宿舍輔導員審核</th>
                     <th>行政審核</th>
-                    <th>操作</th>
-                    <th>操作</th>
-                    <th>操作</th>
+                    <th>詳細資料</th>
+                    <th>修改審核資料</th>
+                    <th>刪除</th>
                 </tr>
                 @if ($display == 1)
                     @foreach($lates as $late)
@@ -143,11 +144,11 @@
                 
                 <h3>晚歸總資料管理</h3>
             </div>
-            <div>
+            <div class="form-container">
                 <form action="{{ url('lates/dormitory') }}" method='POST'>
                     {!! Form::label('dormitory', '選取宿舍別：') !!}
                     {!! Form::select('dormitory', $dormitories,$select) !!}
-                    <input type="submit" value="查詢" />
+                    <input type="submit" value="查詢" class="btn btn-primary"/>
                     @csrf
                 </form>
             </div>
@@ -167,8 +168,8 @@
                     <th>總樓長審核</th>
                     <th>宿舍輔導員審核</th>
                     <th>行政審核</th>
-                    <th>操作</th>
-                    <th>操作</th>
+                    <th>詳細資料</th>
+                    <th>修改審核資料</th>
                 </tr>
                 @if ($display == 1)
                     @foreach($lates as $late)
@@ -409,7 +410,7 @@
                         <th>單位名稱</th>
                         <th>預計每日返回宿舍時間</th>
                         <th>佐證資料</th>
-                        <th>操作</th>
+                        <th>審核情形</th>
                         <th>審核是否通過</th>
                     </tr>
                     @if ($display == 1)
@@ -424,7 +425,7 @@
                                     <td>{{ $late->company }}</td>
                                     <td align="center" valign="center">{{ $late->back_time }}</td>
                                     <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->sbrecord->bed->bedcode}}</a></td>
-                                    <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核情形</a></font></td>
+                                    <td><a href="{{ route('lates.examine',['id'=>$late->id]) }}"class="btn btn-primary">審核情形</a></td>
                                     @if($late->floorhead_check === 1 && $late->chief_check === 1 && $late->housemaster_check ===1 && $late->admin_check ===1)
                                     <td><font color=green>V</font></td>
                                     @else

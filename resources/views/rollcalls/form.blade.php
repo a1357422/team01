@@ -87,7 +87,7 @@
                     <th></th>
                     <td>{{ Form::file('roomimage[]') }}</td>
                     {!! Form::hidden('roomcodes[]', $roomcode) !!}
-                    <td><a href="{{ route('rollcalls.upload',$roomcode) }} ">拍照</a></td>
+                    <td><a href="{{ route('rollcalls.upload',$roomcode) }} "class="btn btn-primary">拍照</a></td>
                     @foreach($roomnumbers as $roomnumber)
                         @foreach($photos as $photo)
                             @if($roomnumber == $roomcode)

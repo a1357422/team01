@@ -11,14 +11,14 @@
             
             <h3>床位總資料管理</h3>
         </div>
-        <div>
+        <div class="form-container">
             <form action="{{ url('beds/dormitory') }}" method='POST'>
                 {!! Form::label('did', '選取宿舍別：') !!}
                 {!! Form::select('did', $dormitories,$select) !!}
-                <input type="submit" value="查詢" />
+                <input type="submit" value="查詢"class="btn btn-primary" />
                 @csrf
             </form>
-            <a href="{{ route('beds.create') }} "class="btn btn-primary">新增床位資料</a>
+            <a href="{{ route('beds.create') }} "class="btn btn-primary" style="margin-bottom: 1em;margin-top: 1em;">新增床位資料</a>
         </div>
     </div>
     <div class="table-responsive">
@@ -29,8 +29,8 @@
                 <th>宿別</th>
                 <th>樓層</th>
                 <th>住房類型</th>
-                <th>操作</th>
-                <th>操作</th>
+                <th>修改資料</th>
+                <th>刪除</th>
             </tr>
             @foreach($beds as $bed)
                 <tr class='column_center'>
