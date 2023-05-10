@@ -50,9 +50,9 @@
         </div>
 
         @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
-        <a href="{{ route('sbrecords.create') }} " class="btn btn-primary" style="margin-bottom: 1em;">新增學生床位資料</a><br>
+        <a href="{{ route('sbrecords.create') }} " class="btn btn-primary" style="margin-bottom: 1em;">新增學生床位資料</a>
         @endif
-        <a href="{{ route('sbrecords.senior') }} " class="btn btn-warning" style="margin-top: 1em;">負責樓層樓長</a>
+        <a href="{{ route('sbrecords.senior') }} " class="btn btn-warning" style="margin-bottom: 1em;">負責樓層樓長</a>
     </div>
     <div class="table-responsive">
         <table class="table">
