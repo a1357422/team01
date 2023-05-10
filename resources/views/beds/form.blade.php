@@ -15,5 +15,5 @@
     {!! Form::select('roomtype',array('三人房' => '三人房', '四人房' => '四人房'), $selectRoomType)!!}
 </div>
 <div>
-    {!! Form::submit($submitButtonText)!!}
+    {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
 </div>

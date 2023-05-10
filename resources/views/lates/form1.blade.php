@@ -34,8 +34,8 @@
 </div>    
 <div>
     {!! Form::label('filename_path','佐證圖檔路徑：')!!}
-    {!! Form::file('filename_path')!!}
+    {!! Form::file($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
 </div>
 <div>
-    {!! Form::submit($submitButtonText)!!}
+    {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
 </div>

@@ -19,14 +19,14 @@
             @csrf
             </form>
             <form action="{{ url('rollcalls/create') }}" method='GET'>
-                <input type="submit" value="清除" class="btn btn-primary"/></nobr>
+                
             @csrf
             </form>
         </div>
         @include('message.list')
         {!! Form::open(['url'=>'rollcalls/store','files'=>'true'])!!}
         @if(!empty($dormitories))
-            @include ('rollcalls.form',['submitButtonText'=>"新增點名資料"])
+            @include ('rollcalls.form',['submitButtonText'=>"新增點名資料",['class' => 'btn btn-primary btn-sm']])
         @endif
         {!! Form::close()!!}
     @else <!--若沒登入或是住宿生帳號將導回主頁-->
