@@ -38,7 +38,7 @@
 
       
 
-        .form-container {
+        .form-container /*按鈕間隔 -查詢類*/{
             margin-top: 1em;
             margin-bottom: 1em;
         }
@@ -308,14 +308,15 @@
                 @yield('dormitorysystem_contents')
             </div>
         </div>
-        <div class="image-link">
+       
+    </div>
+    <div class="image-link">
             <img src="https://www.lhu.edu.tw/sch_show/lhu/slides/p_0019.jpg" width="25%" height="25%">
             <img src="https://www.lhu.edu.tw/school_news/2018/pic/20180910_1_4.jpg" width="25%" height="25%">
             <img src="https://tse3.mm.bing.net/th?id=OIP.Gncv2DjvyafQExcO3UZ5EAHaFj&pid=Api&P=0" width="25%" height="20%">
             <img src="https://www.lhu.edu.tw/post/new-std2/pic/live-house/g3-1.JPG" width="26%" height="28%">
         </div class="flooter">
         <h5>@include('footer')</h5>
-    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

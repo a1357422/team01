@@ -36,11 +36,7 @@
             @csrf
         </form>
     </div>
-    <div class="form-container">
-        <form action="{{ url('students') }}" method='GET'>
-            <input type="submit" value="清除" class="btn btn-danger" /></nobr>
-            @csrf
-        </form>
+    
         <div class="form-container">
             <a href="{{ route('students.create') }} " class="btn btn-primary">新增學生資料</a>
         </div>

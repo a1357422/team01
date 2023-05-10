@@ -15,14 +15,14 @@
         <form action="{{ url('sbrecords/dormitory') }}" method='POST'>
             {!! Form::label('dormitory', '選取宿舍別：') !!}
             {!! Form::select('dormitory', $dormitories,$select) !!}
-            <input type="submit" value="查詢"class="btn btn-secondary" />
+            <input type="submit" value="查詢" class="btn btn-secondary" />
             @csrf
         </form>
         <div class="form-container">
             <form action="{{ url('sbrecords/name') }}" method='POST'>
                 {!! Form::label('name', '學生姓名：') !!}
                 {!! Form::text('name', null) !!}
-                <input type="submit" value="查詢學生" class="btn btn-secondary"/>
+                <input type="submit" value="查詢學生" class="btn btn-secondary" />
                 @csrf
             </form>
         </div>
@@ -30,7 +30,7 @@
             <form action="{{ url('sbrecords/studentID') }}" method='POST'>
                 {!! Form::label('studentID', '學號：') !!}
                 {!! Form::text('studentID', null) !!}
-                <input type="submit" value="查詢學號" class="btn btn-secondary"/>
+                <input type="submit" value="查詢學號" class="btn btn-secondary" />
                 @csrf
             </form>
         </div>
@@ -38,21 +38,14 @@
             <form action="{{ url('sbrecords/roomcode') }}" method='POST'>
                 {!! Form::label('roomcode', '房號：') !!}
                 {!! Form::select('roomcode',$roomtags, $selectroomtags) !!}
-                <input type="submit" value="查詢房號"class="btn btn-secondary"/>
+                <input type="submit" value="查詢房號" class="btn btn-secondary" />
                 @csrf
             </form>
         </div>
-        <div class="form-container">
-            <form action="{{ url('sbrecords') }}" method='GET'>
-                <input type="submit" value="清除" class="btn btn-danger"/></nobr>
-                @csrf
-            </form>
-        </div>
-
         @if(auth()->user()->role == "admin" || auth()->user()->role == "superadmin")
         <a href="{{ route('sbrecords.create') }} " class="btn btn-primary" style="margin-bottom: 1em;">新增學生床位資料</a><br>
         @endif
-        <a href="{{ route('sbrecords.senior') }} " class="btn btn-warning" style="margin-top: 1em;">負責樓層樓長</a>
+
     </div>
     <div class="table-responsive">
         <table class="table">
