@@ -8,20 +8,21 @@
     @canany(['superadmin','admin','chief'])
         <div class="function">
             <div class="maintitle_btn">
-                <h3><a href = "/">回主頁</a></h3>
+               
                 <h3>外宿總資料管理</h3>
             </div>
-            <div>
-                <a href="{{ route('leaves.create') }} ">新增外宿資料</a>
-        </div>
+           
             <div>
                 <form action="{{ url('leaves/dormitory') }}" method='POST'>
                     {!! Form::label('dormitory', '選取宿舍別：') !!}
                     {!! Form::select('dormitory', $dormitories,$select) !!}
-                <input type="submit" value="查詢" />
+                <input type="submit" value="查詢" class="btn btn-primary"/>
                 @csrf
                 </form>
             </div>
+            <div class="form-container">
+            <a href="{{ route('leaves.create') }} "class="btn btn-primary">新增外宿資料</a><!---->
+        </div>
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -34,8 +35,8 @@
                     <th>樓長審核</th>
                     <th>宿舍輔導員審核</th>
                     @if(auth()->user()->role != "chief")
-                    <th>操作</th>
-                    <th>操作</th>
+                    <th>修改審核資料</th>
+                    <th>刪除</th>
                     @endif
                 </tr>
                 @if ($display == 1)
@@ -57,10 +58,10 @@
                             <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
                             @endif
                             @if(auth()->user()->role != "chief")
-                            <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
+                            <td><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}" class="btn btn-primary">修改審核資料</a></td><!---->
                             <td>
                                 <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
-                                    <input class="btn btn-default" type="submit" value="刪除" />
+                                    <button type="submit"  class="btn btn-danger">刪除</button><!---->
                                     @method('delete')
                                     @csrf
                                 </form>
@@ -90,7 +91,7 @@
                             <td><font color=blue><a href="{{ route('leaves.edit',['id'=>$leave->id]) }}">修改審核資料</a></font></td>
                             <td>
                                 <form action="{{ url('/leaves/delete', ['id' => $leave->id]) }}" method="post">
-                                    <input class="btn btn-default" type="submit" value="刪除" />
+                                <button type="submit"  class="btn btn-danger">刪除</button><!---->
                                     @method('delete')
                                     @csrf
                                 </form>
@@ -109,11 +110,11 @@
 
     @elsecanany(['floorhead','housemaster'])
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-            <h3><a href = "/">回主頁</a></h3>
+            
             <form action="{{ url('leaves/dormitory') }}" method='POST'>
                 {!! Form::label('dormitory', '選取宿舍別：') !!}
                 {!! Form::select('dormitory', $dormitories,$select) !!}
-            <input type="submit" value="查詢" />
+            <input type="submit" value="查詢" class="btn btn-primary"/>
             @csrf
             </form>
         </div>
@@ -127,7 +128,7 @@
                         <th>外宿原因</th>
                         <th>樓長審核</th>
                         <th>宿舍輔導員審核</th>
-                        <th>操作</th>
+                        <th>編輯審核資料</th>
                     </tr>
                     @if ($display == 1)
                         @foreach($leaves as $leave)
@@ -228,8 +229,8 @@
 
     @elsecanany('user')
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-            <h3><a href = "/">回主頁</a></h3>
-            <a href="{{ route('leaves.create') }} ">新增外宿資料</a>
+           
+            <a href="{{ route('leaves.create') }} "class="btn btn-primary">新增外宿資料</a><!---->
         </div>
             <div class="table-responsive">
                 <table class="table">
@@ -239,7 +240,7 @@
                         <th>外宿日起</th>
                         <th>外宿日訖</th>
                         <th>外宿原因</th>
-                        <th>操作</th>
+                        <th>審核情形</th>
                         <th>審核是否通過</th>
                     </tr>
                     @if ($display == 1)

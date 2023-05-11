@@ -90,7 +90,7 @@ class RollcallsController extends Controller
             else
                 $tags["$dormitory->did"] = "涵青館";
         }
-        return view("rollcalls.index",['display'=>3,"rollcalls"=>$rollcalls,"profile_paths"=>$profile_paths,"photos"=>$photos,'leaves'=>$leaves,'lates'=>$lates,'identifies'=>$identifies,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>True,'date'=>date('m/d')]);
+        return view("rollcalls.index",['display'=>3,"rollcalls"=>$rollcalls,'identifies'=>$identifies,'photos'=>$photos,'profile_paths'=>$profile_paths,'leaves'=>$leaves,'lates'=>$lates,'dormitories'=>$tags,"showPagination"=>False,'select'=>1,'textbox'=>True,'date'=>date('m/d')]);
     }
 
 

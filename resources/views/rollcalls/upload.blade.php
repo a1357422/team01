@@ -20,7 +20,7 @@
             <div class="col-md-6">
                 <div id="my_camera"></div>
                 <br/>
-                <input type=button value="拍照" onClick="take_snapshot()">
+                <input type=button value="拍照" onClick="take_snapshot()"class="btn btn-primary">
                 <input type="hidden" name="image" class="image-tag">
                 @foreach($sbrecords as $sbrecord)
                     {!! Form::hidden('sbids[]', $sbrecord->id) !!}
@@ -33,7 +33,7 @@
             </div>
             <div class="col-md-12 text-center">
                 <br/>
-                <button class="btn btn-success">送出</button>
+                <button class="btn btn-success"class="btn btn-primary">送出</button>
             </div>
         </div>
     </form>

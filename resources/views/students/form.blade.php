@@ -1,13 +1,13 @@
 <div>
-    大頭照：{!! Form::file('profile')!!}
+    大頭照：{!! Form::file('profile', ['class' => 'btn btn-primary btn-sm']) !!}
     @if($showphoto == 1)
-        @if($student->profile_file_path != NULL)
-            @if(file_exists(public_path($student->profile_file_path)))
-                    <img src= "{{ asset($student->profile_file_path) }}"width="120" height="170"alt=""/><br/>
-            @else
-                    <br/>
-            @endif
-        @endif
+    @if($student->profile_file_path != NULL)
+    @if(file_exists(public_path($student->profile_file_path)))
+    <img src="{{ asset($student->profile_file_path) }}" width="120" height="170" alt="" /><br />
+    @else
+    <br />
+    @endif
+    @endif
     @endif
 </div>
 <div>
@@ -47,5 +47,5 @@
     {!! Form::text('remark',null)!!}
 </div>
 <div>
-    {!! Form::submit($submitButtonText)!!}
+    {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
 </div>

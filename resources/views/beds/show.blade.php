@@ -11,7 +11,7 @@
                 宿別：{{ $bed->dormitory->name }}<br>
                 樓層：{{ $bed->floor }}<br>
                 住房類型：{{ $bed->roomtype }}<br>
-                <input type ="button" onclick="history.back()" value="回到上一頁"></input>
+                <input type ="button" onclick="history.back()" value="回到上一頁"class="btn btn-primary"></input>
         @else <!--若沒登入或是非系統後台管理者將導回主頁-->
                 @php
                 header("Location: " . URL::to('/'), true, 302);

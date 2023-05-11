@@ -6,7 +6,6 @@
 
 @section('dormitorysystem_contents')
     <div class="maintitle_btn">
-            <h3><a href = "/">回主頁</a></h3>
             <h1>上傳 Excel 檔案</h1>
     </div>
     

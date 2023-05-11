@@ -8,17 +8,17 @@
     @canany(['superadmin','admin'])
     <div class="function">
         <div class="maintitle_btn">
-            <h3><a href = "/">回主頁</a></h3>
+            
             <h3>床位總資料管理</h3>
         </div>
-        <div>
+        <div class="form-container">
             <form action="{{ url('beds/dormitory') }}" method='POST'>
                 {!! Form::label('did', '選取宿舍別：') !!}
                 {!! Form::select('did', $dormitories,$select) !!}
-                <input type="submit" value="查詢" />
+                <input type="submit" value="查詢"class="btn btn-primary" />
                 @csrf
             </form>
-            <a href="{{ route('beds.create') }} ">新增床位資料</a>
+            <a href="{{ route('beds.create') }} "class="btn btn-primary" style="margin-bottom: 1em;margin-top: 1em;">新增床位資料</a>
         </div>
     </div>
     <div class="table-responsive">
@@ -29,8 +29,8 @@
                 <th>宿別</th>
                 <th>樓層</th>
                 <th>住房類型</th>
-                <th>操作</th>
-                <th>操作</th>
+                <th>修改資料</th>
+                <th>刪除</th>
             </tr>
             @foreach($beds as $bed)
                 <tr class='column_center'>
@@ -39,10 +39,10 @@
                     <td>{{ $bed->dormitory->name }}</td>
                     <td>{{ $bed->floor }}</td>
                     <td>{{ $bed->roomtype }}</td>
-                    <td><font color=blue><a href="{{ route('beds.edit',['id'=>$bed->id]) }}">修改資料</a></font></td>
+                    <td><a href="{{ route('beds.edit',['id'=>$bed->id]) }}"class="btn btn-primary">修改資料</td>
                     <td>
                         <form action="{{ url('/beds/delete', ['id' => $bed->id]) }}" method="post">
-                            <input class="btn btn-default" type="submit" value="刪除" />
+                        <button type="submit"  class="btn btn-danger">刪除</button><!---->
                             @method('delete')
                             @csrf
                         </form>

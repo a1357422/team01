@@ -17,5 +17,5 @@
     {!! Form::text('reason',null)!!}
 </div>    
 <div>
-    {!! Form::submit($submitButtonText)!!}
+    {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
 </div>

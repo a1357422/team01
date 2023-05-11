@@ -8,19 +8,20 @@
     @canany(['superadmin','admin'])
         <div class="function">
             <div class="maintitle_btn">
-                <h3><a href = "/">回主頁</a></h3>
+                
                 <h3>晚歸總資料管理</h3>
             </div>
-            <div>
-                <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
-            </div>
-            <div>
+            
+            <div class="form-container">
                 <form action="{{ url('lates/dormitory') }}" method='POST'>
                     {!! Form::label('dormitory', '選取宿舍別：') !!}
                     {!! Form::select('dormitory', $dormitories,$select) !!}
-                    <input type="submit" value="查詢" />
+                    <input type="submit" value="查詢" class="btn btn-primary"/>
                     @csrf
                 </form>
+            </div>
+            <div>
+                <a href="{{ route('lates.create') }} "class="btn btn-primary"style="margin-bottom: 1em;">新增晚歸資料</a>
             </div>
         </div>
         <div class="table-responsive">
@@ -38,9 +39,9 @@
                     <th>總樓長審核</th>
                     <th>宿舍輔導員審核</th>
                     <th>行政審核</th>
-                    <th>操作</th>
-                    <th>操作</th>
-                    <th>操作</th>
+                    <th>詳細資料</th>
+                    <th>修改審核資料</th>
+                    <th>刪除</th>
                 </tr>
                 @if ($display == 1)
                     @foreach($lates as $late)
@@ -73,12 +74,12 @@
                             @else
                             <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
                             @endif
-                            <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
+                            <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
                             <!-- <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核</a></font></td> -->
-                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                            <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}" class="btn btn-secondary">修改審核資料</a></td><!---->
                             <td>
                                 <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">
-                                    <input class="btn btn-default" type="submit" value="刪除" />
+                                <button type="submit" class="btn btn-danger">刪除</button><!---->
                                     @method('delete')
                                     @csrf
                                 </form>
@@ -116,12 +117,12 @@
                             @else
                             <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
                             @endif
-                            <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
+                            <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
                             <!-- <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核</a></font></td> -->
-                            <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                            <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                             <td>
                                 <form action="{{ url('/lates/delete', ['id' => $late->id]) }}" method="post">
-                                    <input class="btn btn-default" type="submit" value="刪除" />
+                                <button type="submit" class="btn btn-danger">刪除</button><!---->
                                     @method('delete')
                                     @csrf
                                 </form>
@@ -140,14 +141,14 @@
         @elsecanany(['housemaster','chief','floorhead'])
         <div class="function">
             <div class="maintitle_btn">
-                <h3><a href = "/">回主頁</a></h3>
+                
                 <h3>晚歸總資料管理</h3>
             </div>
-            <div>
+            <div class="form-container">
                 <form action="{{ url('lates/dormitory') }}" method='POST'>
                     {!! Form::label('dormitory', '選取宿舍別：') !!}
                     {!! Form::select('dormitory', $dormitories,$select) !!}
-                    <input type="submit" value="查詢" />
+                    <input type="submit" value="查詢" class="btn btn-primary"/>
                     @csrf
                 </form>
             </div>
@@ -167,8 +168,8 @@
                     <th>總樓長審核</th>
                     <th>宿舍輔導員審核</th>
                     <th>行政審核</th>
-                    <th>操作</th>
-                    <th>操作</th>
+                    <th>詳細資料</th>
+                    <th>修改審核資料</th>
                 </tr>
                 @if ($display == 1)
                     @foreach($lates as $late)
@@ -202,8 +203,8 @@
                                 @else
                                 <td/>
                                 @endif
-                                <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                             </tr>
                         @elseif(auth()->user()->role == "chief")
                             @if($late->floorhead_check === 1)
@@ -236,8 +237,8 @@
                                     @else
                                     <td/>
                                     @endif
-                                    <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                    <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                    <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                    <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                                 </tr>
                             @endif
                         @elseif(auth()->user()->role == "housemaster")
@@ -271,8 +272,8 @@
                                     @else
                                     <td/>
                                     @endif
-                                    <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                    <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                    <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                    <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                                 </tr>
                             @endif
                         @endif
@@ -309,8 +310,8 @@
                                 @else
                                 <td/>
                                 @endif
-                                <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                             </tr>
                         @elseif(auth()->user()->role == "chief")
                             @if($late->floorhead_check === 1)
@@ -343,8 +344,8 @@
                                     @else
                                     <td/>
                                     @endif
-                                    <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                    <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                    <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                    <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                                 </tr>
                             @endif
                         @elseif(auth()->user()->role == "housemaster")
@@ -378,8 +379,8 @@
                                     @else
                                     <td/>
                                     @endif
-                                    <td><font color=blue><a href="{{ route('lates.show',['id'=>$late->id]) }}">詳細資料</a></font></td>
-                                    <td><font color=blue><a href="{{ route('lates.edit',['id'=>$late->id]) }}">修改審核資料</a></font></td>
+                                    <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
+                                    <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
                                 </tr>
                             @endif
                         @endif
@@ -395,8 +396,8 @@
 
     @elsecanany('user')
         <div class="p-6 border-t border-gray-200 dark:border-gray-700 md:border-t-0 md:border-l">
-                <h3><a href = "/">回主頁</a></h3>
-                <a href="{{ route('lates.create') }} ">新增晚歸資料</a>
+                
+                <a href="{{ route('lates.create') }}"class="btn btn-primary">新增晚歸資料</a><!---->
             </div>
             <div class="table-responsive">
                 <table class="table">
@@ -409,7 +410,7 @@
                         <th>單位名稱</th>
                         <th>預計每日返回宿舍時間</th>
                         <th>佐證資料</th>
-                        <th>操作</th>
+                        <th>審核情形</th>
                         <th>審核是否通過</th>
                     </tr>
                     @if ($display == 1)
@@ -424,7 +425,7 @@
                                     <td>{{ $late->company }}</td>
                                     <td align="center" valign="center">{{ $late->back_time }}</td>
                                     <td><a href="{{ route('lates.download',$late->id) }} ">{{$late->sbrecord->bed->bedcode}}</a></td>
-                                    <td><font color=green><a href="{{ route('lates.examine',['id'=>$late->id]) }}">審核情形</a></font></td>
+                                    <td><a href="{{ route('lates.examine',['id'=>$late->id]) }}"class="btn btn-primary">審核情形</a></td>
                                     @if($late->floorhead_check === 1 && $late->chief_check === 1 && $late->housemaster_check ===1 && $late->admin_check ===1)
                                     <td><font color=green>V</font></td>
                                     @else

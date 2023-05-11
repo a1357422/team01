@@ -5,5 +5,5 @@
 </div>
 使用者信箱：{{$user->email}}
 <div>
-    {!! Form::submit($submitButtonText)!!}
+    {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
 </div>
