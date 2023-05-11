@@ -32,8 +32,8 @@
     </div>
 
     <div>
-        {!! Form::submit($submitButtonText)!!}
-    </div>
+    {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
+</div>
 
 @elseif (auth()->user()->role == "chief")
     <div>
@@ -69,8 +69,8 @@
     </div>
 
     <div>
-        {!! Form::submit($submitButtonText)!!}
-    </div>
+    {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
+</div>
 
 
 @elseif (auth()->user()->role == "housemaster")
@@ -107,8 +107,8 @@
     </div>
 
     <div>
-        {!! Form::submit($submitButtonText)!!}
-    </div>
+    {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
+</div>
 
 @elseif (auth()->user()->role == "superadmin")
     <div>
@@ -130,10 +130,9 @@
         {!! Form::label('admin_check','行政審核：')!!}
         {!! Form::select('admin_check',array(1 => '核准', 0 => '否決'), $selectAdmin_check)!!}
     </div>
-
     <div>
-        {!! Form::submit($submitButtonText)!!}
-    </div>
+    {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
+</div>
 
 @else
 <div>
@@ -169,6 +168,6 @@
     </div>
 
     <div>
-        {!! Form::submit($submitButtonText)!!}
-    </div>
+    {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
+</div>
 @endif

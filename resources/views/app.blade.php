@@ -308,7 +308,8 @@
                 @yield('dormitorysystem_contents')
             </div>
         </div>
-       
+        
+        
     </div>
     <div class="image-link">
             <img src="https://www.lhu.edu.tw/sch_show/lhu/slides/p_0019.jpg" width="25%" height="25%">

@@ -49,11 +49,10 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/users/{{Auth::user()->id}}/change_pw">修改密碼</a>
-      </li>
       <li class="nav-item">
-      <a class="nav-link" href="{{ route('sbrecords.senior') }} " >負責樓層樓長</a>
-      </il>
-      @elsecan('admin')
+        <a class="nav-link" href="{{ route('sbrecords.senior') }} ">負責樓層樓長</a>
+        </il>
+        @elsecan('admin')
       <li class="nav-item">
         <a class="nav-link" href="/students">學生系統</a>
       </li>
