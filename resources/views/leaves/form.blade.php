@@ -40,6 +40,6 @@
         {!! Form::select('housemaster_check',array(1 => '核准', 0 => '否決'), $selectHousemaster_check)!!}
     </div>  
     <div>
-        {!! Form::submit($submitButtonText)!!}
+        {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
     </div>
 @endif

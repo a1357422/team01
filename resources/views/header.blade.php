@@ -1,5 +1,4 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light dashboard">
-
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -21,6 +20,9 @@
       <li class="nav-item">
         <a class="nav-link" href="/users/{{Auth::user()->id}}/change_pw">修改密碼</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('sbrecords.senior') }} ">負責樓層樓長</a>
+      </il>
       @endcanany
       @can('superadmin')
       <li class="nav-item">
@@ -74,6 +76,9 @@
       <li class="nav-item">
         <a class="nav-link" href="/users/{{Auth::user()->id}}/change_pw">修改密碼</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('sbrecords.senior') }} ">負責樓層樓長</a>
+      </il>
       @elsecan('housemaster')
       <li class="nav-item">
         <a class="nav-link" href="/sbrecords">學生床位系統</a>
@@ -87,6 +92,9 @@
       <li class="nav-item">
         <a class="nav-link" href="/users/{{Auth::user()->id}}/change_pw">修改密碼</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('sbrecords.senior') }} ">負責樓層樓長</a>
+      </il>
       @elsecan('user') <!--住宿生-->
       <li class="nav-item">
       <li class="nav-item">

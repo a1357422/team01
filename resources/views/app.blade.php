@@ -110,7 +110,18 @@
             border-radius: 20px 20px 20px 20px;
         }
 
-
+        .nav-item{
+            color:black;
+            font-weight:bold;
+        }
+        .navbar-nav .nav-link {
+            color: black;
+            justify-content: flex-start;
+        }
+        .navbar-nav .nav-link:hover,
+        .navbar-nav .nav-link:focus {
+            color: #222;
+        }
 
         .mt-8 {
             margin: 1em 3%;
@@ -298,18 +309,17 @@
 
     </div>
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-        <div class="maintitle">
-
+        @auth
+        <div class="mt-8 bg-white overflow-hidden shadow sm:rounded-lg maintitle">
             @include('header')
         </div>
+        @endauth
         <div class="mt-8 bg-white overflow-hidden shadow sm:rounded-lg">
             <div class="maincontent">
                 <h4><u>@yield('dormitorysystem_theme')</u></h4>
                 @yield('dormitorysystem_contents')
             </div>
         </div>
-        
-        
     </div>
     <div class="image-link">
             <img src="https://www.lhu.edu.tw/sch_show/lhu/slides/p_0019.jpg" width="25%" height="25%">
