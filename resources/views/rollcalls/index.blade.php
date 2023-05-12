@@ -56,7 +56,7 @@
             @endforeach
             </tr>
             <tr class='column_center'>
-                <th>{{$date}}人臉辨識名單： {{count($identifies)}}人</th>
+                <th>{{$date}}人臉辨識名單：{{count($identifies)}}人</th>
             </tr>
             @foreach($identifies as $identify)
                 <tr class='column_center'>
