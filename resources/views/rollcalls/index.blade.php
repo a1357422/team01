@@ -39,7 +39,7 @@
     <div class="table-responsive">
         <table class="table">
             <tr class='column_center'>
-                <th>{{$date}}外宿名單： {{count($leaves)}}外</th>
+                <th>{{$date}}外宿名單：{{count($leaves)}}人外宿</th>
             </tr>
             @foreach($leaves as $leave)
             <tr class='column_center'>
@@ -47,7 +47,7 @@
             </tr>
             @endforeach
             <tr class='column_center'>
-                <th>{{$date}}晚歸名單：{{count($lates)}}晚歸</th>
+                <th>{{$date}}晚歸名單：{{count($lates)}}人晚歸</th>
             </tr>
             @foreach($lates as $late)
             <tr class='column_center'>
