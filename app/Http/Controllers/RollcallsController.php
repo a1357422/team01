@@ -22,7 +22,10 @@ class RollcallsController extends Controller
 {
     //
     public function index(){
-        $rollcalls = Rollcall::Where('date',date("Y-m-d"))->orderBy('id','ASC')->get();
+        if(Sbrecord::User(Auth::user()->name)->first() != null)
+            $rollcalls = Rollcall::Where('date',date("Y-m-d"))->where('rollcaller',Auth::user()->name)->orderBy('id','ASC')->get();
+        else
+            $rollcalls = Rollcall::Where('date',date("Y-m-d"))->orderBy('id','ASC')->get();
         $dormitories = Bed::allDormitories()->get();
         $tags = [];
         foreach ($dormitories as $dormitory)

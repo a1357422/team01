@@ -227,10 +227,10 @@
                             <th>外宿</th>
                             <th>晚歸</th>
                             <th>照片辨識結果</th>
-                            <th>操作</th> 
+                            <th>詳細資料</th> 
                             @if ($display == 1 || $display == 3) 
-                                <th>未到</th>
                                 <th>補點</th>
+                                <th>刪除</th>
                             @endif
                         </tr>
                         <!-- index -->
