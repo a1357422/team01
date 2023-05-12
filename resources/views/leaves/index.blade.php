@@ -20,9 +20,11 @@
                 @csrf
                 </form>
             </div>
+            @if(auth()->user()->role != "chief")
             <div class="form-container">
             <a href="{{ route('leaves.create') }} "class="btn btn-primary">新增外宿資料</a><!---->
-        </div>
+            </div>
+            @endif
         </div>
         <div class="table-responsive">
             <table class="table">
@@ -128,7 +130,7 @@
                         <th>外宿原因</th>
                         <th>樓長審核</th>
                         <th>宿舍輔導員審核</th>
-                        <th>編輯審核資料</th>
+                        <th>修改審核資料</th>
                     </tr>
                     @if ($display == 1)
                         @foreach($leaves as $leave)
@@ -149,7 +151,7 @@
                                     @else
                                     <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
                                     @endif
-                                    <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
+                                    <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}" class="btn btn-primary">修改審核資料</a></font></td>
                                 </tr>
                             @elseif(auth()->user()->role == "housemaster")
                                 @if($leave->floorhead_check === 1)
@@ -169,7 +171,7 @@
                                         @else
                                         <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
                                         @endif
-                                        <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
+                                        <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}" class="btn btn-primary">修改審核資料</a></font></td>
                                     </tr>
                                 @endif
                             @endif
@@ -193,7 +195,7 @@
                                     @else
                                     <td/>
                                     @endif
-                                    <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
+                                    <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}" class="btn btn-primary">修改審核資料</a></font></td>
                                 </tr>
                             @elseif(auth()->user()->role == "housemaster")
                                 @if($leave->floorhead_check === 1)
@@ -213,7 +215,7 @@
                                         @else
                                         <td><font color=red>{{ $leave->housemaster_check = "X" }}</font></td>
                                         @endif
-                                        <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}">編輯審核資料</a></font></td>
+                                        <td><font color=green><a href="{{ route('leaves.edit',['id' => $leave->id]) }}" class="btn btn-primary">修改審核資料</a></font></td>
                                     </tr>
                                 @endif
                             @endif    
@@ -252,7 +254,7 @@
                                     <td>{{ $leave->start }}</td>
                                     <td>{{ $leave->end }}</td>
                                     <td>{{ $leave->reason }}</td>
-                                    <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}">審核情形</a></font></td>
+                                    <td><font color=green><a href="{{ route('leaves.examine',['id' => $leave->id]) }}" class="btn btn-primary">審核情形</a></font></td>
                                     @if($leave->floorhead_check === 1 && $leave->housemaster_check ===1)
                                     <td><font color=green>V</font></td>
                                     @else

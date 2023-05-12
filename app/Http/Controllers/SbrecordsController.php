@@ -227,7 +227,6 @@ class SbrecordsController extends Controller
     }
     
     public function store(CreateSbrecordRequest $request){
-
         $school_year = $request->input('school_year');
         $semester = $request->input('semester');
         $sid = $request->input('sid');
