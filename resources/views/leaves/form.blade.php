@@ -14,7 +14,7 @@
     <div>
         {!! Form::submit($submitButtonText,['class' => 'btn btn-primary btn-sm'])!!}
     </div>
-@elseif(auth()->user()->role != "floorhead" || auth()->user()->role != "housemaster")
+@elseif(auth()->user()->role != "housemaster")
     <div>
         {!! Form::label('floorhead_check','樓長審核：')!!}
         {!! Form::select('floorhead_check',array(1 => '核准', 0 => '否決'), $selectFloorhead_check)!!}
