@@ -189,19 +189,19 @@
                                 <td><font color=red>{{ $late->floorhead_check = "X" }}</font></td>
                                 @endif
                                 @if ($late->chief_check === 1)
-                                <td/>
+                                <td><font color=green>{{ $late->chief_check = "V" }}</font></td>
                                 @else
-                                <td/>
+                                <td><font color=red>{{ $late->chief_check = "X" }}</font></td>
                                 @endif
                                 @if ($late->housemaster_check === 1)
-                                <td/>
+                                <td><font color=green>{{ $late->housemaster_check = "V" }}</font></td>
                                 @else
-                                <td/>
+                                <td><font color=red>{{ $late->housemaster_check = "X" }}</font></td>
                                 @endif
                                 @if ($late->admin_check === 1)
-                                <td/>
+                                <td><font color=green>{{ $late->admin_check = "V" }}</font></td>
                                 @else
-                                <td/>
+                                <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
                                 @endif
                                 <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
                                 <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
@@ -228,14 +228,14 @@
                                     <td><font color=red>{{ $late->chief_check = "X" }}</font></td>
                                     @endif
                                     @if ($late->housemaster_check === 1)
-                                    <td/>
+                                    <td><font color=green>{{ $late->housemaster_check = "V" }}</font></td>
                                     @else
-                                    <td/>
+                                    <td><font color=red>{{ $late->housemaster_check = "X" }}</font></td>
                                     @endif
                                     @if ($late->admin_check === 1)
-                                    <td/>
+                                    <td><font color=green>{{ $late->admin_check = "V" }}</font></td>
                                     @else
-                                    <td/>
+                                    <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
                                     @endif
                                     <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
                                     <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
@@ -268,9 +268,9 @@
                                     <td><font color=red>{{ $late->housemaster_check = "X" }}</font></td>
                                     @endif
                                     @if ($late->admin_check === 1)
-                                    <td/>
+                                    <td><font color=green>{{ $late->admin_check = "V" }}</font></td>
                                     @else
-                                    <td/>
+                                    <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
                                     @endif
                                     <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
                                     <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
@@ -296,19 +296,19 @@
                                 <td><font color=red>{{ $late->floorhead_check = "X" }}</font></td>
                                 @endif
                                 @if ($late->chief_check === 1)
-                                <td/>
+                                <td><font color=green>{{ $late->chief_check = "V" }}</font></td>
                                 @else
-                                <td/>
+                                <td><font color=red>{{ $late->chief_check = "X" }}</font></td>
                                 @endif
                                 @if ($late->housemaster_check === 1)
-                                <td/>
+                                <td><font color=green>{{ $late->housemaster_check = "V" }}</font></td>
                                 @else
-                                <td/>
+                                <td><font color=red>{{ $late->housemaster_check = "X" }}</font></td>
                                 @endif
                                 @if ($late->admin_check === 1)
-                                <td/>
+                                <td><font color=green>{{ $late->admin_check = "V" }}</font></td>
                                 @else
-                                <td/>
+                                <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
                                 @endif
                                 <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
                                 <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
@@ -335,14 +335,14 @@
                                     <td><font color=red>{{ $late->chief_check = "X" }}</font></td>
                                     @endif
                                     @if ($late->housemaster_check === 1)
-                                    <td/>
+                                    <td><font color=green>{{ $late->housemaster_check = "V" }}</font></td>
                                     @else
-                                    <td/>
+                                    <td><font color=red>{{ $late->housemaster_check = "X" }}</font></td>
                                     @endif
                                     @if ($late->admin_check === 1)
-                                    <td/>
+                                    <td><font color=green>{{ $late->admin_check = "V" }}</font></td>
                                     @else
-                                    <td/>
+                                    <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
                                     @endif
                                     <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
                                     <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
@@ -375,9 +375,9 @@
                                     <td><font color=red>{{ $late->housemaster_check = "X" }}</font></td>
                                     @endif
                                     @if ($late->admin_check === 1)
-                                    <td/>
+                                    <td><font color=green>{{ $late->admin_check = "V" }}</font></td>
                                     @else
-                                    <td/>
+                                    <td><font color=red>{{ $late->admin_check = "X" }}</font></td>
                                     @endif
                                     <td><a href="{{ route('lates.show',['id'=>$late->id]) }}"class="btn btn-primary">詳細資料</a></td><!---->
                                     <td><a href="{{ route('lates.edit',['id'=>$late->id]) }}"class="btn btn-secondary">修改審核資料</a></td><!---->
