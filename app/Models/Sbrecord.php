@@ -28,7 +28,7 @@ class Sbrecord extends Model
     {
         $query->join('students','sbrecords.sid','=','students.id')
         ->join('users','users.sid','=','students.id')
-        ->select('sbrecords.id')
+        ->select('sbrecords.*')
         ->where('students.name','=',"$user");
     }
 
