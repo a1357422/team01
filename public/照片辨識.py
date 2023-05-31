@@ -33,10 +33,10 @@ for face in faces2:
     shape = predictor(img2, face)
     features2 = np.array(facerec.compute_face_descriptor(img2, shape))
     
-# 比較相似度
-for feature in features1:
-    distance = np.linalg.norm(feature - features2)
-    if distance < 0.4:
-        print('success')
-    else:
-        print('not same')
+    # 比較相似度
+    for feature in features1:
+        distance = np.linalg.norm(feature - features2)
+        if distance < 0.4:
+            print('success')
+        else:
+            print('not same')
